@@ -1,0 +1,215 @@
+@import 'function';
+@import 'var';
+
+$breakpoints: (
+  's': (max-width: 1100px),
+  'sm': (max-width: 1200px),
+  'm': (max-width: 1320px),
+  'xm': (max-width: 1600px),
+  'normal': (min-width: 1100px) and (max-width: 1800px),
+  'l': (min-width: 1801px)
+);
+
+// 打断点的快捷写法
+@mixin res($name) {
+  // 循环断点Map，如果存在则返回
+  @if map-has-key($breakpoints, $name) {
+    @media #{inspect(map-get($breakpoints, $name))} {
+      @content;
+    }
+  } @else {
+    @warn '没有这个断点哦 `#{$breakpoints}`。';
+  }
+}
+
+// 最常用 timing-func
+@function most-useful-timing() {
+  @return cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// 一些快捷的transform语法
+@function t($time, $delay: 0s) {
+  @return $time + s $delay most-useful-timing();
+}
+
+@function tx($offsetX) {
+  @return translateX($offsetX);
+}
+
+@function ty($offsetY) {
+  @return translateY($offsetY);
+}
+
+@function txy($offsetX, $offsetY) {
+  @return translate($offsetX, $offsetY);
+}
+
+// 字体
+@mixin font-old {
+  font-family: 'old-style', 'STKaiti', 'BiauKai', 'DFKai-SB', 'KaiTi', 'KaiTi_GB2312', serif;
+}
+
+@mixin font-kai {
+  font-family:  'STKaiti', 'BiauKai', 'DFKai-SB', 'KaiTi_GB2312', 'KaiTi', serif;
+}
+
+// 最常用transition
+@mixin ts {
+  transition: 0.2s most-useful-timing();
+}
+
+// 滚动条样式
+@mixin scroll-bar {
+  &::-webkit-scrollbar {
+    z-index: 11;
+    width: 5px;
+    background: #fff;
+
+    &-thumb {
+      border-radius: 5px;
+      background: $accent;
+    }
+  }
+}
+
+// placeholder
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+  &::-moz-placeholder {
+    @content;
+  }
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+
+$B: '' !default;
+$E: '' !default;
+
+/* BEM
+ -------------------------- */
+@mixin b($block) {
+  $B: '__' + $block !global;
+
+  .#{$B} {
+    @content;
+  }
+}
+
+@mixin e($element) {
+  $E: $element !global;
+  $selector: &;
+  $currentSelector: '';
+
+  @each $unit in $element {
+    $currentSelector: #{$currentSelector + '.' + $B + $element-separator + $unit + ','};
+  }
+
+  @if hitAllSpecialNestRule($selector) {
+    @at-root {
+      #{$selector} {
+        #{$currentSelector} {
+          @content;
+        }
+      }
+    }
+  } @else {
+    @at-root {
+      #{$currentSelector} {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin m($modifier) {
+  $selector: &;
+  $currentSelector: '';
+  @each $unit in $modifier {
+    $currentSelector: #{$currentSelector + & + $modifier-separator + $unit + ','};
+  }
+
+  @at-root {
+    #{$currentSelector} {
+      @content;
+    }
+  }
+}
+
+@mixin configurable-m($modifier, $E-flag: false) {
+  $selector: &;
+  $interpolation: '';
+
+  @if $E-flag {
+    $interpolation: $element-separator + $E-flag;
+  }
+
+  @at-root {
+    #{$selector} {
+      .#{$B + $interpolation + $modifier-separator + $modifier} {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin spec-selector($specSelector: '', $element: $E, $modifier: false, $block: $B) {
+  $modifierCombo: '';
+
+  @if $modifier {
+    $modifierCombo: $modifier-separator + $modifier;
+  }
+
+  @at-root {
+    #{&}#{$specSelector}.#{$block + $element-separator + $element + $modifierCombo} {
+      @content;
+    }
+  }
+}
+
+@mixin meb($modifier: false, $element: $E, $block: $B) {
+  $selector: &;
+  $modifierCombo: '';
+
+  @if $modifier {
+    $modifierCombo: $modifier-separator + $modifier;
+  }
+
+  @at-root {
+    #{$selector} {
+      .#{$block + $element-separator + $element + $modifierCombo} {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin when($state) {
+  $selector: &;
+
+  @at-root {
+    #{$selector}.#{$state-prefix + $state} {
+      @content;
+    }
+  }
+}
+
+@mixin extend-rule($name) {
+  @extend #{'%shared-' + $name};
+}
+
+@mixin share-rule($name) {
+  $rule-name: '%shared-' + $name;
+
+  @at-root #{$rule-name} {
+    @content;
+  }
+}
+
+@mixin pseudo($pseudo) {
+  @at-root #{&}#{':#{$pseudo}'} {
+    @content;
+  }
+}

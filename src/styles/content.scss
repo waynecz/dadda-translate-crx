@@ -1,0 +1,259 @@
+@include b(result) {
+  --panel-width: 550px;
+
+  box-sizing: border-box;
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  flex-flow: column;
+  max-width: var(--panel-width);
+  min-width: var(--panel-width);
+  padding: 15px 25px 25px;
+  color: #111;
+  background: #fff;
+  border-radius: 3px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+  0 1px 3px 0 rgba(0, 0, 0, 0.12);
+
+  * {
+    box-sizing: border-box;
+  }
+
+  @include m(invisible) {
+    opacity: 0;
+  }
+
+  @include e(origin) {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  @include e(word) {
+    display: -webkit-box;
+    @include font-old;
+    font-weight: bold;
+    font-size: 18px;
+    padding-right: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    @include m(sentence) {
+      font-size: 16px;
+    }
+  }
+
+  @include e(pronunciation) {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+
+  @include e(flag) {
+    width: 20px;
+    height: 10px;
+    margin-right: 5px;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: 0 center;
+
+    @include m(uk) {
+      background-image: url('chrome-extension://__MSG_@@extension_id__/assets/uk.png');
+    }
+
+    @include m(usa) {
+      background-image: url('chrome-extension://__MSG_@@extension_id__/assets/usa.png');
+    }
+  }
+
+  @include e(phonetic) {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    @include font-kai;
+  }
+
+  @include e(item) {
+    display: flex;
+    flex-basis: 100%;
+    font-size: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+    @include font-kai;
+
+    &:not(:last-child) {
+      margin-bottom: 18px;
+    }
+
+    &::after {
+      line-height: 12px;
+    }
+
+    @include m(2) {
+      &:nth-of-type(n + 3) {
+        display: none;
+      }
+
+      &:nth-of-type(2) {
+        &::after {
+          content: '...';
+        }
+      }
+    }
+
+    @include m(3) {
+      &:nth-child(n + 4) {
+        display: none;
+      }
+
+      &:nth-of-type(3) {
+        &::after {
+          content: '...';
+        }
+      }
+    }
+
+    @include m(1) {
+      &:nth-child(n + 2) {
+        display: none;
+      }
+
+      &:nth-of-type(1) {
+        &::after {
+          content: '...';
+        }
+      }
+    }
+
+  }
+
+  @include e('item-wrap') {
+  }
+
+  @include e(star) {
+    position: absolute !important;
+    top: 15px;
+    cursor: pointer;
+    right: 15px;
+  }
+
+  @include e(oxford) {
+    margin-right: -25px;
+    margin-bottom: 4px;
+    padding-right: 25px;
+    flex-grow: 1;
+    z-index: 2;
+    overflow-y: auto;
+    @include scroll-bar;
+  }
+
+  @include e(class) {
+    display: flex;
+    align-items: flex-start;
+
+    &:not(:last-child) {
+      margin-bottom: 12px;
+    }
+  }
+
+  @include e(type) {
+    @include font-old;
+    width: 38px;
+    padding-right: 10px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  @include e(english) {
+    line-height: 1.2;
+    font-size: 15px;
+    padding-right: 10px;
+  }
+
+  @include e(chinese) {
+    font-size: 13px;
+    @include font-kai;
+
+    @include m(simple) {
+      font-size: 16px;
+    }
+  }
+
+  @include e(eg) {
+    width: 100%;
+    line-height: 1.1;
+    color: $accent;
+  }
+
+  @include e(audio) {
+    display: none;
+  }
+
+  @include e(more) {
+    --button-color: #ccc;
+    --line-color: #eee;
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 16px;
+    margin-bottom: 12px;
+    padding: 7px 0 8px;
+    color: #ddd;
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 100%;
+      border-bottom: 1px solid var(--line-color);
+    }
+
+    &:hover {
+      --button-color: #333;
+      --line-color: #ccc;
+    }
+  }
+
+  @include e('more-button') {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: flex;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 0 5px #fff;
+
+    &::after {
+      content: '';
+      margin: auto;
+      display: block;
+      width: 6px;
+      height: 6px;
+      border-color: transparent var(--button-color) var(--button-color) transparent;
+      border-width: 1px;
+      border-style: solid;
+      transform: rotate(45deg) txy(-1px, -1px);
+    }
+
+    @include m(expanded) {
+      &::after {
+        transform: rotate(225deg) txy(-1px, -1px);
+      }
+    }
+  }
+}

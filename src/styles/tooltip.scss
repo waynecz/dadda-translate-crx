@@ -1,0 +1,54 @@
+.__tooltip {
+  --scale: scale(0.9);
+  position: relative;
+
+  &::before {
+    position: absolute;
+    right: 10px;
+    display: inline-block;
+    padding: 4px 15px 4px 20px;
+    white-space: nowrap;
+    border-radius: 5px;
+    background: mix(black, transparent, 70%);
+    font-size: 12px;
+    line-height: 23px;
+    font-family: 'PingFang TC', 'Microsoft Sans Serif', '微软雅黑', '黑体', sans-serif;
+    font-weight: bold;
+    color: white;
+    transform: tx(100%) var(--scale);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+      0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  &:hover {
+    &::before {
+      content: attr(tooltip);
+    }
+  }
+
+  &.__top {
+    &::before {
+      right: auto;
+      top: -10px;
+      left: 50%;
+      transform: txy(-50%, -100%) var(--scale);
+    }
+  }
+
+  &.__bottom {
+    &::before {
+      right: auto;
+      bottom: -10px;
+      left: 50%;
+      transform: txy(-50%, 100%) var(--scale);
+    }
+  }
+
+  &.__left {
+    &::before {
+      right: auto;
+      left: 0;
+      transform: txy(-100%, -0%) var(--scale);
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "description": "搜狗翻译 + 牛津字典 + 生词本",
+  "name": "划词翻译加收藏生词",
+  "manifest_version": 2,
+  "version": "0.0.1",
+  "author": "Waynecz <451578533@qq.com>",
+  "homepage_url": "https://github.com/waynecz/translate-and-remember-it-crx",
+  "content_security_policy": "font-src 'self'; script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "icons": {
+    "128": "logo.png",
+    "16": "logo.png",
+    "48": "logo.png"
+  },
+  "web_accessible_resources": ["content/app.css", "fonts/*", "assets/*"],
+  "permissions": [
+    "<all_urls>",
+    "storage",
+    "clipboardWrite",
+    "clipboardRead",
+    "activeTab",
+    "webRequest",
+    "webRequestBlocking"
+  ],
+  "browser_action": {
+    "default_title": "哈哈哈",
+    "default_icon": "logo.png",
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "scripts": ["background/background.js"]
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "chrome_style": true,
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/content.js"],
+      "css": ["content/app.css"],
+      "all_frames": true,
+      "run_at": "document_start"
+    }
+  ]
+}
