@@ -19,6 +19,7 @@
     "clipboardRead",
     "activeTab",
     "webRequest",
+    "storage",
     "webRequestBlocking"
   ],
   "browser_action": {

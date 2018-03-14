@@ -1,17 +1,6 @@
-import api from '@/api'
-
-/* eslint-disable no-undef */
-chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
-  if (request.name === 'translate') {
-    api.sougouTranslate(request.text).then(res => {
-      sendRes(res)
-    })
-    return true
-  }
-})
-
 /**
  * @summary 开发模式 hotreload 插件
+ * 代码摘自 https://github.com/xpl/crx-hotreload/blob/master/hot-reload.js
  */
 const filesInDirectory = dir =>
   new Promise(resolve =>
@@ -49,8 +38,10 @@ const watchChanges = (dir, lastTimestamp) => {
   })
 }
 
-chrome.management.getSelf(self => {
-  if (self.installType === 'development') {
-    chrome.runtime.getPackageDirectoryEntry(dir => watchChanges(dir))
-  }
-})
+export default function() {
+  chrome.management.getSelf(self => {
+    if (self.installType === 'development') {
+      chrome.runtime.getPackageDirectoryEntry(dir => watchChanges(dir))
+    }
+  })
+}

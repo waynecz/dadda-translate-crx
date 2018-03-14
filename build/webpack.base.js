@@ -10,10 +10,10 @@ function resolve(dir) {
 module.exports = {
   context: resolve('src'),
   entry: {
-    background: './background/background',
-    content: './content/content',
-    options: './options/options',
-    popup: './popup/popup'
+    background: './chrome/background/background',
+    content: './chrome/content/content',
+    options: './chrome/options/options',
+    popup: './chrome/popup/popup'
   },
   output: {
     path: resolve('dist'),
@@ -63,14 +63,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: resolve('dist/popup/popup.html'),
       chunks: ['popup'],
-      template: './popup/popup.html',
+      template: 'chrome/popup/popup.html',
       inject: true
     }),
 
     new HtmlWebpackPlugin({
       filename: resolve('dist/options/options.html'),
       chunks: ['options'],
-      template: './options/options.html',
+      template: 'chrome/options/options.html',
       inject: true
     }),
 

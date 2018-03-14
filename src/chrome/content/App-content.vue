@@ -1,11 +1,17 @@
 <template>
   <div class="__transltor">
-    <div class="__transltor_button"></div>
+    <div 
+      @mouseup.stop="e => e" 
+      @click.stop="showPanel = true" 
+      class="__transltor_button" 
+      :style="buttonPositionStyle" 
+      v-if="!showPanel && selection"
+    >译</div>
     <result-panel 
       v-if="resultPanelVisible" 
-      @hide="translateLoaded = false" 
+      :hide="hidePanel" 
       :text="selection" 
-      :style="positionStyle" 
+      :style="panelPositionStyle" 
       :result="translationResult"
     ></result-panel>
   </div>

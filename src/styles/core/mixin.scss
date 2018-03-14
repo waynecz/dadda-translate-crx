@@ -90,8 +90,8 @@ $E: '' !default;
 
 /* BEM
  -------------------------- */
-@mixin b($block) {
-  $B: '__' + $block !global;
+@mixin b($block, $prefix: '__') {
+  $B: $prefix + $block !global;
 
   .#{$B} {
     @content;

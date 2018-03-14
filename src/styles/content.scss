@@ -12,6 +12,7 @@
   color: #111;
   background: #fff;
   border-radius: 3px;
+  contain: layout;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
@@ -29,20 +30,25 @@
     display: flex;
     flex-shrink: 0;
     align-items: center;
-    flex-wrap: wrap;
     margin-bottom: 10px;
   }
 
   @include e(word) {
     display: -webkit-box;
-    @include font-old;
     font-weight: bold;
+    flex-shrink: 0;
+    max-width: 100%;
     font-size: 18px;
-    padding-right: 20px;
     overflow: hidden;
+    margin: 0;
+    user-select: none;
+    margin-right: 20px;
+    line-height: normal;
     text-overflow: ellipsis;
+    word-break: normal;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    @include font-old;
 
     @include m(sentence) {
       font-size: 16px;
@@ -51,6 +57,7 @@
 
   @include e(pronunciation) {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     margin-right: 20px;
     cursor: pointer;
@@ -80,61 +87,8 @@
     @include font-kai;
   }
 
-  @include e(item) {
-    display: flex;
-    flex-basis: 100%;
-    font-size: 14px;
-    align-items: center;
-    flex-wrap: wrap;
-    @include font-kai;
-
-    &:not(:last-child) {
-      margin-bottom: 18px;
-    }
-
-    &::after {
-      line-height: 12px;
-    }
-
-    @include m(2) {
-      &:nth-of-type(n + 3) {
-        display: none;
-      }
-
-      &:nth-of-type(2) {
-        &::after {
-          content: '...';
-        }
-      }
-    }
-
-    @include m(3) {
-      &:nth-child(n + 4) {
-        display: none;
-      }
-
-      &:nth-of-type(3) {
-        &::after {
-          content: '...';
-        }
-      }
-    }
-
-    @include m(1) {
-      &:nth-child(n + 2) {
-        display: none;
-      }
-
-      &:nth-of-type(1) {
-        &::after {
-          content: '...';
-        }
-      }
-    }
-
-  }
-
-  @include e('item-wrap') {
+  @include e(audio) {
+    display: none;
   }
 
   @include e(star) {
@@ -142,6 +96,10 @@
     top: 15px;
     cursor: pointer;
     right: 15px;
+
+    @include m(ed) {
+      color: mix($primary, white, 80);
+    }
   }
 
   @include e(oxford) {
@@ -149,9 +107,12 @@
     margin-bottom: 4px;
     padding-right: 25px;
     flex-grow: 1;
-    z-index: 2;
     overflow-y: auto;
     @include scroll-bar;
+
+    @include spec-selector('+', simple) {
+      margin-top: 10px;
+    }
   }
 
   @include e(class) {
@@ -166,12 +127,56 @@
   @include e(type) {
     @include font-old;
     width: 38px;
+    white-space: nowrap;
     padding-right: 10px;
     flex-shrink: 0;
     flex-grow: 0;
     font-weight: bold;
     font-size: 14px;
     line-height: 16px;
+  }
+
+  @include e('item-wrap') {
+    flex-basis: 100%;
+  }
+
+  @include e(item) {
+    position: relative;
+    display: flex;
+    flex-basis: 100%;
+    font-size: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+    @include font-kai;
+    margin-left: -10px;
+    padding-left: 10px;
+
+    &:hover {
+      background: rgba(200, 200, 200, .1);
+    }
+
+    &:not(:last-child) {
+      padding-bottom: 10px;
+      margin-bottom: 8px;
+    }
+
+    &::after {
+      line-height: 12px;
+    }
+
+    @for $i from 1 through 3 {
+      @include m($i) {
+        &:nth-child(n + #{$i + 1}) {
+          display: none;
+        }
+
+        &:nth-of-type(#{$i}):not(:last-of-type) {
+          &::after {
+            content: '...';
+          }
+        }
+      }
+    }
   }
 
   @include e(english) {
@@ -187,16 +192,19 @@
     @include m(simple) {
       font-size: 16px;
     }
+
+    @include m(brief) {
+      flex-shrink: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   @include e(eg) {
     width: 100%;
     line-height: 1.1;
     color: $accent;
-  }
-
-  @include e(audio) {
-    display: none;
   }
 
   @include e(more) {

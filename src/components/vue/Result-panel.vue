@@ -1,49 +1,65 @@
 <template>
-  <div class="__result" @mouseup.stop="onMouseDown" :class="{ '__result--invisible': !visible }">
+  <div 
+    class="__result" 
+    @wheel.stop="e => e.preventDefault()" 
+    @mouseup.stop="onMouseDown" 
+    :class="{ '__result--invisible': !visible }"
+  >
     <!-- 头部 -->
     <div class="__result_origin">
-      <div class="__result_word" :class="{ '__result_word--sentence': !inDict }">{{text}}</div>
+      <h5 class="__result_word" :class="{ '__result_word--sentence': !inDict }">{{text}}</h5>
       <div 
         class="__result_pronunciation __tooltip __top"
         tooltip="点击发音"
         v-if="inDict" 
         v-for="phonetic in phonetics" 
         :key="phonetic.filename" 
-        @click="speak(phonetic.type)"
+        @click.stop="speak(phonetic.type)"
       >
         <div class="__result_flag" :class="`__result_flag--${phonetic.type}`"></div>
         <div class="__result_phonetic">[{{phonetic.text}}]</div>
         <audio 
-          :id="`x__result_${phonetic.type}`" 
-          class="__result_audio" 
+          :id="`x__result_${phonetic.type}-${uuid}`" 
           :src="`https:${phonetic.filename}`"
+          class="__result_audio" 
         ></audio>
       </div>
 
-      <div class="__result_chinese">{{currentEnglishMeaning}}</div>
+      <div class="__result_chinese __result_chinese--brief">{{currentEnglishMeaning}}</div>
 
       <!-- 收藏 -->
-      <div class="__result_star __tooltip __left" :tooltip="inCollection ? '从生词簿内删除' : '加入生词簿'" v-if="inDict" @click="toggleCollect">
+      <div class="__result_star __tooltip __left" :class="{ '__result_star--ed' : inCollection }" :tooltip="inCollection ? '从生词簿内删除' : '加入生词簿'" v-if="inDict" @click.stop="toggleCollect">
         <i class="__icon" :class="[inCollection ? '__icon-star-solid' : '__icon-star']"></i>
       </div>
     </div>
 
     <!-- 牛津翻译部分 -->
-    <div class="__result_oxford" :class="{'__result_oxford--expanded': expanded}"  v-if="inDict">
+    <div class="__result_oxford" @wheel.stop="handleMouseWheel" :class="{'__result_oxford--expanded': expanded}"  v-if="inDict">
       <div class="__result_class" v-for="(wordPos, i) in oxfordTranslations" :key="i">
         <div 
           class="__result_type __tooltip __right" 
           :tooltip="posMap[wordPos.item.pos]"
         >{{posAbbrMap[wordPos.item.pos] || wordPos.item.pos}}</div>
         <div class="__result_item-wrap">
-          <div class="__result_item" :class="{[`__result_item--${min_number_of_items_in_one_pos}`]: !expanded}" v-for="translation in wordPos.item.core" :key="translation.index">
-            <div class="__result_english" @mouseenter.stop="changeCurrentEnglishMeaning(translation.detail.zh)" @mouseleave.stop="changeCurrentEnglishMeaning('')">{{translation.detail.en  | replaceTag}}</div>
+          <div 
+            v-for="translation in wordPos.item.core" 
+            :key="translation.index"
+            @mouseenter.stop="changeCurrentEnglishMeaning(translation.detail.zh)"
+            @mouseleave.stop="changeCurrentEnglishMeaning('')"
+            :class="{
+              [`__result_item--${min_number_of_items_in_one_pos}`]: !expanded
+            }" 
+            class="__result_item"
+          >
+            <div class="__result_english">{{translation.detail.en  | replaceTag}}</div>
             <div class="__result_eg" v-if="translation.example">eg. {{translation.example[0].en | replaceTag}}</div>
           </div>
         </div>
       </div>
     </div>
-    <div @click.stop="toggleExpand" class="__result_more __tooltip __top" :tooltip="expanded ? '收起' : '显示更多英语释义'">
+
+    <!-- 更多释义 -->
+    <div v-if="hasMoreItem" @click.stop="toggleExpand" class="__result_more __tooltip __top" :tooltip="expanded ? '收起' : '显示更多英语释义'">
       <div 
         class="__result_more-button"
         :class="{'__result_more-button--expanded': expanded}" 
@@ -54,7 +70,7 @@
     <div class="__result_simple" v-if="inDict">
       <div class="__result_class" v-for="(translation, i) in usualTranslations" :key="i">
         <div class="__result_type">{{posAbbrMap[translation.pos]}}</div>
-        <div class="__result_item">{{translation.values.join('')}}</div>
+        <div class="__result_item">{{translation.values.join(' | ')}}</div>
       </div>
     </div>
     <div class="__result_simple" v-else>
@@ -63,20 +79,38 @@
       </div>
     </div>
 
+    <!-- xxxxxxxxxxxxxxx -->
+    <div 
+      @mouseup.stop="e => e" 
+      @click.stop="showPanel = true" 
+      class="__transltor_button" 
+      :style="buttonPositionStyle" 
+      v-if="!showPanel && selection"
+    >译</div>
+
     <result-panel 
+      data="111111"
       v-if="resultPanelVisible" 
-      @hide="translateLoaded = false" 
       :text="selection" 
-      :style="positionStyle" 
+      :style="panelPositionStyle" 
       :result="translationResult"
+      :hide="hidePanel" 
     ></result-panel>
   </div>
 </template>
 
 <script>
+import StorageConstructor from '@/utils/storage'
+
+import WordModel from '@/model/word'
 import selectionMixin from '@/components/vue/selection-mixin'
 import { SOUGOU_SPOKEN_URL } from '@/api/host'
 import { POS_MAP, POS_ABBR_MAP } from '@/utils/constant'
+
+let Storage
+StorageConstructor().then(storage => {
+  Storage = storage
+})
 
 export default {
   name: 'result-panel',
@@ -84,6 +118,8 @@ export default {
   mixins: [selectionMixin],
 
   props: {
+    hide: Function,
+
     result: Object,
 
     text: {
@@ -138,7 +174,7 @@ export default {
     },
 
     /**
-     * @summary 每个词性下开始最小显示的条目个数，这个样的变量名大概会好看点
+     * @summary 每个词性下开始最小显示的条目个数，并启用折叠，这个样的变量名大概会好看点
      */
     min_number_of_items_in_one_pos() {
       let posNumber = this.oxfordTranslations.length
@@ -154,6 +190,12 @@ export default {
       return map[posNumber]
     },
 
+    hasMoreItem() {
+      return this.oxfordTranslations.some(pos => {
+        return pos.item.core.length > this.min_number_of_items_in_one_pos
+      })
+    },
+
     /**
      * @summary 简单中文翻译
      */
@@ -164,6 +206,10 @@ export default {
 
   data() {
     return {
+      uuid: '',
+      oxfordEle: null,
+      oldVocabulary: null,
+
       expanded: false,
       posMap: POS_MAP,
       currentEnglishMeaning: '',
@@ -174,38 +220,122 @@ export default {
     }
   },
 
+  async created() {
+    this.uuid = this.gengerateUUID()
+    const oldVocabulary = await Storage.get('__T_R_VOCABULARY__')
+
+    this.oldVocabulary = oldVocabulary || []
+    this.inCollection = this.oldVocabulary.some(word => word.text === this.text)
+  },
+
   mounted() {
-    document.addEventListener('click', this.handleClickOutside)
+    document.addEventListener('click', this.handleClickOutside, false)
     this.$nextTick(_ => {
+      this.oxfordEle = this.$el.querySelector('.__result_oxford')
       this.visible = true
     })
   },
 
-  beforeDestory() {
+  beforeDestroy() {
     document.removeEventListener('click', this.handleClickOutside)
   },
 
   methods: {
+    /**
+     * @summary uuid 用来区分多结果卡片的情况下发音的重复
+     */
+    gengerateUUID() {
+      const nonstr = Math.random()
+        .toString(36)
+        .substring(3, 8)
+
+      return document.getElementById(nonstr) ? this.gengerateUUID() : nonstr
+    },
+
+    /**
+     * @summary hover 英文释义的时候右上角出现对应中文释义
+     */
     changeCurrentEnglishMeaning(meaning) {
       this.currentEnglishMeaning = meaning
     },
 
+    /**
+     * @summary 内部滚动不影响页面滚动
+     */
+    handleMouseWheel(e) {
+      const { scrollTop, offsetHeight, scrollHeight } = this.oxfordEle
+      const atTheBottom = scrollTop + offsetHeight >= scrollHeight && e.deltaY > 0
+      const atTheTop = scrollTop <= 1 && e.deltaY < 0
+
+      if (atTheBottom || atTheTop) {
+        e.preventDefault()
+      }
+    },
+
+    /**
+     * @summary 如果具有更多释义默认折叠
+     * 折叠规则见 compouted: min_number_of_items_in_one_pos
+     */
     toggleExpand() {
       this.expanded = !this.expanded
     },
 
-    toggleCollect() {},
+    /**
+     * @summary 收藏 / 取消收藏
+     */
+    toggleCollect() {
+      if (!this.inCollection) {
+        this.addToVocabulary()
+      } else {
+        this.delWordInVocabulary()
+      }
+    },
 
+    async addToVocabulary() {
+      const word = new WordModel({
+        text: this.text,
+        eg: (this.oxfordTranslations[0].item.core[0].example || [{ en: 'no example' }])[0].en
+      })
+
+      if (this.oldVocabulary.some(word => word.text === this.text)) {
+        console.warn('[T&R]:', 'Already in vocabular!')
+        return
+      }
+
+      const newVocabulary = this.oldVocabulary.concat([word])
+
+      Storage.set('__T_R_VOCABULARY__', newVocabulary)
+
+      this.inCollection = true
+    },
+
+    async delWordInVocabulary() {
+      const index = this.oldVocabulary.findIndex(word => word.text === this.text)
+
+      this.oldVocabulary.splice(index, 1)
+
+      await Storage.set('__T_R_VOCABULARY__', this.oldVocabulary)
+
+      this.inCollection = false
+    },
+
+    /**
+     * @summary 点击收起
+     */
     handleClickOutside(e) {
       e.stopPropagation()
       const clickInside = this.$el.contains(e.target)
       if (!clickInside) {
-        this.$emit('hide')
+        this.hide && this.hide()
       }
     },
 
+    /**
+     * @summary 单词发音（仅单词
+     */
     speak(type) {
-      const audio = document.getElementById(`x__result_${type}`)
+      const audio = document.getElementById(`x__result_${type}-${this.uuid}`)
+
       audio && audio.play()
     }
   }

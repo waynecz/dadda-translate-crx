@@ -19,9 +19,10 @@ export const _sougouUuid = _ => {
   for (t = 0; t < 32; t++) {
     /* eslint-disable no-unused-expressions */
     /* eslint-disable no-sequences */
+    /* eslint-disable indent */
     ;(e = (16 * Math.random()) | 0),
-    (t !== 8 && t !== 12 && t !== 16 && t !== 20) || (n += '-'),
-    (n += (t === 12 ? 4 : t === 16 ? (3 & e) | 8 : e).toString(16))
+      (t !== 8 && t !== 12 && t !== 16 && t !== 20) || (n += '-'),
+      (n += (t === 12 ? 4 : t === 16 ? (3 & e) | 8 : e).toString(16))
   }
 
   return n
@@ -58,5 +59,12 @@ export const _calcPosition = e => {
     maxHeight = innerHeight - y - 10
   }
 
-  return { x, y, isTop, maxHeight }
+  return {
+    panelX: x,
+    panelY: y,
+    buttonX: clientX,
+    buttonY: clientY + 15,
+    isTop,
+    maxHeight
+  }
 }

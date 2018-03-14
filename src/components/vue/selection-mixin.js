@@ -2,28 +2,39 @@ import { _calcPosition } from '@/utils'
 
 export default {
   computed: {
-    positionStyle() {
-      const { x, y, isTop, maxHeight } = this.position
+    buttonPositionStyle() {
+      const { buttonX, buttonY } = this.position
       return {
-        left: x + 'px',
+        left: buttonX + 'px',
+        top: buttonY + 'px'
+      }
+    },
+
+    panelPositionStyle() {
+      const { panelX, panelY, isTop, maxHeight } = this.position
+      return {
+        left: panelX + 'px',
         maxHeight: maxHeight + 'px',
-        [isTop ? 'top' : 'bottom']: y + 'px'
+        [isTop ? 'top' : 'bottom']: panelY + 'px'
       }
     },
 
     resultPanelVisible() {
-      const { selection, translateLoaded } = this
-      return selection && translateLoaded
+      const { showPanel, selection, translateLoaded } = this
+      return translateLoaded && showPanel
     }
   },
 
   data() {
     return {
       selection: '',
+      showPanel: false,
       translateLoaded: false,
       position: {
-        x: 0,
-        y: 0,
+        panelX: 0,
+        panelY: 0,
+        buttonX: 0,
+        buttonY: 0,
         maxHeight: 0,
         isTop: true
       },
@@ -33,6 +44,11 @@ export default {
   },
 
   methods: {
+    hidePanel() {
+      this.translateLoaded = false
+      this.showPanel = false
+    },
+
     onMouseDown(e) {
       if (e.button === 0) {
         this.position = _calcPosition(e)
