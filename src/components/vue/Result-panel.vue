@@ -38,8 +38,8 @@
       <div class="__result_class" v-for="(wordPos, i) in oxfordTranslations" :key="i">
         <div 
           class="__result_type __tooltip __right" 
-          :tooltip="posMap[wordPos.item.pos]"
-        >{{posAbbrMap[wordPos.item.pos] || wordPos.item.pos}}</div>
+          :tooltip="abridge(wordPos.item.pos).meaning"
+        >{{abridge(wordPos.item.pos).abbr}}</div>
         <div class="__result_item-wrap">
           <div 
             v-for="translation in wordPos.item.core" 
@@ -51,8 +51,8 @@
             }" 
             class="__result_item"
           >
-            <div class="__result_english">{{translation.detail.en  | replaceTag}}</div>
-            <div class="__result_eg" v-if="translation.example">eg. {{translation.example[0].en | replaceTag}}</div>
+            <div class="__result_english">{{translation.detail.en | removeTag}}</div>
+            <div class="__result_eg" v-if="translation.example">eg. {{translation.example[0].en | removeTag}}</div>
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@
     <!-- 简单中文翻译部分 -->
     <div class="__result_simple" v-if="inDict">
       <div class="__result_class" v-for="(translation, i) in usualTranslations" :key="i">
-        <div class="__result_type">{{posAbbrMap[translation.pos]}}</div>
+        <div class="__result_type">{{abridge(translation.pos).abbr}}</div>
         <div class="__result_item">{{translation.values.join(' | ')}}</div>
       </div>
     </div>
@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    <!-- xxxxxxxxxxxxxxx -->
+    <!-- 画中画 -->
     <div 
       @mouseup.stop="e => e" 
       @click.stop="showPanel = true" 
@@ -100,17 +100,10 @@
 </template>
 
 <script>
-import StorageConstructor from '@/utils/storage'
-
 import WordModel from '@/model/word'
-import selectionMixin from '@/components/vue/selection-mixin'
+import selectionMixin from '@/components/vue/Selection-mixin'
 import { SOUGOU_SPOKEN_URL } from '@/api/host'
-import { POS_MAP, POS_ABBR_MAP } from '@/utils/constant'
-
-let Storage
-StorageConstructor().then(storage => {
-  Storage = storage
-})
+import { _removeTag, _abridgePOS } from '@/utils'
 
 export default {
   name: 'result-panel',
@@ -211,9 +204,7 @@ export default {
       oldVocabulary: null,
 
       expanded: false,
-      posMap: POS_MAP,
       currentEnglishMeaning: '',
-      posAbbrMap: POS_ABBR_MAP,
 
       visible: false,
       inCollection: false
@@ -221,8 +212,9 @@ export default {
   },
 
   async created() {
+    this.$storage.remove('__T_R_VOCABULARY__')
     this.uuid = this.gengerateUUID()
-    const oldVocabulary = await Storage.get('__T_R_VOCABULARY__')
+    const oldVocabulary = await this.$storage.get('__T_R_VOCABULARY__')
 
     this.oldVocabulary = oldVocabulary || []
     this.inCollection = this.oldVocabulary.some(word => word.text === this.text)
@@ -241,6 +233,10 @@ export default {
   },
 
   methods: {
+    abridge(pos) {
+      return _abridgePOS(pos)
+    },
+
     /**
      * @summary uuid 用来区分多结果卡片的情况下发音的重复
      */
@@ -293,18 +289,20 @@ export default {
 
     async addToVocabulary() {
       const word = new WordModel({
-        text: this.text,
-        eg: (this.oxfordTranslations[0].item.core[0].example || [{ en: 'no example' }])[0].en
+        t: this.text,
+        e: _removeTag(
+          (this.oxfordTranslations[0].item.core[0].example || [{ en: 'no example' }])[0].en
+        )
       })
 
       if (this.oldVocabulary.some(word => word.text === this.text)) {
-        console.warn('[T&R]:', 'Already in vocabular!')
+        console.warn('[T & R]:', 'Already in vocabular!')
         return
       }
 
-      const newVocabulary = this.oldVocabulary.concat([word])
+      const newVocabulary = [...this.oldVocabulary, word]
 
-      Storage.set('__T_R_VOCABULARY__', newVocabulary)
+      this.$storage.set('__T_R_VOCABULARY__', newVocabulary)
 
       this.inCollection = true
     },
@@ -312,9 +310,14 @@ export default {
     async delWordInVocabulary() {
       const index = this.oldVocabulary.findIndex(word => word.text === this.text)
 
+      if (index === -1) {
+        console.warn('[T & R]:', `【${this.text}】is not in the vocabulary!`)
+        return
+      }
+
       this.oldVocabulary.splice(index, 1)
 
-      await Storage.set('__T_R_VOCABULARY__', this.oldVocabulary)
+      await this.$storage.set('__T_R_VOCABULARY__', this.oldVocabulary)
 
       this.inCollection = false
     },

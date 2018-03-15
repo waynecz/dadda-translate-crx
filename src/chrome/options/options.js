@@ -1,19 +1,19 @@
-import React from 'react'
 import { render } from 'react-dom'
+import { createStore } from 'redux'
+import StorageConstructor from '@/utils/storage'
+import vocabularyReducers from './reducers'
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="shopping-list">
-        <h1>Shopping List for {this.props.name}</h1>
-        <ul>
-          <li>Instagram</li>
-          <li>WhatsApp</li>
-          <li>Oculus</li>
-        </ul>
-      </div>
-    )
-  }
-}
+import '@/styles/vocabulary.scss'
 
-render(<App />, document.getElementById('app'))
+StorageConstructor().then(storage => {
+  window.Storage = storage
+
+  let Store = createStore(vocabularyReducers)
+
+  render(
+    <Provider store={Store}>
+      <App />
+    </Provider>,
+    document.getElementById('app')
+  )
+})

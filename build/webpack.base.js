@@ -3,6 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
+const extractContentCSS = new ExtractTextPlugin('../dist/content/app.css')
+const extractVocabularyCSS = new ExtractTextPlugin('../dist/options/vocabulary.css')
+
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -38,8 +41,14 @@ module.exports = {
         }
       },
       {
-        test: /\.(css|scss)$/,
-        use: ExtractTextPlugin.extract({
+        test: /index\.scss$/,
+        use: extractContentCSS.extract({
+          use: 'css-loader!sass-loader'
+        })
+      },
+      {
+        test: /vocabulary\.scss$/,
+        use: extractVocabularyCSS.extract({
           use: 'css-loader!sass-loader'
         })
       },
@@ -58,7 +67,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin('../dist/content/app.css'),
+    extractContentCSS,
+    extractVocabularyCSS,
 
     new HtmlWebpackPlugin({
       filename: resolve('dist/popup/popup.html'),
@@ -71,7 +81,7 @@ module.exports = {
       filename: resolve('dist/options/options.html'),
       chunks: ['options'],
       template: 'chrome/options/options.html',
-      inject: true
+      inject: false
     }),
 
     new CopyWebpackPlugin([

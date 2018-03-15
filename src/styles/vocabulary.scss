@@ -1,3 +1,24 @@
+@import 'core/mixin';
+@import 'font';
+
+@import "side";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #fafafa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 @include b(voca, '') {
-  //@include e() {}
+
+  @include e(top) {
+    height: 170px;
+    padding-left: 155px;
+    background: #FFFFFF;
+    border: 1px solid #F1F1F1;
+  }
 }

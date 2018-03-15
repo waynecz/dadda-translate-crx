@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import selectionMixin from '@/components/vue/selection-mixin'
+import selectionMixin from '@/components/vue/Selection-mixin'
 
 export default {
   name: 'app-content',

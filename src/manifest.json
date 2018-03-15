@@ -5,7 +5,8 @@
   "version": "0.0.1",
   "author": "Waynecz <451578533@qq.com>",
   "homepage_url": "https://github.com/waynecz/translate-and-remember-it-crx",
-  "content_security_policy": "font-src 'self'; script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_security_policy":
+    "font-src 'self' https://fonts.googleapis.com; script-src 'self' 'unsafe-eval'; object-src 'self'",
   "icons": {
     "128": "logo.png",
     "16": "logo.png",
@@ -20,6 +21,7 @@
     "activeTab",
     "webRequest",
     "storage",
+    "tabs",
     "webRequestBlocking"
   ],
   "browser_action": {

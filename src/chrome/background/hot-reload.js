@@ -24,7 +24,9 @@ const reload = () => {
       chrome.tabs.reload(tabs[0].id)
     }
 
-    chrome.runtime.reload()
+    if (!tabs[0].url.includes('chrome-extension://')) {
+      chrome.runtime.reload()
+    }
   })
 }
 
@@ -33,6 +35,7 @@ const watchChanges = (dir, lastTimestamp) => {
     if (!lastTimestamp || lastTimestamp === timestamp) {
       setTimeout(() => watchChanges(dir, timestamp), 1000) // retry after 1s
     } else {
+      console.log(1)
       reload()
     }
   })

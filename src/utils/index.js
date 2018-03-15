@@ -1,3 +1,5 @@
+import { POS_MAP } from './constant'
+
 export const _hasEnglish = content => {
   return /[a-zA-Z]+/g.test(content)
 }
@@ -66,5 +68,39 @@ export const _calcPosition = e => {
     buttonY: clientY + 15,
     isTop,
     maxHeight
+  }
+}
+
+/**
+ * @summary 移除搜狗翻译返回的字段有 Tag 包裹
+ */
+export const _removeTag = str => str.replace(/<.*>(.*)<.*>/g, '$1')
+
+/**
+ * @summary 词性简写
+ */
+export const _abridgePOS = POS => {
+  if (POS.length <= 4) {
+    return {
+      abbr: POS,
+      meaning: POS_MAP[POS]
+    }
+  }
+
+  let flag = ' '
+
+  if (POS.includes('&') || POS.includes(',')) {
+    flag = /\s&\s|,\s/g
+  }
+
+  const POSes = POS.split(flag)
+
+  let abbr = POSes.map(pos => pos.charAt(0)).join('')
+
+  return {
+    abbr,
+    meaning: POSes.filter(_ => _)
+      .map(pos => POS_MAP[pos])
+      .join(';')
   }
 }
