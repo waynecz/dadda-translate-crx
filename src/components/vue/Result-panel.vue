@@ -212,7 +212,6 @@ export default {
   },
 
   async created() {
-    this.$storage.remove('__T_R_VOCABULARY__')
     this.uuid = this.gengerateUUID()
     const oldVocabulary = await this.$storage.get('__T_R_VOCABULARY__')
 
@@ -290,6 +289,7 @@ export default {
     async addToVocabulary() {
       const word = new WordModel({
         t: this.text,
+        r: window.location.href,
         e: _removeTag(
           (this.oxfordTranslations[0].item.core[0].example || [{ en: 'no example' }])[0].en
         )

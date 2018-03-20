@@ -104,3 +104,5 @@ export const _abridgePOS = POS => {
       .join(';')
   }
 }
+
+export const getDisplayName = component => component.displayName || component.name || 'Component'

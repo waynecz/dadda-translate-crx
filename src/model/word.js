@@ -1,5 +1,5 @@
 class Word {
-  constructor({ text, eg, ref }) {
+  constructor({ t, e, r }) {
     /**
      * 为了节省存储空间，key 都压缩成一个字母
      * @name t text
@@ -9,9 +9,9 @@ class Word {
      * @name s stage 当前的阶段
      * @description stage: 分为5各阶段 分别是 5分钟-30分钟-1小时-6小时-12小时 每个阶段通过 notification 提醒一次
      */
-    this.t = text
-    this.e = eg
-    this.r = ref
+    this.t = t
+    this.e = e
+    this.r = r
     this.c = +new Date()
     this.s = 1
   }

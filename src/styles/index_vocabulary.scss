@@ -1,0 +1,51 @@
+@import 'core/mixin';
+@import 'font';
+
+@import "side";
+
+html, body {
+  --padding-left: 150px;
+
+  margin: 0;
+  padding: 0;
+  background: #fafafa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@include b(voca, '') {
+
+  @include e(top) {
+    height: 160px;
+    padding-left: var(--padding-left);
+    background: #FFFFFF;
+    border: 1px solid #F1F1F1;
+  }
+
+  @include e(content) {
+    --colums: 6;
+
+    display: grid;
+    grid-template-columns: repeat(var(--colums), 1fr);
+    grid-gap: 20px 25px;
+    padding-top: 20px;
+    padding-right: 30px;
+    padding-left: var(--padding-left);
+
+  }
+}
+
+@include b(word, '') {
+  background: #FFFFFF;
+  padding: 20px 18px;
+  box-shadow: 0 2px 28px 0 rgba(137,137,137,0.17);
+  border-radius: 6px;
+  cursor: pointer;
+
+  @include e(text) {
+    @include font-old;
+    font-size: 16px;
+  }
+}

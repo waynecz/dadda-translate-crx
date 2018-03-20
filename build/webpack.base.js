@@ -41,7 +41,7 @@ module.exports = {
         }
       },
       {
-        test: /index\.scss$/,
+        test: /content\.scss$/,
         use: extractContentCSS.extract({
           use: 'css-loader!sass-loader'
         })

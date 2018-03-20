@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import App from './App-content'
 import StorageConstructor from '@/utils/storage'
 import { _removeTag } from '@/utils'
-import '@/styles/index.scss'
+
+import '@/styles/index_content.scss'
 
 // 组件注册
 const componentsContext = require.context('@/components', true, /.vue$/)
@@ -26,8 +26,7 @@ document.addEventListener('DOMContentLoaded', _ => {
 
   new Vue({
     el: '#__tr-container__',
-    components: { App },
-    template: '<App/>'
+    template: '<app/>'
   })
 
   Vue.config.devtools = false

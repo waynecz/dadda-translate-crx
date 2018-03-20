@@ -21,7 +21,7 @@
 import selectionMixin from '@/components/vue/Selection-mixin'
 
 export default {
-  name: 'app-content',
+  name: 'app',
 
   mixins: [selectionMixin],
 
