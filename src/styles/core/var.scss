@@ -1,37 +1,5 @@
 // Colors
 $primary: #00207F;
 $accent: #B42030;
-$accent-pure: #f76714;
 
-// 长宽高
-$app-min-width: 1300px;
-$title-line-height: 83px;
-
-$navigator-width: 80px;
-
-// 渐变
-$accent-gradient: linear-gradient(to right, mix(white, $accent, 30%), $accent);
-
-// 卡片阴影
-$card-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12),
-  0 2px 4px -1px rgba(0, 0, 0, 0.3);
-
-// 左边导航阴影
-$navigator-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12),
-  0 8px 10px -5px rgba(0, 0, 0, 0.3);
-
-// 搜索栏阴影
-$search-bar-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.11), 0 6px 30px 5px rgba(0, 0, 0, 0.08),
-  0 8px 10px -5px rgba(0, 0, 0, 0.2);
-
-// 表格头部轻阴影
-$table-head-shadow: 0 6px 10px -2px rgba(0, 0, 0, 0.12), 0 3px 10px 5px rgba(0, 0, 0, 0.08),
-  0 4px 2px -5px rgba(0, 0, 0, 0.12);
-
-// 弥撒阴影
-$diffuse-shadow: 0 5px 24px 2px rgba(0, 0, 0, 0.18), 0 6px 50px 5px rgba(0, 0, 0, 0.2),
-  0 10px 20px -5px rgba(0, 0, 0, 0.25);
-
-// 小东西的阴影 譬如switch滑块
-$little-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 1px rgba(0, 0, 0, 0.14),
-  0 2px 1px -1px rgba(0, 0, 0, 0.12);
+$stage-color-list: #CFCFCF, #FF2C2C, #FFB62C, #3E88FF, #1BD126;

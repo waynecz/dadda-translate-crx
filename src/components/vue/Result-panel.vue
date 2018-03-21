@@ -10,11 +10,11 @@
       <h5 class="__result_word" :class="{ '__result_word--sentence': !inDict }">{{text}}</h5>
       <div 
         class="__result_pronunciation __tooltip __top"
-        tooltip="点击发音"
+        :tooltip="phonetic.filename ? '点击发音' : '暂无发音'"
         v-if="inDict" 
-        v-for="phonetic in phonetics" 
-        :key="phonetic.filename" 
-        @click.stop="speak(phonetic.type)"
+        v-for="(phonetic, i) in phonetics" 
+        :key="phonetic.filename || i" 
+        @click.stop="e => phonetic.filename ? speak(phonetic.type) : e"
       >
         <div class="__result_flag" :class="`__result_flag--${phonetic.type}`"></div>
         <div class="__result_phonetic">[{{phonetic.text}}]</div>
@@ -34,13 +34,13 @@
     </div>
 
     <!-- 牛津翻译部分 -->
-    <div class="__result_oxford" @wheel.stop="handleMouseWheel" :class="{'__result_oxford--expanded': expanded}"  v-if="inDict">
+    <div class="__result_oxford" @wheel.stop="handleMouseWheel" :class="{'__result_oxford--expanded': expanded}"  v-if="inDict && oxfordTranslations">
       <div class="__result_class" v-for="(wordPos, i) in oxfordTranslations" :key="i">
         <div 
           class="__result_type __tooltip __right" 
           :tooltip="abridge(wordPos.item.pos).meaning"
         >{{abridge(wordPos.item.pos).abbr}}</div>
-        <div class="__result_item-wrap">
+        <div class="__result_item-wrap"> 
           <div 
             v-for="translation in wordPos.item.core" 
             :key="translation.index"
@@ -103,7 +103,7 @@
 import WordModel from '@/model/word'
 import selectionMixin from '@/components/vue/Selection-mixin'
 import { SOUGOU_SPOKEN_URL } from '@/api/host'
-import { _removeTag, _abridgePOS } from '@/utils'
+import { _removeTag, _abridgePOS, _uuid } from '@/utils'
 
 export default {
   name: 'result-panel',
@@ -146,7 +146,21 @@ export default {
     dict() {
       const cotentWhileNotInDict = {
         phonetic: [`${SOUGOU_SPOKEN_URL}${this.text}`],
-        content: [],
+        content: [
+          {
+            item: {
+              core: [
+                {
+                  example: [
+                    {
+                      en: 'no example.'
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
         usual: this.result.translate.dit
       }
       return this.inDict ? this.result.dictionary.content[0] : cotentWhileNotInDict
@@ -194,6 +208,13 @@ export default {
      */
     usualTranslations() {
       return this.dict.usual
+    },
+
+    /**
+     * @summary 搜狗自己的翻译
+     */
+    simpleTranslate() {
+      return this.result.translate.dit
     }
   },
 
@@ -213,10 +234,9 @@ export default {
 
   async created() {
     this.uuid = this.gengerateUUID()
-    const oldVocabulary = await this.$storage.get('__T_R_VOCABULARY__')
+    await this.refreshVocabulary()
 
-    this.oldVocabulary = oldVocabulary || []
-    this.inCollection = this.oldVocabulary.some(word => word.text === this.text)
+    this.inCollection = this.oldVocabulary.some(word => word.t === this.text)
   },
 
   mounted() {
@@ -232,6 +252,12 @@ export default {
   },
 
   methods: {
+    async refreshVocabulary() {
+      const oldVocabulary = await this.$storage.get('__T_R_VOCABULARY__')
+
+      this.oldVocabulary = oldVocabulary || []
+    },
+
     abridge(pos) {
       return _abridgePOS(pos)
     },
@@ -240,11 +266,7 @@ export default {
      * @summary uuid 用来区分多结果卡片的情况下发音的重复
      */
     gengerateUUID() {
-      const nonstr = Math.random()
-        .toString(36)
-        .substring(3, 8)
-
-      return document.getElementById(nonstr) ? this.gengerateUUID() : nonstr
+      return _uuid()
     },
 
     /**
@@ -290,25 +312,34 @@ export default {
       const word = new WordModel({
         t: this.text,
         r: window.location.href,
-        e: _removeTag(
-          (this.oxfordTranslations[0].item.core[0].example || [{ en: 'no example' }])[0].en
-        )
+        e: _removeTag(this.oxfordTranslations[0].item.core[0].example[0].en),
+        p: JSON.stringify(this.phonetics),
+        d: this.simpleTranslate
       })
 
-      if (this.oldVocabulary.some(word => word.text === this.text)) {
+      if (this.oldVocabulary.some(word => word.t === this.text)) {
         console.warn('[T & R]:', 'Already in vocabular!')
         return
       }
 
-      const newVocabulary = [...this.oldVocabulary, word]
+      const newVocabulary = [word, ...this.oldVocabulary]
 
-      this.$storage.set('__T_R_VOCABULARY__', newVocabulary)
+      await this.$storage.set('__T_R_VOCABULARY__', newVocabulary)
+
+      await this.refreshVocabulary()
 
       this.inCollection = true
+
+      const initAlarmOption = {
+        delayInMinutes: 0.1,
+        word: this.text
+      }
+
+      chrome.runtime.sendMessage({ name: 'setAlarm', initAlarmOption })
     },
 
     async delWordInVocabulary() {
-      const index = this.oldVocabulary.findIndex(word => word.text === this.text)
+      const index = this.oldVocabulary.findIndex(word => word.t === this.text)
 
       if (index === -1) {
         console.warn('[T & R]:', `【${this.text}】is not in the vocabulary!`)
@@ -319,7 +350,11 @@ export default {
 
       await this.$storage.set('__T_R_VOCABULARY__', this.oldVocabulary)
 
+      await this.refreshVocabulary()
+
       this.inCollection = false
+
+      chrome.runtime.sendMessage({ name: 'clearAlarm', word: this.text })
     },
 
     /**

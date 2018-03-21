@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { getDisplayName } from '@/utils'
+import { _getDisplayName } from '@/utils'
 
 export default WrappedComponent => {
   return class View extends Component {
-    static displayName = `View(${getDisplayName(WrappedComponent)})`
+    static displayName = `View(${_getDisplayName(WrappedComponent)})`
     render() {
       return (
         <div className="voca_content">

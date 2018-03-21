@@ -4,7 +4,7 @@
 $breakpoints: (
   's': (max-width: 1100px),
   'sm': (max-width: 1200px),
-  'm': (max-width: 1320px),
+  'm': (max-width: 1400px),
   'xm': (max-width: 1600px),
   'normal': (min-width: 1100px) and (max-width: 1800px),
   'l': (min-width: 1801px)
@@ -46,11 +46,11 @@ $breakpoints: (
 
 // 字体
 @mixin font-old {
-  font-family: 'old-style', 'STKaiti', 'BiauKai', 'DFKai-SB', 'KaiTi', 'KaiTi_GB2312', serif;
+  font-family: 'old-style', 'STKaiti', 'BiauKai', 'DFKai-SB', 'KaiTi', 'KaiTi_GB2312', serif!important;
 }
 
 @mixin font-kai {
-  font-family:  'STKaiti', 'BiauKai', 'DFKai-SB', 'KaiTi_GB2312', 'KaiTi', serif;
+  font-family:  'STKaiti', 'BiauKai', 'DFKai-SB', 'KaiTi_GB2312', 'KaiTi', serif!important;
 }
 
 // 最常用transition
@@ -58,16 +58,19 @@ $breakpoints: (
   transition: 0.2s most-useful-timing();
 }
 
+@mixin circle($d) {
+  width: $d;
+  height: $d;
+  border-radius: 50%;
+}
+
 // 滚动条样式
 @mixin scroll-bar {
   &::-webkit-scrollbar {
-    z-index: 11;
-    width: 5px;
-    background: #fff;
+    display: none;
 
     &-thumb {
-      border-radius: 5px;
-      background: $accent;
+      display: none;
     }
   }
 }

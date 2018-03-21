@@ -2,6 +2,7 @@
 @import 'font';
 
 @import "side";
+@import "tooltip";
 
 html, body {
   --padding-left: 150px;
@@ -16,8 +17,11 @@ html, body {
 }
 
 @include b(voca, '') {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 
   @include e(top) {
+
     height: 160px;
     padding-left: var(--padding-left);
     background: #FFFFFF;
@@ -25,27 +29,211 @@ html, body {
   }
 
   @include e(content) {
-    --colums: 6;
+    --colums: 5;
 
     display: grid;
     grid-template-columns: repeat(var(--colums), 1fr);
     grid-gap: 20px 25px;
     padding-top: 20px;
-    padding-right: 30px;
-    padding-left: var(--padding-left);
+    padding-right: 15px;
+    padding-left: calc(var(--padding-left) - 20px );
+    height: calc(100vh - 160px);
+    overflow: auto;
 
+    @include scroll-bar;
+
+    @include res(xm) {
+      --colums: 4;
+    }
+
+    @include res(m) {
+      --colums: 3;
+    }
+
+    @include res(sm) {
+      --colums: 3;
+    }
+  }
+}
+
+@include b(tool, '') {
+  display: grid;
+  grid-template-areas: "input stage count";
+  grid-template-columns: 33% fit-content(300px) auto;
+  align-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+@include b(input, '') {
+  position: relative;
+  grid-area: input;
+  width: 100%;
+  padding-right: 70px;
+
+  @include e(inner) {
+    width: 100%;
+    background: #F4F4F4;
+    font-size: 18px;
+    padding: 15px 20px 15px 40px!important;
+    border-radius: 100px!important;
+    border: 2px #fff solid!important;
+    box-shadow: 0 0 0 2px #F4F4F4;
+    @include font-old;
+
+    @include placeholder {
+      color: #bdbdbd;
+    }
+  }
+
+  .__icon-search {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    color: #ccc;
+    transform: ty(-40%);
+  }
+}
+
+@include b(stage, '') {
+
+  display: flex;
+  align-items: center;
+  grid-area: stage;
+
+  @include e(dot) {
+    box-sizing: content-box;
+    @include circle(14px);
+    margin-right: 15px;
+    background: currentColor;
+    cursor: pointer;
+
+    @for $i from 1 through 5 {
+      @include m($i) {
+        color: nth($stage-color-list, $i);
+      }
+    }
+
+    &.active {
+      box-shadow: 0 0 0 2px #fff, 0 0 0 3px currentColor;
+    }
   }
 }
 
 @include b(word, '') {
+  position: relative;
   background: #FFFFFF;
-  padding: 20px 18px;
+  padding: 20px 18px 40px;
   box-shadow: 0 2px 28px 0 rgba(137,137,137,0.17);
   border-radius: 6px;
   cursor: pointer;
 
   @include e(text) {
     @include font-old;
-    font-size: 16px;
+    font-size: 18px;
+  }
+
+  @include e(ref) {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    text-decoration: none;
+    color :#333;
+
+    .__icon {
+      font-size: inherit;
+    }
+  }
+
+  @include e(time) {
+    font-size: 12px;
+    padding-bottom: 12px;
+    color: #ccc;
+    @include font-kai;
+  }
+
+  @include e(eg) {
+    display: block;
+    height: 12px;
+    font-size: 12px;
+    //@include font-kai;
+    font-family: 'Songti SC', 'Songti', 'Song', serif;
+    color: #ccc;
+    word-break: break-all;
+
+    &:hover {
+      color: #333;
+    }
+  }
+
+  @include e(speaker) {
+    display: flex;
+    margin-top: 3px;
+    margin-bottom: 15px;
+    max-width: 100%;
+  }
+
+  @include e(pronunciation) {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+
+  @include e(flag) {
+    width: 18px;
+    height: 9px;
+    margin-right: 5px;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: 0 center;
+
+    @include m(uk) {
+      background-image: url('chrome-extension://__MSG_@@extension_id__/assets/uk.png');
+    }
+
+    @include m(usa) {
+      background-image: url('chrome-extension://__MSG_@@extension_id__/assets/usa.png');
+    }
+  }
+
+  @include e(phonetic) {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    @include font-kai;
+  }
+
+  @include e(audio) {
+    display: none;
+  }
+
+}
+
+@include b(count, '') {
+  grid-area: count;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 40px;
+}
+
+@include b(number, '') {
+
+  align-self: end;
+
+  @include e(text) {
+    display: block;
+    font-size: 17px;
+    color: #bbb;
+  }
+
+  @include e(count) {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 50px;
+    margin-bottom: 0;
+    margin-top: 15px;
+    text-align: center;
   }
 }

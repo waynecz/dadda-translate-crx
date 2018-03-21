@@ -21,7 +21,9 @@ class Storage {
   async set(key, value) {
     return new Promise((resolve, reject) => {
       chrome.storage[this.position].set({ [key]: value }, async _ => {
-        console.log(await this.get(key))
+        if (key === '__T_R_VOCABULARY__') {
+          chrome.runtime.sendMessage({ name: 'vocabularyChange' })
+        }
         resolve()
       })
     })
@@ -38,6 +40,7 @@ class Storage {
   async remove(key) {
     return new Promise((resolve, reject) => {
       chrome.storage[this.position].remove(key, result => {
+        console.log('remove done!')
         resolve()
       })
     })

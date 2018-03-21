@@ -1,4 +1,4 @@
-import { POS_MAP } from './constant'
+import { POS_MAP, TR_ID_PREFIX } from './constant'
 
 export const _hasEnglish = content => {
   return /[a-zA-Z]+/g.test(content)
@@ -105,4 +105,33 @@ export const _abridgePOS = POS => {
   }
 }
 
-export const getDisplayName = component => component.displayName || component.name || 'Component'
+/**
+ * @summary HOC 组件获取被包裹组件名字
+ */
+export const _getDisplayName = component => component.displayName || component.name || 'Component'
+
+/**
+ * @summary 生成页面内 Node 唯一 id
+ */
+export const _uuid = _ => {
+  const nonstr = Math.random()
+    .toString(36)
+    .substring(3, 8)
+
+  return document.getElementById(nonstr) ? uuid() : nonstr
+}
+
+/**
+ * @summary 移除插件命名空间
+ */
+export const _wrapTRId = str => TR_ID_PREFIX + str
+
+/**
+ * @summary 是否拥有插件命名空间
+ */
+export const _hasTRId = str => str.slice(0, TR_ID_PREFIX.length) === TR_ID_PREFIX
+
+/**
+ * @summary 移除插件命名空间
+ */
+export const _removeTRId = str => str.slice(TR_ID_PREFIX.length)

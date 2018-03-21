@@ -6,13 +6,9 @@
     "dev": "node_modules/.bin/webpack --progress --config build/webpack.dev.js",
     "build": "rm -rf ./dist && node_modules/.bin/webpack --config build/webpack.production.js"
   },
-  "keywords": [
-    "translate",
-    "chrome-extension",
-    "learning-english"
-  ],
+  "keywords": ["translate", "chrome-extension", "learning-english"],
   "author": "Waynecz",
-  "license": "GPLv3",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.18.0",
     "material-ui": "^1.0.0-beta.36",

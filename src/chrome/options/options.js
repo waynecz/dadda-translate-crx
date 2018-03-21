@@ -26,3 +26,14 @@ StorageConstructor().then(storage => {
     document.getElementById('app')
   )
 })
+
+// 动态刷新词汇表
+/* eslint-disable no-undef */
+chrome.runtime.onMessage.addListener(async (request, sender, sendRes) => {
+  const { name: type } = request
+  if (type === 'vocabularyChange') {
+    const newWords = await Storage.get('__T_R_VOCABULARY__')
+    window.Store.dispatch({ type: 'getVocabulary', words: newWords })
+    return true
+  }
+})
