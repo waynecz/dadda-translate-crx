@@ -1,14 +1,6 @@
-const getStorageLocation = async _ => {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.get('__T_R_VOCA_LOCATION__', result => {
-      resolve(result.__T_R_VOCA_LOCATION__ || 'local')
-    })
-  })
-}
-
 class Storage {
-  constructor(storagePosition) {
-    this.changePosition(storagePosition)
+  constructor(position = 'sync') {
+    this.changePosition(position)
   }
 
   /**
@@ -40,17 +32,11 @@ class Storage {
   async remove(key) {
     return new Promise((resolve, reject) => {
       chrome.storage[this.position].remove(key, result => {
-        console.log('remove done!')
+        console.log(key, 'remove done!')
         resolve()
       })
     })
   }
 }
 
-const StorageConstructor = async _ => {
-  const position = await getStorageLocation()
-
-  return new Storage(position)
-}
-
-export default StorageConstructor
+export default Storage

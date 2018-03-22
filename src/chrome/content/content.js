@@ -12,9 +12,9 @@ componentsContext.keys().forEach(path => {
 })
 
 Vue.use({
-  install: async Vue => {
+  install: Vue => {
     Vue.filter('removeTag', _removeTag)
-    Vue.prototype.$storage = await StorageConstructor()
+    Vue.prototype.$storage = new StorageConstructor()
   }
 })
 

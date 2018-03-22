@@ -1,12 +1,16 @@
 import api from '@/api'
 import HotReload from './hot-reload'
 import StorageConstructor from '@/utils/storage'
-import toast from '@/utils/toast'
+import Toast from '@/chrome/toast'
 import { _removeTRId, _hasTRId, _wrapTRId } from '@/utils'
 import { DELAY_MINS_IN_EVERY_STAGE } from '@/utils/constant'
 
 HotReload()
+const Storage = new StorageConstructor()
 
+/**
+ * @summary chrome 通信
+ */
 /* eslint-disable no-undef */
 chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
   const { name: type } = request
@@ -35,35 +39,31 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
   }
 })
 
-StorageConstructor().then(storage => {
-  const Storage = storage
+/**
+ * @summary 定时吐司 Handler
+ */
+chrome.alarms.onAlarm.addListener(async alarm => {
+  if (_hasTRId(alarm.name)) {
+    const words = await Storage.get('__T_R_VOCABULARY__')
+    const wordText = _removeTRId(alarm.name)
+    const targetWord = words.find(word => word.t === wordText)
 
-  /**
-   * @summary 定时吐司 Handler
-   */
-  chrome.alarms.onAlarm.addListener(async alarm => {
-    if (_hasTRId(alarm.name)) {
-      const words = await Storage.get('__T_R_VOCABULARY__')
-      const wordText = _removeTRId(alarm.name)
-      const targetWord = words.find(word => word.t === wordText)
+    const { t: text, d: translation, s: stage } = targetWord
 
-      const { t: text, d: translation, s: stage } = targetWord
+    Toast(text, translation)
 
-      toast(text, stage)
+    // 一次弹出后立即进入下个阶段
+    if (stage < 5) {
+      targetWord.s = stage + 1
 
-      // 一次弹出后立即进入下个阶段
-      if (stage < 5) {
-        targetWord.s = stage + 1
+      chrome.alarms.create(alarm.name, {
+        delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[targetWord.s]
+      })
 
-        chrome.alarms.create(alarm.name, {
-          delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[targetWord.s]
-        })
-
-        // 注意这里 words 已经被更新了！！
-        Storage.set('__T_R_VOCABULARY__', words)
-      } else {
-        chrome.runtime.sendMessage({ name: 'clearAlarm', word: wordText })
-      }
+      // 注意这里 words 已经被更新了！！
+      Storage.set('__T_R_VOCABULARY__', words)
+    } else {
+      chrome.runtime.sendMessage({ name: 'clearAlarm', word: wordText })
     }
-  })
+  }
 })

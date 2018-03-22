@@ -89,7 +89,6 @@
     >译</div>
 
     <result-panel 
-      data="111111"
       v-if="resultPanelVisible" 
       :text="selection" 
       :style="panelPositionStyle" 
@@ -100,10 +99,13 @@
 </template>
 
 <script>
+import _merge from 'lodash-es/merge'
 import WordModel from '@/model/word'
+import TranslationModel from '@/model/translation'
 import selectionMixin from '@/components/vue/Selection-mixin'
-import { SOUGOU_SPOKEN_URL } from '@/api/host'
 import { _removeTag, _abridgePOS, _uuid } from '@/utils'
+
+import { SOUGOU_SPOKEN_URL } from '@/api/host'
 
 export default {
   name: 'result-panel',
@@ -123,12 +125,19 @@ export default {
 
   computed: {
     /**
+     * @summary 经过典型结构洗礼的结果
+     */
+    resultAfterFixed() {
+      return _merge({}, this.translationStructure, this.result)
+    },
+
+    /**
      * @summary 是否有字典释义
      * 单个单词都具有字典释义
      * 句子、短语和单词的变化形态不具备（过去式...）
      */
     inDict() {
-      return this.result.isHasOxford
+      return this.resultAfterFixed.isHasOxford
     },
 
     /**
@@ -163,7 +172,7 @@ export default {
         ],
         usual: this.result.translate.dit
       }
-      return this.inDict ? this.result.dictionary.content[0] : cotentWhileNotInDict
+      return this.inDict ? this.resultAfterFixed.dictionary.content[0] : cotentWhileNotInDict
     },
 
     /**
@@ -214,7 +223,7 @@ export default {
      * @summary 搜狗自己的翻译
      */
     simpleTranslate() {
-      return this.result.translate.dit
+      return this.resultAfterFixed.translate.dit
     }
   },
 
@@ -228,12 +237,17 @@ export default {
       currentEnglishMeaning: '',
 
       visible: false,
-      inCollection: false
+      inCollection: false,
+
+      translationStructure: null
     }
   },
 
   async created() {
     this.uuid = this.gengerateUUID()
+
+    this.translationStructure = new TranslationModel()
+
     await this.refreshVocabulary()
 
     this.inCollection = this.oldVocabulary.some(word => word.t === this.text)

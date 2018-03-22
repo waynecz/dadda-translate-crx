@@ -10,11 +10,7 @@ class VocabularyToolBar extends Component {
   constructor() {
     super()
     this.state = {
-      stages: [1, 2, 3, 4, 5],
-      filter: {
-        keyword: '',
-        stage: 1
-      },
+      stages: [0, 1, 2, 3, 4, 5],
 
       wordsCount: 0,
       historyWordsCount: 0
@@ -26,23 +22,26 @@ class VocabularyToolBar extends Component {
   }
 
   keyWordChange = e => {
-    this.setState({
-      filter: {
-        keyword: e.target.value
-      }
-    })
+    const { stage } = this.props.filter
+    const newFilter = {
+      keyword: e.target.value,
+      stage
+    }
+    this.props.dispatch({ type: 'filterChange', filter: newFilter })
   }
 
   stageChange = stage => {
-    this.setState({
-      filter: {
-        stage
-      }
-    })
+    const { keyword } = this.props.filter
+    const newFilter = {
+      keyword,
+      stage
+    }
+    this.props.dispatch({ type: 'filterChange', filter: newFilter })
   }
 
   render() {
-    const { stages, filter: { keyword, stage: currentStage } } = this.state
+    const { stages } = this.state
+    const { filter: { stage: currentStage } } = this.props
 
     return (
       <div className="tool">

@@ -34,6 +34,7 @@ html, body {
     display: grid;
     grid-template-columns: repeat(var(--colums), 1fr);
     grid-gap: 20px 25px;
+    align-content: start;
     padding-top: 20px;
     padding-right: 15px;
     padding-left: calc(var(--padding-left) - 20px );
@@ -107,6 +108,11 @@ html, body {
     margin-right: 15px;
     background: currentColor;
     cursor: pointer;
+    @include ts;
+
+    @include m(0) {
+      color: #cfcfcf;
+    }
 
     @for $i from 1 through 5 {
       @include m($i) {
@@ -114,7 +120,12 @@ html, body {
       }
     }
 
+    &:hover {
+      transform: scale(1.3);
+    }
+
     &.active {
+      pointer-events: none;
       box-shadow: 0 0 0 2px #fff, 0 0 0 3px currentColor;
     }
   }
@@ -127,6 +138,7 @@ html, body {
   box-shadow: 0 2px 28px 0 rgba(137,137,137,0.17);
   border-radius: 6px;
   cursor: pointer;
+  overflow: hidden;
 
   @include e(text) {
     @include font-old;
@@ -209,6 +221,32 @@ html, body {
     display: none;
   }
 
+  @include e(status) {
+    position: absolute;
+    bottom: -3px;
+    right: 0;
+
+    @for $i from 1 through 5 {
+      @include m($i) {
+        color: nth($stage-color-list, $i);
+      }
+    }
+
+    [class*=circle] {
+      fill: currentColor;
+    }
+
+    .circle-outer {
+      visibility: hidden;
+    }
+
+    &.word_status--1 {
+      .circle-outer {
+        visibility: visible;
+      }
+    }
+
+  }
 }
 
 @include b(count, '') {

@@ -1,6 +1,10 @@
 const initState = {
   currentLink: 'words',
-  words: []
+  words: [],
+  filter: {
+    stage: 0,
+    keyword: ''
+  }
 }
 
 const vocabularyReducers = (state = initState, action) => {
@@ -10,10 +14,17 @@ const vocabularyReducers = (state = initState, action) => {
         ...state,
         currentLink: action.payload
       }
+
     case 'getVocabulary':
       return {
         ...state,
-        words: [...action.words]
+        words: [...(action.words || [])]
+      }
+
+    case 'filterChange':
+      return {
+        ...state,
+        filter: action.filter
       }
     default:
       return state
