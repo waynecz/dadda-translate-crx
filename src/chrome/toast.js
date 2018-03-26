@@ -1,5 +1,7 @@
+import { TR_ID_PREFIX } from '@/utils/constant'
+
 export default (word, message) => {
-  var opt = {
+  const options = {
     iconUrl: 'http://www.google.com/favicon.ico',
     type: 'basic',
     title: word,
@@ -12,7 +14,7 @@ export default (word, message) => {
       }
     ]
   }
-  chrome.notifications.clear('__TR__' + word)
+  chrome.notifications.clear(TR_ID_PREFIX + word)
 
-  chrome.notifications.create('__TR__' + word, opt)
+  chrome.notifications.create(TR_ID_PREFIX + word, options)
 }

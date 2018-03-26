@@ -1,4 +1,4 @@
 export default function mapState(state) {
-  let { words, currentLink, filter } = state
-  return { words, currentLink, filter }
+  let { vocabulary, currentLink, filter } = state
+  return { vocabulary, currentLink, filter }
 }

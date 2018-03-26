@@ -1,14 +1,27 @@
 import Vue from 'vue'
-import App from './App-popup'
+import Popup from '@/components/vue/Popup'
+import Switch from '@/components/vue/Switch'
+import StorageConstructor from '@/utils/storage'
+import '@/styles/index_popup.scss'
 
-Vue.config.devtools = false
-Vue.config.slient = true
-Vue.config.productionTip = false
+Vue.component('Switcher', Switch)
+
+const storage = new StorageConstructor()
+
+Vue.use({
+  install: Vue => {
+    Vue.prototype.$storage = storage
+  }
+})
 
 new Vue({
   el: '#app',
   components: {
-    App
+    Popup
   },
-  template: '<App/>'
+  template: '<Popup/>'
 })
+
+Vue.config.devtools = false
+Vue.config.slient = true
+Vue.config.productionTip = false

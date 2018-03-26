@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <select name="" id="">
-      <option value="1">2</option>
-    </select>
+  <div class="popup">111
+    <Switcher :value="false"/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Popup',
+  name: 'popup',
 
   data() {
     return {}

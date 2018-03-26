@@ -5,6 +5,7 @@
   &::before {
     position: absolute;
     right: 10px;
+    pointer-events: none;
     display: inline-block;
     padding: 4px 15px 4px 20px;
     white-space: nowrap;
@@ -48,7 +49,7 @@
     &::before {
       right: auto;
       left: 0;
-      transform: txy(-100%, -0%) var(--scale);
+      transform: txy(-100%, -30%) var(--scale);
     }
   }
 }

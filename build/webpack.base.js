@@ -3,8 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-const extractContentCSS = new ExtractTextPlugin('../dist/content/app.css')
-const extractVocabularyCSS = new ExtractTextPlugin('../dist/options/vocabulary.css')
+const extractTranslatorCSS = new ExtractTextPlugin('../dist/styles/translator.css')
+const extractVocabularyCSS = new ExtractTextPlugin('../dist/styles/vocabulary.css')
+const extractPopupCSS = new ExtractTextPlugin('../dist/styles/popup.css')
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -41,14 +42,20 @@ module.exports = {
         }
       },
       {
-        test: /content\.scss$/,
-        use: extractContentCSS.extract({
+        test: /translator\.scss$/,
+        use: extractTranslatorCSS.extract({
           use: 'css-loader!sass-loader'
         })
       },
       {
         test: /vocabulary\.scss$/,
         use: extractVocabularyCSS.extract({
+          use: 'css-loader!sass-loader'
+        })
+      },
+      {
+        test: /popup\.scss$/,
+        use: extractPopupCSS.extract({
           use: 'css-loader!sass-loader'
         })
       },
@@ -67,14 +74,15 @@ module.exports = {
     ]
   },
   plugins: [
-    extractContentCSS,
+    extractTranslatorCSS,
+    extractPopupCSS,
     extractVocabularyCSS,
 
     new HtmlWebpackPlugin({
       filename: resolve('dist/popup/popup.html'),
       chunks: ['popup'],
       template: 'chrome/popup/popup.html',
-      inject: true
+      inject: false
     }),
 
     new HtmlWebpackPlugin({

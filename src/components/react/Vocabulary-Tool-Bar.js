@@ -17,10 +17,6 @@ class VocabularyToolBar extends Component {
     }
   }
 
-  async componentDidMount() {
-    const { dispatch, words, currentLink } = this.props
-  }
-
   keyWordChange = e => {
     const { stage } = this.props.filter
     const newFilter = {
@@ -55,7 +51,7 @@ class VocabularyToolBar extends Component {
           ))}
         </div>
         <div className="count">
-          <NumberCount text="REMAIN WORDS" count={this.props.words.length} />
+          <NumberCount text="REMAIN WORDS" count={this.props.vocabulary.length} />
         </div>
       </div>
     )

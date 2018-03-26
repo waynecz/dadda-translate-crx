@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ICONS = {
-  words: _ => (
+  vocabulary: _ => (
     <svg width="47px" height="48px" viewBox="0 0 47 38">
       <defs>
         <path

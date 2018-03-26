@@ -1,0 +1,109 @@
+.switch {
+  --size: 35px;
+  position: relative;
+  width: var(--size);
+  height: 10px;
+  background: #d2d2d2;
+  border-radius: 10px;
+  // box-shadow: $little-shadow;
+  cursor: pointer;
+
+  &::before {
+    --extra-area: -5px;
+    content: '';
+    position: absolute;
+    display: block;
+    left: var(--extra-area);
+    bottom: var(--extra-area);
+    right: var(--extra-area);
+    top: var(--extra-area);
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 7px;
+    top: 50%;
+    transform: ty(-50%);
+    background: #9d9d9d;
+    box-shadow: 0 3px 5px -1px rgba(173, 176, 173, 0.72);
+    @include ts;
+  }
+
+  &:hover {
+    &::after {
+      background: mix($primary, white, 80%);
+    }
+
+    &.plain {
+      &::after {
+        background: white;
+      }
+    }
+  }
+
+  &.on {
+    background: mix($primary, white, 30%);
+
+    &:after {
+      background: $primary;
+      box-shadow: 0 3px 5px -1px rgba(73, 26, 221, 0.72);
+      transform: txy(calc(var(--size) - 15px), -50%);
+    }
+
+    &.plain {
+      background: mix(white, black, 50%);
+
+      &::after {
+        background: white;
+      }
+    }
+  }
+
+  &.plain {
+    background: mix($primary, white, 80%);
+    &::after {
+      background: #999;
+    }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    background: #9d9d9d;
+
+    &::after {
+      background: #bbb !important;
+    }
+
+    &:hover {
+      &::after {
+        background: #bbb !important;
+      }
+    }
+  }
+
+  &.accent {
+    &::after {
+      background: #9d9d9d;
+      box-shadow: 0 3px 5px -1px rgba(173, 176, 173, 0.72);
+    }
+
+    &:hover {
+      &::after {
+        background: mix($accent, white, 80%);
+      }
+    }
+
+    &.on {
+      background: mix($accent, white, 30%);
+
+      &:after {
+        background: $accent;
+        box-shadow: 0 3px 5px -1px rgba(175, 126, 19, 0.72);
+      }
+    }
+  }
+}

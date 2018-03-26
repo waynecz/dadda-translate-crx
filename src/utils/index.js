@@ -31,7 +31,7 @@ export const _sougouUuid = _ => {
 }
 
 /**
- * @summary 计算popper 位置
+ * @summary 计算 panel 展示位置
  */
 export const _calcPosition = e => {
   let x
@@ -62,12 +62,24 @@ export const _calcPosition = e => {
   }
 
   return {
-    panelX: x,
-    panelY: y,
-    buttonX: clientX,
-    buttonY: clientY + 15,
+    panelX: x + 'px',
+    panelY: y + 'px',
+    buttonX: clientX + 'px',
+    buttonY: clientY + 15 + 'px',
     isTop,
     maxHeight
+  }
+}
+
+/**
+ * @summary 计算 panel 作为 dialog 展示时的位置
+ */
+export const _calcPositionAsDialog = _ => {
+  return {
+    panelX: '0',
+    panelY: '0',
+    maxHeight: '96vh',
+    isTop: true
   }
 }
 

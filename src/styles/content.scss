@@ -15,8 +15,23 @@
   contain: layout;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
-  0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 -1px 3px 0 rgba(0, 0, 0, 0.12);
+
+  @include when(dialog) {
+    --panel-width: 650px;
+
+    position: relative;
+    margin: auto;
+    box-shadow: 0 0 0 50vw rgba(0, 0, 0, .4), 0 2px 28px 0 rgba(137, 137, 137, 0.67);
+
+    @include e(word) {
+      font-size: 25px;
+    }
+
+    @include e(english eg) {
+      font-size: 17px;
+    }
+  }
 
   * {
     box-sizing: border-box;

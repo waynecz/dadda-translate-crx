@@ -1,4 +1,14 @@
 @include b(transltor) {
+  @include when('dialog-wrap') {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+  }
+
   @include e(button) {
     position: fixed;
     z-index: 10000;
@@ -10,9 +20,12 @@
     @include font-kai;
     border-radius: 3px;
     background: #fff;
-    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
-    0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
     cursor: pointer;
     user-select: none;
+  }
+
+  @include e(loading) {
+    position: fixed;
   }
 }

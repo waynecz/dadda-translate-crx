@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import StorageConstructor from '@/utils/storage'
+import VocabularyMachine from '@/utils/vocabulary'
 import { _removeTag } from '@/utils'
 
-import '@/styles/index_content.scss'
+import '@/styles/index_translator.scss'
 
 // 组件注册
 const componentsContext = require.context('@/components', true, /.vue$/)
@@ -14,11 +14,11 @@ componentsContext.keys().forEach(path => {
 Vue.use({
   install: Vue => {
     Vue.filter('removeTag', _removeTag)
-    Vue.prototype.$storage = new StorageConstructor()
+    Vue.prototype.$vocabulary = VocabularyMachine
   }
 })
 
-document.addEventListener('DOMContentLoaded', _ => {
+const initTranslator = _ => {
   const div = document.createElement('div')
   div.id = '__tr-container__'
 
@@ -26,10 +26,19 @@ document.addEventListener('DOMContentLoaded', _ => {
 
   new Vue({
     el: '#__tr-container__',
-    template: '<app/>'
+    data() {
+      return {
+        inExtension: false
+      }
+    },
+    template: '<translator/>'
   })
 
   Vue.config.devtools = false
   Vue.config.slient = true
   Vue.config.productionTip = false
-})
+}
+
+document.addEventListener('DOMContentLoaded', initTranslator)
+
+export default initTranslator

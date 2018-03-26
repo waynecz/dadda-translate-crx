@@ -28,12 +28,22 @@ export const POS_MAP = {
 /**
  * @summary  吐司提醒时间
  */
+// export const DELAY_MINS_IN_EVERY_STAGE = {
+//   1: 5,
+//   2: 30,
+//   3: 60,
+//   4: 6 * 60,
+//   5: 12 * 60
+// }
+
 export const DELAY_MINS_IN_EVERY_STAGE = {
-  1: 5,
-  2: 30,
-  3: 60,
-  4: 6 * 60,
-  5: 12 * 60
+  1: 0.1,
+  2: 0.2,
+  3: 0.3,
+  4: 0.4,
+  5: 0.5
 }
 
 export const TR_ID_PREFIX = '__TR__'
+
+export const TR_STORAGE_KEY = '__T_R_VOCABULARY__'

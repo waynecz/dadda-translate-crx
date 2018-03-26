@@ -22,19 +22,18 @@ class Vocabulary extends Component {
   }
 
   async componentDidMount() {
-    const { dispatch, words, currentLink } = this.props
+    const { dispatch, vocabulary, currentLink } = this.props
   }
 
   render() {
-    const { dispatch, words, currentLink, filter } = this.props
+    const { dispatch, vocabulary, currentLink, filter } = this.props
 
-    return words
-      .filter(word => {
+    return vocabulary
+      .filter(vocabulary => {
         const reg = new RegExp(filter.keyword, 'g')
-        console.log('reg', reg)
-        return (word.s === filter.stage || filter.stage === 0) && reg.test(word.t)
+        return (vocabulary.s === filter.stage || filter.stage === 0) && reg.test(vocabulary.t)
       })
-      .map(word => <WordCard key={word.t} word={word} />)
+      .map(vocabulary => <WordCard key={vocabulary.t} word={vocabulary} />)
   }
 }
 

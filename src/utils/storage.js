@@ -1,3 +1,5 @@
+import { TR_STORAGE_KEY } from '@/utils/constant'
+
 class Storage {
   constructor(position = 'sync') {
     this.changePosition(position)
@@ -13,7 +15,7 @@ class Storage {
   async set(key, value) {
     return new Promise((resolve, reject) => {
       chrome.storage[this.position].set({ [key]: value }, async _ => {
-        if (key === '__T_R_VOCABULARY__') {
+        if (key === TR_STORAGE_KEY) {
           chrome.runtime.sendMessage({ name: 'vocabularyChange' })
         }
         resolve()
@@ -21,10 +23,10 @@ class Storage {
     })
   }
 
-  async get(key) {
+  async get(key, defaultValue = []) {
     return new Promise((resolve, reject) => {
       chrome.storage[this.position].get(key, result => {
-        resolve(result[key])
+        resolve(result[key] || defaultValue)
       })
     })
   }

@@ -1,10 +1,10 @@
 @import 'core/mixin';
 @import 'font';
+@import 'side';
+@import 'tooltip';
 
-@import "side";
-@import "tooltip";
-
-html, body {
+html,
+body {
   --padding-left: 150px;
 
   margin: 0;
@@ -16,16 +16,26 @@ html, body {
   box-sizing: border-box;
 }
 
+.merriam {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  top: 30vh;
+  width: 100vw;
+  height: 70vh;
+}
+
 @include b(voca, '') {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 
   @include e(top) {
-
     height: 160px;
     padding-left: var(--padding-left);
-    background: #FFFFFF;
-    border: 1px solid #F1F1F1;
+    background: #ffffff;
+    border: 1px solid #f1f1f1;
   }
 
   @include e(content) {
@@ -37,7 +47,7 @@ html, body {
     align-content: start;
     padding-top: 20px;
     padding-right: 15px;
-    padding-left: calc(var(--padding-left) - 20px );
+    padding-left: calc(var(--padding-left) - 20px);
     height: calc(100vh - 160px);
     overflow: auto;
 
@@ -59,7 +69,7 @@ html, body {
 
 @include b(tool, '') {
   display: grid;
-  grid-template-areas: "input stage count";
+  grid-template-areas: 'input stage count';
   grid-template-columns: 33% fit-content(300px) auto;
   align-content: center;
   align-items: center;
@@ -74,12 +84,12 @@ html, body {
 
   @include e(inner) {
     width: 100%;
-    background: #F4F4F4;
+    background: #f4f4f4;
     font-size: 18px;
-    padding: 15px 20px 15px 40px!important;
-    border-radius: 100px!important;
-    border: 2px #fff solid!important;
-    box-shadow: 0 0 0 2px #F4F4F4;
+    padding: 15px 20px 15px 40px !important;
+    border-radius: 100px !important;
+    border: 2px #fff solid !important;
+    box-shadow: 0 0 0 2px #f4f4f4;
     @include font-old;
 
     @include placeholder {
@@ -97,7 +107,6 @@ html, body {
 }
 
 @include b(stage, '') {
-
   display: flex;
   align-items: center;
   grid-area: stage;
@@ -133,12 +142,35 @@ html, body {
 
 @include b(word, '') {
   position: relative;
-  background: #FFFFFF;
+  background: #ffffff;
   padding: 20px 18px 40px;
-  box-shadow: 0 2px 28px 0 rgba(137,137,137,0.17);
+  box-shadow: 0 2px 28px 0 rgba(137, 137, 137, 0.17);
   border-radius: 6px;
   cursor: pointer;
   overflow: hidden;
+  @include ts;
+
+  @for $i from 1 through 5 {
+    @include m(#{$i}) {
+      &:hover {
+        box-shadow: 0 0 0 3px mix(nth($stage-color-list, $i), transparent, 100%);
+      }
+    }
+  }
+
+  @include pseudo(hover) {
+    @include e(actions) {
+      opacity: 1;
+      transform: txy(0, 0);
+      pointer-events: unset;
+    }
+
+    @include e('status-indicator') {
+      transform: txy(100%, 100%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
 
   @include e(text) {
     @include font-old;
@@ -146,12 +178,12 @@ html, body {
   }
 
   @include e(ref) {
-    position: absolute;
+    position: absolute !important;
     top: 10px;
     right: 10px;
     font-size: 14px;
     text-decoration: none;
-    color :#333;
+    color: #333;
 
     .__icon {
       font-size: inherit;
@@ -162,6 +194,7 @@ html, body {
     font-size: 12px;
     padding-bottom: 12px;
     color: #ccc;
+    cursor: text;
     @include font-kai;
   }
 
@@ -169,7 +202,6 @@ html, body {
     display: block;
     height: 12px;
     font-size: 12px;
-    //@include font-kai;
     font-family: 'Songti SC', 'Songti', 'Song', serif;
     color: #ccc;
     word-break: break-all;
@@ -184,13 +216,14 @@ html, body {
     margin-top: 3px;
     margin-bottom: 15px;
     max-width: 100%;
+    cursor: text;
   }
 
   @include e(pronunciation) {
     display: flex;
     align-items: center;
     margin-right: 20px;
-    cursor: pointer;
+    cursor: text;
   }
 
   @include e(flag) {
@@ -232,7 +265,7 @@ html, body {
       }
     }
 
-    [class*=circle] {
+    [class*='circle'] {
       fill: currentColor;
     }
 
@@ -245,7 +278,37 @@ html, body {
         visibility: visible;
       }
     }
+  }
 
+  @include e('status-indicator') {
+    transition: timing(0.3);
+  }
+
+  @include e(actions) {
+    position: absolute !important;
+    right: 10px;
+    bottom: 15px;
+    display: flex;
+    pointer-events: none;
+    opacity: 0;
+    transform: txy(-80%, 0);
+    align-items: center;
+    @include ts;
+    font-size: 12px;
+
+    .__icon-play {
+      font-size: 12px!important;
+
+      &.reverse {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  @include e('action-button') {
+    display: flex;
+    margin-left: 10px;
+    cursor: pointer;
   }
 }
 
@@ -257,7 +320,6 @@ html, body {
 }
 
 @include b(number, '') {
-
   align-self: end;
 
   @include e(text) {

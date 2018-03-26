@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapState from '@/utils/mapState'
+import VocabularyMachine from '@/utils/vocabulary'
 
 import Sidebar from '@/components/react/Sidebar'
 import VocabularyToolBar from '@/components/react/Vocabulary-Tool-Bar'
@@ -15,15 +16,15 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      links: ['words']
+      links: ['vocabulary']
     }
   }
 
   async componentDidMount() {
-    const words = await Storage.get('__T_R_VOCABULARY__')
+    const vocabulary = await VocabularyMachine.get()
     const { dispatch, currentLink } = this.props
 
-    dispatch({ type: 'getVocabulary', words })
+    dispatch({ type: 'updateVocabulary', vocabulary })
   }
 
   handleLink(link) {
@@ -41,6 +42,7 @@ class App extends Component {
         <VocabularyToolBar />
         <Vocabulary />
         <Sidebar currentLink={currentLink} links={links} handleLink={this.handleLink} />
+        {/* <iframe id="merriam" className="merriam" src="https://www.merriam-webster.com/dictionary/result" frameBorder="0" /> */}
       </div>
     )
   }

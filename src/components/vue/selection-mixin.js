@@ -5,30 +5,31 @@ export default {
     buttonPositionStyle() {
       const { buttonX, buttonY } = this.position
       return {
-        left: buttonX + 'px',
-        top: buttonY + 'px'
+        left: buttonX,
+        top: buttonY
       }
     },
 
     panelPositionStyle() {
       const { panelX, panelY, isTop, maxHeight } = this.position
+
       return {
-        left: panelX + 'px',
-        maxHeight: maxHeight + 'px',
-        [isTop ? 'top' : 'bottom']: panelY + 'px'
+        left: panelX,
+        maxHeight: maxHeight,
+        [isTop ? 'top' : 'bottom']: panelY
       }
     },
 
     resultPanelVisible() {
-      const { showPanel, selection, translateLoaded } = this
-      return translateLoaded && showPanel
+      const { panelVisible, selection, translateLoaded } = this
+      return translateLoaded && panelVisible
     }
   },
 
   data() {
     return {
       selection: '',
-      showPanel: false,
+      panelVisible: false,
       translateLoaded: false,
       position: {
         panelX: 0,
@@ -46,7 +47,18 @@ export default {
   methods: {
     hidePanel() {
       this.translateLoaded = false
-      this.showPanel = false
+      this.panelVisible = false
+    },
+
+    showPanel(text) {
+      this.panelVisible = true
+      this.translationResult = null
+      this.translateLoaded = false
+
+      chrome.runtime.sendMessage({ name: 'translate', text }, res => {
+        this.translationResult = res
+        this.translateLoaded = true
+      })
     },
 
     onMouseDown(e) {
@@ -61,13 +73,7 @@ export default {
         this.selection = text
 
         if (text) {
-          this.translationResult = null
-          this.translateLoaded = false
-
-          chrome.runtime.sendMessage({ name: 'translate', text }, res => {
-            this.translationResult = res
-            this.translateLoaded = true
-          })
+          this.showPanel(text)
         }
       }
     }

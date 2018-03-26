@@ -3,7 +3,10 @@
     class="__result" 
     @wheel.stop="e => e.preventDefault()" 
     @mouseup.stop="onMouseDown" 
-    :class="{ '__result--invisible': !visible }"
+    :class="{ 
+      '__result--invisible': !visible, 
+      '__is-dialog': isDialog 
+    }"
   >
     <!-- 头部 -->
     <div class="__result_origin">
@@ -28,7 +31,13 @@
       <div class="__result_chinese __result_chinese--brief">{{currentEnglishMeaning}}</div>
 
       <!-- 收藏 -->
-      <div class="__result_star __tooltip __left" :class="{ '__result_star--ed' : inCollection }" :tooltip="inCollection ? '从生词簿内删除' : '加入生词簿'" v-if="inDict" @click.stop="toggleCollect">
+      <div 
+        class="__result_star __tooltip __left" 
+        :class="{ '__result_star--ed' : inCollection }" 
+        :tooltip="inCollection ? '从生词簿内删除' : '加入生词簿'" 
+        v-if="inDict && !$root.inExtension" 
+        @click.stop="toggleCollect"
+      >
         <i class="__icon" :class="[inCollection ? '__icon-star-solid' : '__icon-star']"></i>
       </div>
     </div>
@@ -104,6 +113,7 @@ import WordModel from '@/model/word'
 import TranslationModel from '@/model/translation'
 import selectionMixin from '@/components/vue/Selection-mixin'
 import { _removeTag, _abridgePOS, _uuid } from '@/utils'
+import { DELAY_MINS_IN_EVERY_STAGE } from '@/utils/constant'
 
 import { SOUGOU_SPOKEN_URL } from '@/api/host'
 
@@ -120,9 +130,14 @@ export default {
     text: {
       type: String,
       default: ''
+    },
+
+    isDialog: {
+      type: Boolean
     }
   },
 
+  // ------------------------ 计 算 -------------------------------------------------------------
   computed: {
     /**
      * @summary 经过典型结构洗礼的结果
@@ -170,8 +185,9 @@ export default {
             }
           }
         ],
-        usual: this.result.translate.dit
+        usual: this.simpleTranslate
       }
+
       return this.inDict ? this.resultAfterFixed.dictionary.content[0] : cotentWhileNotInDict
     },
 
@@ -203,7 +219,7 @@ export default {
 
       if (posNumber > 3) posNumber = 3
 
-      return map[posNumber]
+      return this.isDialog ? 999 : map[posNumber]
     },
 
     hasMoreItem() {
@@ -223,15 +239,16 @@ export default {
      * @summary 搜狗自己的翻译
      */
     simpleTranslate() {
-      return this.resultAfterFixed.translate.dit
+      return this.resultAfterFixed.translate.dit || '无释义'
     }
   },
 
+  // ------------------------ 数 据 --------------------------------------------------------
   data() {
     return {
       uuid: '',
       oxfordEle: null,
-      oldVocabulary: null,
+      currentVocabulary: null,
 
       expanded: false,
       currentEnglishMeaning: '',
@@ -243,6 +260,7 @@ export default {
     }
   },
 
+  // ------------------------ 生 命 周 期 --------------------------------------------------------
   async created() {
     this.uuid = this.gengerateUUID()
 
@@ -250,7 +268,7 @@ export default {
 
     await this.refreshVocabulary()
 
-    this.inCollection = this.oldVocabulary.some(word => word.t === this.text)
+    this.inCollection = this.currentVocabulary.some(word => word.t === this.text)
   },
 
   mounted() {
@@ -265,11 +283,10 @@ export default {
     document.removeEventListener('click', this.handleClickOutside)
   },
 
+  // ------------------------ 组 件 方 法 --------------------------------------------------------
   methods: {
     async refreshVocabulary() {
-      const oldVocabulary = await this.$storage.get('__T_R_VOCABULARY__')
-
-      this.oldVocabulary = oldVocabulary || []
+      this.currentVocabulary = (await this.$vocabulary.get()) || []
     },
 
     abridge(pos) {
@@ -323,29 +340,28 @@ export default {
     },
 
     async addToVocabulary() {
-      const word = new WordModel({
-        t: this.text,
+      const { text: word, currentVocabulary, phonetics, simpleTranslate, $vocabulary } = this
+
+      const wordObj = new WordModel({
+        t: word,
         r: window.location.href,
         e: _removeTag(this.oxfordTranslations[0].item.core[0].example[0].en),
-        p: JSON.stringify(this.phonetics),
-        d: this.simpleTranslate
+        p: JSON.stringify(phonetics),
+        d: simpleTranslate
       })
 
-      if (this.oldVocabulary.some(word => word.t === this.text)) {
-        console.warn('[T & R]:', 'Already in vocabular!')
-        return
+      if (await $vocabulary.has(word, currentVocabulary)) {
+        return console.warn('[T & R]:', 'Already in vocabular!')
       }
 
-      const newVocabulary = [word, ...this.oldVocabulary]
-
-      await this.$storage.set('__T_R_VOCABULARY__', newVocabulary)
+      await $vocabulary.add(wordObj, currentVocabulary)
 
       await this.refreshVocabulary()
 
       this.inCollection = true
 
       const initAlarmOption = {
-        delayInMinutes: 0.1,
+        delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[1],
         word: this.text
       }
 
@@ -353,16 +369,9 @@ export default {
     },
 
     async delWordInVocabulary() {
-      const index = this.oldVocabulary.findIndex(word => word.t === this.text)
+      const { text: word, currentVocabulary, $vocabulary } = this
 
-      if (index === -1) {
-        console.warn('[T & R]:', `【${this.text}】is not in the vocabulary!`)
-        return
-      }
-
-      this.oldVocabulary.splice(index, 1)
-
-      await this.$storage.set('__T_R_VOCABULARY__', this.oldVocabulary)
+      await $vocabulary.remove(word, currentVocabulary)
 
       await this.refreshVocabulary()
 

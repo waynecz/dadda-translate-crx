@@ -1,12 +1,13 @@
 import api from '@/api'
 import HotReload from './hot-reload'
-import StorageConstructor from '@/utils/storage'
+import VocabularyMachine from '@/utils/vocabulary'
 import Toast from '@/chrome/toast'
 import { _removeTRId, _hasTRId, _wrapTRId } from '@/utils'
 import { DELAY_MINS_IN_EVERY_STAGE } from '@/utils/constant'
 
+const vocabularyBackgroundURL = chrome.runtime.getURL('options/options.html')
+
 HotReload()
-const Storage = new StorageConstructor()
 
 /**
  * @summary chrome 通信
@@ -41,29 +42,40 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
 
 /**
  * @summary 定时吐司 Handler
+ * @param { alarm.name } 插件 ID 前缀加单词
  */
 chrome.alarms.onAlarm.addListener(async alarm => {
   if (_hasTRId(alarm.name)) {
-    const words = await Storage.get('__T_R_VOCABULARY__')
-    const wordText = _removeTRId(alarm.name)
-    const targetWord = words.find(word => word.t === wordText)
+    const currentVocabulary = await VocabularyMachine.get()
+    const word = _removeTRId(alarm.name)
+    const target = currentVocabulary.find(wordObj => wordObj.t === word)
 
-    const { t: text, d: translation, s: stage } = targetWord
+    const { d: translation, s: stage } = target
 
-    Toast(text, translation)
+    Toast(word, translation)
 
     // 一次弹出后立即进入下个阶段
     if (stage < 5) {
       targetWord.s = stage + 1
 
       chrome.alarms.create(alarm.name, {
-        delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[targetWord.s]
+        delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[target.s]
       })
 
-      // 注意这里 words 已经被更新了！！
-      Storage.set('__T_R_VOCABULARY__', words)
+      // 注意这里 vocabulary 已经被更新了！！
+      VocabularyMachine.save(currentVocabulary)
     } else {
-      chrome.runtime.sendMessage({ name: 'clearAlarm', word: wordText })
+      chrome.runtime.sendMessage({ name: 'clearAlarm', word })
     }
+  }
+})
+
+chrome.notifications.onClosed.addListener(async (notiId, byUser) => {
+  console.log('notiId', notiId)
+})
+
+chrome.notifications.onClicked.addListener(async notiId => {
+  if (_hasTRId(notiId)) {
+    chrome.tabs.create({ url: vocabularyBackgroundURL })
   }
 })

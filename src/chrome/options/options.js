@@ -2,18 +2,17 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { render } from 'react-dom'
 import { createStore } from 'redux'
-import StorageConstructor from '@/utils/storage'
+import VocabularyMachine from '@/utils/vocabulary'
 import vocabularyReducers from './reducers'
-
 import App from '@/components/react/App'
+
+import translator from '../content/content'
 
 import '@/styles/index_vocabulary.scss'
 
-window.Storage = new StorageConstructor()
-
-let Store = createStore(vocabularyReducers, {
-  currentLink: 'words',
-  words: [],
+const Store = createStore(vocabularyReducers, {
+  currentLink: 'vocabulary',
+  vocabulary: [],
   filter: {
     keyword: '',
     stage: 0
@@ -34,9 +33,7 @@ render(
 chrome.runtime.onMessage.addListener(async (request, sender, sendRes) => {
   const { name: type } = request
   if (type === 'vocabularyChange') {
-    const newWords = await Storage.get('__T_R_VOCABULARY__')
-    console.log('newWords', newWords)
-    window.Store.dispatch({ type: 'getVocabulary', words: newWords })
+    window.Store.dispatch({ type: 'updateVocabulary', vocabulary: await Vocabulary.get() })
     return true
   }
 })
