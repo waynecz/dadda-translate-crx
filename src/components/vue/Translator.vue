@@ -7,27 +7,32 @@
   >
     <div 
       @mouseup.stop="e => e" 
-      @click.stop="showPanel = true" 
+      @click.stop="panelVisible = true" 
       class="__transltor_button" 
       :style="buttonPositionStyle" 
-      v-if="!showPanel && selection"
+      v-if="!panelVisible && selection"
     >译</div>
-    <div class="__transltor_loading" :style="panelPositionStyle" v-if="!translateLoaded && selection">Loading</div>
-    <result-panel 
-      v-if="resultPanelVisible" 
-      :hide="hidePanelInRoot" 
-      :text="selection"
-      :is-dialog="resultAsDialog" 
-      :style="panelPositionStyle"
-      :isDialog="resultAsDialog" 
-      :result="translationResult"
-    ></result-panel>
+
+    <!-- <div class="__transltor_loading" :style="buttonPositionStyle" v-if="panelVisible && !translateLoaded && selection" /> -->
+
+    <transition name="fade-in">
+      <result-panel 
+        v-if="resultPanelVisible" 
+        :hide="hidePanelInRoot" 
+        :text="selection"
+        :is-dialog="resultAsDialog" 
+        :style="panelPositionStyle"
+        :isDialog="resultAsDialog" 
+        :result="translationResult"
+      ></result-panel>
+    </transition>
   </div>
 </template>
 
 <script>
 import selectionMixin from '@/components/vue/Selection-mixin'
 import { _calcPositionAsDialog } from '@/utils'
+import { TR_SETTING_IS_DIRECTLY_KEY } from '@/utils/constant'
 
 export default {
   name: 'translator',
@@ -41,8 +46,10 @@ export default {
     }
   },
 
-  created() {
+  async created() {
     this.$root.inExtension = window.location.href.includes(chrome.runtime.getURL(''))
+
+    this.$root.directlyTranslate = await this.$storage.get(TR_SETTING_IS_DIRECTLY_KEY)
 
     if (this.$root.inExtension) {
       window.translator = this

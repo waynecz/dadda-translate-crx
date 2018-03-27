@@ -6,9 +6,8 @@ const speak = (word, type) => {
   audio && audio.play()
 }
 
-const delWord = async e => {
-  e.stopPropagation()
-  await Vocabulary.remove(this.t)
+const delWord = async word => {
+  await Vocabulary.remove(word.t)
   window.Store.dispatch({ type: 'updateVocabulary', vocabulary: await Vocabulary.get() })
 }
 
@@ -113,7 +112,14 @@ let WordCard = ({ word }) => {
             <i className="__icon __icon-play" />
           </div>
           {/* 删除 */}
-          <div onClick={delWord.bind(word)} className="word_action-button __tooltip __left" tooltip="删除">
+          <div
+            onClick={e => {
+              e.stopPropagation()
+              delWord(word)
+            }}
+            className="word_action-button __tooltip __left"
+            tooltip="删除"
+          >
             <i className="__icon __icon-shanchu" />
           </div>
         </div>

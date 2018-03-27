@@ -15,14 +15,16 @@
   contain: layout;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 -1px 3px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 -1px 3px 0 rgba(0, 0, 0, 0.12);
 
   @include when(dialog) {
     --panel-width: 650px;
 
     position: relative;
     margin: auto;
-    box-shadow: 0 0 0 50vw rgba(0, 0, 0, .4), 0 2px 28px 0 rgba(137, 137, 137, 0.67);
+    box-shadow: 0 0 0 50vw rgba(0, 0, 0, 0.4),
+      0 2px 28px 0 rgba(137, 137, 137, 0.67);
 
     @include e(word) {
       font-size: 25px;
@@ -87,11 +89,11 @@
     background-position: 0 center;
 
     @include m(uk) {
-      background-image: url('chrome-extension://__MSG_@@extension_id__/assets/uk.png');
+      background-image: url("chrome-extension://__MSG_@@extension_id__/assets/uk.png");
     }
 
     @include m(usa) {
-      background-image: url('chrome-extension://__MSG_@@extension_id__/assets/usa.png');
+      background-image: url("chrome-extension://__MSG_@@extension_id__/assets/usa.png");
     }
   }
 
@@ -125,7 +127,7 @@
     overflow-y: auto;
     @include scroll-bar;
 
-    @include spec-selector('+', simple) {
+    @include spec-selector("+", simple) {
       margin-top: 10px;
     }
   }
@@ -151,7 +153,7 @@
     line-height: 16px;
   }
 
-  @include e('item-wrap') {
+  @include e("item-wrap") {
     flex-basis: 100%;
   }
 
@@ -167,7 +169,7 @@
     padding-left: 10px;
 
     &:hover {
-      background: rgba(200, 200, 200, .1);
+      background: rgba(200, 200, 200, 0.1);
     }
 
     &:not(:last-child) {
@@ -187,7 +189,7 @@
 
         &:nth-of-type(#{$i}):not(:last-of-type) {
           &::after {
-            content: '...';
+            content: "...";
           }
         }
       }
@@ -237,7 +239,7 @@
     cursor: pointer;
 
     &::after {
-      content: '';
+      content: "";
       display: block;
       width: 100%;
       border-bottom: 1px solid var(--line-color);
@@ -249,7 +251,7 @@
     }
   }
 
-  @include e('more-button') {
+  @include e("more-button") {
     position: absolute;
     top: 0;
     left: 50%;
@@ -262,12 +264,13 @@
     box-shadow: 0 0 0 5px #fff;
 
     &::after {
-      content: '';
+      content: "";
       margin: auto;
       display: block;
       width: 6px;
       height: 6px;
-      border-color: transparent var(--button-color) var(--button-color) transparent;
+      border-color: transparent var(--button-color) var(--button-color)
+        transparent;
       border-width: 1px;
       border-style: solid;
       transform: rotate(45deg) txy(-1px, -1px);

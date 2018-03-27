@@ -1,18 +1,55 @@
 import api from '@/api'
 import HotReload from './hot-reload'
-import VocabularyMachine from '@/utils/vocabulary'
+import Vocabulary from '@/utils/vocabulary'
+import Storage from '@/utils/storage'
 import Toast from '@/chrome/toast'
 import { _removeTRId, _hasTRId, _wrapTRId } from '@/utils'
-import { DELAY_MINS_IN_EVERY_STAGE } from '@/utils/constant'
+import { DELAY_MINS_IN_EVERY_STAGE, CAMBRIDGR_DICT_HOST, TR_SETTING_HAS_TOAST_KEY, TR_SETTING_IS_DIRECTLY_KEY } from '@/utils/constant'
+
+HotReload()
 
 const vocabularyBackgroundURL = chrome.runtime.getURL('options/options.html')
 
-HotReload()
+const setNewAlarm = ({ delayInMinutes, word }) => {
+  const alarmId = _wrapTRId(word)
+
+  chrome.alarms.clear(alarmId, wasCleared => {
+    chrome.alarms.create(alarmId, {
+      delayInMinutes,
+      periodInMinutes: delayInMinutes
+    })
+  })
+}
+
+const moveWord2NextStage = async word => {
+  const currentVocabulary = await Vocabulary.get()
+
+  const targetWordObj = currentVocabulary.find(wordObj => wordObj.t === word)
+
+  const { s: currentStage } = targetWordObj
+
+  targetWordObj.s = currentStage + 1
+
+  await Vocabulary.save(currentVocabulary)
+
+  const delayInMinutes = DELAY_MINS_IN_EVERY_STAGE[targetWordObj.s]
+
+  setNewAlarm({ delayInMinutes, word })
+}
+
+/**
+ * @summary 插件第一次安装时设置初始值
+ */
+chrome.runtime.onInstalled.addListener(async reason => {
+  if (reason.reason !== 'update') {
+    Storage.set(TR_SETTING_HAS_TOAST_KEY, true)
+    Storage.set(TR_SETTING_IS_DIRECTLY_KEY, false)
+  }
+})
 
 /**
  * @summary chrome 通信
  */
-/* eslint-disable no-undef */
 chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
   const { name: type } = request
   switch (type) {
@@ -24,16 +61,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
     }
 
     case 'setAlarm': {
-      let { delayInMinutes, word } = request.initAlarmOption
-      let wordWithId = _wrapTRId(word)
-      chrome.alarms.create(wordWithId, {
-        delayInMinutes
-      })
+      const { delayInMinutes, word } = request.alarmOption
+      setNewAlarm({ delayInMinutes, word })
       return true
     }
 
     case 'clearAlarm': {
-      let { word } = request
+      const { word } = request
       chrome.alarms.clear(_wrapTRId(word))
       return true
     }
@@ -41,41 +75,48 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
 })
 
 /**
- * @summary 定时吐司 Handler
+ * @summary 定时吐司
  * @param { alarm.name } 插件 ID 前缀加单词
  */
 chrome.alarms.onAlarm.addListener(async alarm => {
-  if (_hasTRId(alarm.name)) {
-    const currentVocabulary = await VocabularyMachine.get()
+  const toastLock = await Storage.get(TR_SETTING_HAS_TOAST_KEY)
+  if (_hasTRId(alarm.name) && toastLock) {
+    const currentVocabulary = await Vocabulary.get()
     const word = _removeTRId(alarm.name)
-    const target = currentVocabulary.find(wordObj => wordObj.t === word)
 
-    const { d: translation, s: stage } = target
+    const { d: translation } = currentVocabulary.find(wordObj => wordObj.t === word) || { d: '暂无翻译' }
 
     Toast(word, translation)
-
-    // 一次弹出后立即进入下个阶段
-    if (stage < 5) {
-      targetWord.s = stage + 1
-
-      chrome.alarms.create(alarm.name, {
-        delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[target.s]
-      })
-
-      // 注意这里 vocabulary 已经被更新了！！
-      VocabularyMachine.save(currentVocabulary)
-    } else {
-      chrome.runtime.sendMessage({ name: 'clearAlarm', word })
-    }
   }
 })
 
+/**
+ * @summary 点击关闭将单词推入下一步
+ */
 chrome.notifications.onClosed.addListener(async (notiId, byUser) => {
-  console.log('notiId', notiId)
+  if (_hasTRId(notiId) && byUser) {
+    const word = _removeTRId(notiId)
+    moveWord2NextStage(word)
+  }
 })
 
+/**
+ * @summary 删除这个单词
+ */
+chrome.notifications.onButtonClicked.addListener(async (notiId, btnId) => {
+  if (_hasTRId(notiId) && btnId === 0) {
+    const word = _removeTRId(notiId)
+    Vocabulary.remove(word)
+  }
+})
+
+/**
+ * @summary 点击 notification 打开剑桥辞典并且将单词推入下一步
+ */
 chrome.notifications.onClicked.addListener(async notiId => {
   if (_hasTRId(notiId)) {
-    chrome.tabs.create({ url: vocabularyBackgroundURL })
+    const word = _removeTRId(notiId)
+    chrome.tabs.create({ url: `${CAMBRIDGR_DICT_HOST}${word}` })
+    moveWord2NextStage(word)
   }
 })

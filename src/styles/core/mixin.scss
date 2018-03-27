@@ -65,12 +65,24 @@ $breakpoints: (
 }
 
 // 滚动条样式
-@mixin scroll-bar {
+@mixin non-scroll-bar {
   &::-webkit-scrollbar {
     display: none;
 
     &-thumb {
       display: none;
+    }
+  }
+}
+
+// 滚动条样式
+@mixin scroll-bar {
+  &::-webkit-scrollbar {
+    width: 5px;
+    background: #fff;
+
+    &-thumb {
+      background: $accent;
     }
   }
 }

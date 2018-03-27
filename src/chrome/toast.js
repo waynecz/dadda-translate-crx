@@ -10,7 +10,7 @@ export default (word, message) => {
     eventTime: Date.now() + 1000000,
     buttons: [
       {
-        title: '斩这个单词'
+        title: '😏 我已经会这个单词了!'
       }
     ]
   }

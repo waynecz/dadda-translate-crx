@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { render } from 'react-dom'
 import { createStore } from 'redux'
-import VocabularyMachine from '@/utils/vocabulary'
+import Vocabulary from '@/utils/vocabulary'
 import vocabularyReducers from './reducers'
 import App from '@/components/react/App'
 

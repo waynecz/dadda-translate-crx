@@ -1,4 +1,5 @@
 import { _calcPosition } from '@/utils'
+import { TR_SETTING_IS_DIRECTLY_KEY } from '@/utils/constant'
 
 export default {
   computed: {
@@ -50,14 +51,17 @@ export default {
       this.panelVisible = false
     },
 
-    showPanel(text) {
-      this.panelVisible = true
+    async showPanel(text) {
+      const { $root, $storage } = this
+      // 如果设置了直接翻译则直接显示结果面板
+      this.panelVisible = $root.count === 0 ? $root.directlyTranslate : await $storage.get(TR_SETTING_IS_DIRECTLY_KEY)
       this.translationResult = null
       this.translateLoaded = false
 
       chrome.runtime.sendMessage({ name: 'translate', text }, res => {
         this.translationResult = res
         this.translateLoaded = true
+        this.$root.count = ++$root.count
       })
     },
 

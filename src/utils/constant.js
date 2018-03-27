@@ -28,22 +28,30 @@ export const POS_MAP = {
 /**
  * @summary  吐司提醒时间
  */
-// export const DELAY_MINS_IN_EVERY_STAGE = {
-//   1: 5,
-//   2: 30,
-//   3: 60,
-//   4: 6 * 60,
-//   5: 12 * 60
-// }
-
 export const DELAY_MINS_IN_EVERY_STAGE = {
-  1: 0.1,
-  2: 0.2,
-  3: 0.3,
-  4: 0.4,
-  5: 0.5
+  1: 5,
+  2: 30,
+  3: 60,
+  4: 6 * 60,
+  5: 12 * 60
 }
+
+// export const DELAY_MINS_IN_EVERY_STAGE = {
+//   1: 0.1,
+//   2: 0.2,
+//   3: 0.3,
+//   4: 0.4,
+//   5: 0.5
+// }
 
 export const TR_ID_PREFIX = '__TR__'
 
-export const TR_STORAGE_KEY = '__T_R_VOCABULARY__'
+export const TR_STORAGE_KEY = '__TR_VOCABULARY__'
+
+// 是否启用划词直接翻译（不需要点击翻译按钮
+export const TR_SETTING_IS_DIRECTLY_KEY = '__TR_BUTTON__'
+
+// 是否启用吐司弹词
+export const TR_SETTING_HAS_TOAST_KEY = '__TR_TOAST__'
+
+export const CAMBRIDGR_DICT_HOST = 'https://dictionary.cambridge.org/us/dictionary/english-chinese-simplified/'

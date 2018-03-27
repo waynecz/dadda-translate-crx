@@ -23,10 +23,14 @@ class Storage {
     })
   }
 
-  async get(key, defaultValue = []) {
+  async get(key, defaultValue = undefined) {
     return new Promise((resolve, reject) => {
       chrome.storage[this.position].get(key, result => {
-        resolve(result[key] || defaultValue)
+        if (result[key] || typeof result[key] === 'boolean') {
+          resolve(result[key])
+        }
+
+        resolve(defaultValue)
       })
     })
   }
@@ -41,4 +45,4 @@ class Storage {
   }
 }
 
-export default Storage
+export default new Storage()

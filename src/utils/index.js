@@ -49,9 +49,7 @@ export const _calcPosition = e => {
     x = clientX - 10
   }
 
-  /**
-   * @summary 大于百分之六指高度时弹框出现在上面
-   */
+  // 大于百分之六指高度时弹框出现在上面
   if (clientY > innerHeight * 0.6) {
     isTop = false
     y = innerHeight - clientY + 30
@@ -67,7 +65,7 @@ export const _calcPosition = e => {
     buttonX: clientX + 'px',
     buttonY: clientY + 15 + 'px',
     isTop,
-    maxHeight
+    maxHeight: maxHeight + 'px'
   }
 }
 
@@ -134,7 +132,7 @@ export const _uuid = _ => {
 }
 
 /**
- * @summary 移除插件命名空间
+ * @summary 添加插件命名空间
  */
 export const _wrapTRId = str => TR_ID_PREFIX + str
 

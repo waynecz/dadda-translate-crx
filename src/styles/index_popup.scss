@@ -4,3 +4,39 @@
 @import 'font';
 @import 'tooltip';
 @import "switch";
+
+@include b(popup, '') {
+  width: 250px;
+  padding: 20px 15px 10px;
+
+  @include e(title) {
+    margin-top: 0;
+
+  }
+
+  @include e(item) {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  @include e(label) {
+    font-size: 14px;
+    flex-grow: 1;
+  }
+
+  @include e(content) {}
+
+  @include e(button) {
+    padding: 10px 0;
+    margin: 30px -5px 0;
+    text-align: center;
+    font-size: 13px;
+    background: $primary;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 -1px 3px 0 rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+  }
+}

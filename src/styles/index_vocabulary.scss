@@ -51,7 +51,7 @@ body {
     height: calc(100vh - 160px);
     overflow: auto;
 
-    @include scroll-bar;
+    @include non-scroll-bar;
 
     @include res(xm) {
       --colums: 4;

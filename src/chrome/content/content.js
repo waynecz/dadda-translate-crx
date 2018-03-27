@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import VocabularyMachine from '@/utils/vocabulary'
+import Vocabulary from '@/utils/vocabulary'
+import Storage from '@/utils/storage'
 import { _removeTag } from '@/utils'
 
 import '@/styles/index_translator.scss'
@@ -14,7 +15,8 @@ componentsContext.keys().forEach(path => {
 Vue.use({
   install: Vue => {
     Vue.filter('removeTag', _removeTag)
-    Vue.prototype.$vocabulary = VocabularyMachine
+    Vue.prototype.$vocabulary = Vocabulary
+    Vue.prototype.$storage = Storage
   }
 })
 
@@ -28,9 +30,16 @@ const initTranslator = _ => {
     el: '#__tr-container__',
     data() {
       return {
-        inExtension: false
+        inExtension: false,
+        count: 0,
+        directlyTranslate: false
       }
     },
+
+    created() {
+      window.$root = this
+    },
+
     template: '<translator/>'
   })
 

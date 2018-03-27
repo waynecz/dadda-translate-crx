@@ -96,14 +96,16 @@
       :style="buttonPositionStyle" 
       v-if="!showPanel && selection"
     >译</div>
-
-    <result-panel 
-      v-if="resultPanelVisible" 
-      :text="selection" 
-      :style="panelPositionStyle" 
-      :result="translationResult"
-      :hide="hidePanel" 
-    ></result-panel>
+    
+    <transition name="fade-in">
+      <result-panel 
+        v-if="resultPanelVisible" 
+        :text="selection" 
+        :style="panelPositionStyle" 
+        :result="translationResult"
+        :hide="hidePanel" 
+      ></result-panel>
+    </transition>
   </div>
 </template>
 
@@ -268,7 +270,7 @@ export default {
 
     await this.refreshVocabulary()
 
-    this.inCollection = this.currentVocabulary.some(word => word.t === this.text)
+    this.inCollection = this.currentVocabulary.some(wordObj => wordObj.t.toLowerCase() === this.text.toLowerCase())
   },
 
   mounted() {
@@ -359,13 +361,6 @@ export default {
       await this.refreshVocabulary()
 
       this.inCollection = true
-
-      const initAlarmOption = {
-        delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[1],
-        word: this.text
-      }
-
-      chrome.runtime.sendMessage({ name: 'setAlarm', initAlarmOption })
     },
 
     async delWordInVocabulary() {
@@ -376,8 +371,6 @@ export default {
       await this.refreshVocabulary()
 
       this.inCollection = false
-
-      chrome.runtime.sendMessage({ name: 'clearAlarm', word: this.text })
     },
 
     /**

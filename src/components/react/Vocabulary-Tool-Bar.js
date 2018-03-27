@@ -51,7 +51,7 @@ class VocabularyToolBar extends Component {
           ))}
         </div>
         <div className="count">
-          <NumberCount text="REMAIN WORDS" count={this.props.vocabulary.length} />
+          <NumberCount text="REMAINING WORDS" count={this.props.vocabulary.length} />
         </div>
       </div>
     )

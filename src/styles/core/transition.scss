@@ -1,7 +1,17 @@
+.fade-in {
+  &-enter-active {
+    transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &-enter {
+    opacity: 0;
+  }
+}
+
 .fade {
   &-enter-active,
   &-leave-active {
-    transition: 0.11s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   &-enter,
