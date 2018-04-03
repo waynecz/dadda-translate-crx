@@ -5,27 +5,23 @@
       '__is-dialog-wrap': resultAsDialog 
     }"
   >
-    <div 
-      @mouseup.stop="e => e" 
-      @click.stop="panelVisible = true" 
-      class="__transltor_button" 
-      :style="buttonPositionStyle" 
+
+    <translator-button
       v-if="!panelVisible && selection"
-    >译</div>
+      :style="buttonPositionStyle" 
+      @click="panelVisible = true"
+    />
 
-    <!-- <div class="__transltor_loading" :style="buttonPositionStyle" v-if="panelVisible && !translateLoaded && selection" /> -->
-
-    <transition name="fade-in">
-      <result-panel 
-        v-if="resultPanelVisible" 
-        :hide="hidePanelInRoot" 
-        :text="selection"
-        :is-dialog="resultAsDialog" 
-        :style="panelPositionStyle"
-        :isDialog="resultAsDialog" 
-        :result="translationResult"
-      ></result-panel>
-    </transition>
+    <div class="__transltor_loading" :style="buttonPositionStyle" v-if="!$root.inExtension && panelVisible && !translateLoaded && selection" />
+    <result-panel 
+      v-if="resultPanelVisible" 
+      :hide="hidePanelInRoot" 
+      :text="selection"
+      :is-dialog="resultAsDialog" 
+      :style="panelPositionStyle"
+      :isDialog="resultAsDialog" 
+      :result="translationResult"
+    ></result-panel>
   </div>
 </template>
 
@@ -49,7 +45,7 @@ export default {
   async created() {
     this.$root.inExtension = window.location.href.includes(chrome.runtime.getURL(''))
 
-    this.$root.directlyTranslate = await this.$storage.get(TR_SETTING_IS_DIRECTLY_KEY)
+    this.$root.translateDirectly = await this.$storage.get(TR_SETTING_IS_DIRECTLY_KEY)
 
     if (this.$root.inExtension) {
       window.translator = this

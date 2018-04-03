@@ -42,7 +42,6 @@ class App extends Component {
         <VocabularyToolBar />
         <Vocabulary />
         <Sidebar currentLink={currentLink} links={links} handleLink={this.handleLink} />
-        {/* <iframe id="merriam" className="merriam" src="https://www.merriam-webster.com/dictionary/result" frameBorder="0" /> */}
       </div>
     )
   }

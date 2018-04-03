@@ -11,7 +11,7 @@
     "16": "logo.png",
     "48": "logo.png"
   },
-  "web_accessible_resources": ["content/app.css", "fonts/*", "assets/*"],
+  "web_accessible_resources": ["logo.png", "content/app.css", "fonts/*", "assets/*"],
   "permissions": [
     "<all_urls>",
     "storage",

@@ -7,9 +7,9 @@
   display: flex;
   flex-flow: column;
   align-items: center;
-  background: #FFFFFF;
+  background: #ffffff;
   padding-top: 20px;
-  box-shadow: 0 2px 22px 0 rgba(15,35,95,0.11);
+  box-shadow: 0 2px 22px 0 rgba(15, 35, 95, 0.11);
   border-radius: 35% / 3.3%;
 
   @include e(logo) {
@@ -17,8 +17,9 @@
     height: 50px;
     margin-bottom: 30px;
     border-radius: 50%;
-    background: #FF8F29;
-    box-shadow: 0 25px 23px -12px rgba(255,143,41,0.67);
+    background: #fff;
+    content: url('chrome-extension://__MSG_@@extension_id__/assets/logo.png');
+    box-shadow: 0 19px 23px -12px rgba(58, 24, 212, 0.67);
   }
 
   @include e(menu) {
@@ -28,7 +29,7 @@
   }
 
   @include e(link) {
-    color: #F41E1E;
+    color: #f41e1e;
     padding: 0 20px;
 
     @include when(active) {

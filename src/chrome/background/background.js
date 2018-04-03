@@ -3,7 +3,7 @@ import HotReload from './hot-reload'
 import Vocabulary from '@/utils/vocabulary'
 import Storage from '@/utils/storage'
 import Toast from '@/chrome/toast'
-import { _removeTRId, _hasTRId, _wrapTRId } from '@/utils'
+import { _removeTRId, _hasTRId, _wrapTRId, _sleep } from '@/utils'
 import { DELAY_MINS_IN_EVERY_STAGE, CAMBRIDGR_DICT_HOST, TR_SETTING_HAS_TOAST_KEY, TR_SETTING_IS_DIRECTLY_KEY } from '@/utils/constant'
 
 HotReload()
@@ -54,7 +54,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
   const { name: type } = request
   switch (type) {
     case 'translate': {
-      api.sougouTranslate(request.text).then(res => {
+      api.sougouTranslate(request.text).then(async res => {
+        await _sleep(100)
         sendRes(res)
       })
       return true

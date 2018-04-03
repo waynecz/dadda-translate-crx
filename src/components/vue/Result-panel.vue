@@ -89,13 +89,12 @@
     </div>
 
     <!-- 画中画 -->
-    <div 
-      @mouseup.stop="e => e" 
-      @click.stop="showPanel = true" 
-      class="__transltor_button" 
+    
+    <translator-button
+      v-if="!panelVisible && selection"
       :style="buttonPositionStyle" 
-      v-if="!showPanel && selection"
-    >译</div>
+      @click="panelVisible = true"
+    />
     
     <transition name="fade-in">
       <result-panel 

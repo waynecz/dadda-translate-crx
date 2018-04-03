@@ -39,10 +39,10 @@ body {
   }
 
   @include e(content) {
-    --colums: 5;
+    --columns: 5;
 
     display: grid;
-    grid-template-columns: repeat(var(--colums), 1fr);
+    grid-template-columns: repeat(var(--columns), 1fr);
     grid-gap: 20px 25px;
     align-content: start;
     padding-top: 20px;
@@ -54,15 +54,42 @@ body {
     @include non-scroll-bar;
 
     @include res(xm) {
-      --colums: 4;
+      --columns: 4;
     }
 
     @include res(m) {
-      --colums: 3;
+      --columns: 3;
     }
 
     @include res(sm) {
-      --colums: 3;
+      --columns: 3;
+    }
+
+    &:empty {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 60px;
+      font-weight: bold;
+      color: #ddd;
+      font-family: 'Roboto', sans-serif;
+
+      &::before {
+        content: '';
+        display: block;
+        width: 200px;
+        height: 210px;
+        margin-right: 20px;
+        background-image: url('chrome-extension://__MSG_@@extension_id__/assets/404.png');
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        background-position: 0 center;
+        transform: ty(-20px);
+      }
+
+      &::after {
+        content: 'Meow! NOT FOUND';
+      }
     }
   }
 }
@@ -297,7 +324,7 @@ body {
     font-size: 12px;
 
     .__icon-play {
-      font-size: 12px!important;
+      font-size: 12px !important;
 
       &.reverse {
         transform: rotate(180deg);
@@ -335,5 +362,20 @@ body {
     margin-bottom: 0;
     margin-top: 15px;
     text-align: center;
+  }
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  font-size: 60px;
+
+  &_img {
+    width: 200px;
+    height: 210px;
+    background-image: url('chrome-extension://__MSG_@@extension_id__/assets/404.png');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: 0 center;
   }
 }

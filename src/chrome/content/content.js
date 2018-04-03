@@ -32,7 +32,7 @@ const initTranslator = _ => {
       return {
         inExtension: false,
         count: 0,
-        directlyTranslate: false
+        translateDirectly: false
       }
     },
 

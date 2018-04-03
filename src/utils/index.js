@@ -115,6 +115,14 @@ export const _abridgePOS = POS => {
   }
 }
 
+export const _sleep = time => {
+  return new Promise(resolve => {
+    setTimeout(_ => {
+      resolve()
+    }, time)
+  })
+}
+
 /**
  * @summary HOC 组件获取被包裹组件名字
  */

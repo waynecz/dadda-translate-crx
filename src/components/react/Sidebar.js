@@ -7,7 +7,7 @@ let Sidebar = ({ currentLink, links, handleLink }) => {
       <div className="side_logo" />
       <ul className="side_menu">
         {links.map(link => (
-          <li key={link} className={`side_link ${currentLink === link ? 'is-active' : ''}`}>
+          <li key={link} className={`side_link ${currentLink === link ? '__is-active' : ''}`}>
             {Icon({ name: link })}
           </li>
         ))}
