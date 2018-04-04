@@ -5,6 +5,7 @@
 <br>
 
 # Dadda（达达）
+> 当前为测试版本，建议上架应用商店后去下载应用商店的版本，以便以后更新，预计上架日期 ·4.12·
 
 ![Chrome 60+](https://img.shields.io/badge/chrome-60%2B-blue.svg?style=for-the-badge)
 ![Webpack 4.0+](https://img.shields.io/badge/webpack-4-brightgreen.svg?style=for-the-badge)
@@ -88,7 +89,7 @@ $ npm run build
 ## 可能还要做的
 
 * [ ] 面板内添加词根词缀
-* [ ] 上架谷歌应用商店
+* [ ] 上架谷歌应用商店（可以获得更新）
 * [ ] 生词簿导出 / 同步
 * [ ] 区分页面的开关
 
