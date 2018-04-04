@@ -22,6 +22,8 @@
 * 外链「词根词缀」
 * 颜值？
 
+<br>
+
 ## 截图
 
 ![presentation](https://raw.githack.com/waynecz/dadda-translate-crx/master/src/assets/presentation.gif)
