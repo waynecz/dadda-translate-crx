@@ -3,9 +3,8 @@
   position: relative;
   width: var(--size);
   height: 10px;
-  background: #d2d2d2;
+  background: #d8d8d8;
   border-radius: 10px;
-   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
   cursor: pointer;
 
   &::before {
@@ -29,7 +28,6 @@
     top: 50%;
     transform: ty(-50%);
     background: #9d9d9d;
-    box-shadow: 0 3px 5px -1px rgba(173, 176, 173, 0.72);
     @include ts;
   }
 
@@ -50,7 +48,6 @@
 
     &:after {
       background: $primary;
-      box-shadow: 0 3px 5px -1px rgba(73, 26, 221, 0.72);
       transform: txy(calc(var(--size) - 15px), -50%);
     }
 
@@ -88,7 +85,6 @@
   &.accent {
     &::after {
       background: #9d9d9d;
-      box-shadow: 0 3px 5px -1px rgba(173, 176, 173, 0.72);
     }
 
     &:hover {
@@ -102,7 +98,6 @@
 
       &:after {
         background: $accent;
-        box-shadow: 0 3px 5px -1px rgba(175, 126, 19, 0.72);
       }
     }
   }

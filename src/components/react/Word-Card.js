@@ -23,8 +23,6 @@ const setStage = async (word, flag = false) => {
 
 // 显示弹框
 const lookDetailInDialog = word => {
-  window.translator.selection = word.t
-
   window.translator.showPanelAsDialog(word.t)
 }
 
@@ -41,11 +39,12 @@ let WordCard = ({ word }) => {
             <div
               key={phonetic.text + i}
               onClick={e => {
+                if (!phonetic.filename) return
                 e.stopPropagation()
                 speak(word.t, phonetic.type)
               }}
               className="word_pronunciation __tooltip __top"
-              tooltip="点击发音"
+              tooltip={phonetic.filename ? '点击发音' : '暂无发音'}
             >
               <div className={`word_flag word_flag--${phonetic.type}`} />
               <div className="word_phonetic">[{phonetic.text}]</div>
@@ -93,7 +92,7 @@ let WordCard = ({ word }) => {
               e.stopPropagation()
               setStage(word, true)
             }}
-            className="word_action-button __tooltip __left"
+            className={`word_action-button __tooltip __left ${word.s === 1 && 'hidden'}`}
             tooltip="上一阶段"
           >
             <i className="__icon __icon-play reverse" />
@@ -105,7 +104,7 @@ let WordCard = ({ word }) => {
               e.stopPropagation()
               setStage(word, false)
             }}
-            className="word_action-button __tooltip __left"
+            className={`word_action-button __tooltip __left ${word.s === 5 && 'hidden'}`}
             tooltip="下一阶段"
           >
             <i className="__icon __icon-play" />

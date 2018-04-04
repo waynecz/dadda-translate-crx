@@ -53,6 +53,10 @@ $breakpoints: (
     'AR PL KaitiM GB', KaiTi, KaiTi_GB2312, DFKai-SB, 'TW\-Kai', serif !important;
 }
 
+@mixin font-normal {
+  font-family: -apple-system, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Arial, sans-serif;
+}
+
 // 最常用transition
 @mixin ts {
   transition: 0.2s most-useful-timing();
@@ -62,6 +66,10 @@ $breakpoints: (
   width: $d;
   height: $d;
   border-radius: 50%;
+}
+
+@mixin paw {
+  cursor: url('chrome-extension://__MSG_@@extension_id__/assets/paw.png'), pointer;
 }
 
 // 滚动条样式

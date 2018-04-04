@@ -2,7 +2,7 @@ import { TR_ID_PREFIX } from '@/utils/constant'
 
 export default (word, message) => {
   const options = {
-    iconUrl: 'http://www.google.com/favicon.ico',
+    iconUrl: 'http://p5grwrmf4.bkt.clouddn.com/dadda-ico.png',
     type: 'basic',
     title: word,
     message,

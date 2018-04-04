@@ -60,21 +60,35 @@ class Vocabulary {
   }
 
   // 改变词汇阶段
-  async setStage({ word, stage }, vocabulary) {
+  async setStage({ word, stage, acc = false }, vocabulary) {
     const currentVocabulary = vocabulary || (await this.get())
 
     const wordObj = currentVocabulary.find(wordObj => wordObj.t === word)
 
-    wordObj.s = stage > 5 ? 5 : stage
+    if (acc) stage = wordObj.s + 1
+
+    let nextStage = 1
+
+    if (stage <= 5 && stage >= 1) {
+      nextStage = stage
+    } else if (stage > 5) {
+      nextStage = 5
+    } else {
+      nextStage = 1
+    }
+
+    wordObj.s = nextStage
 
     const alarmOption = {
-      delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[stage],
+      delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[nextStage],
       word
     }
 
     chrome.runtime.sendMessage({ name: 'setAlarm', alarmOption })
 
-    return this.save(currentVocabulary)
+    this.save(currentVocabulary)
+
+    return nextStage
   }
 }
 

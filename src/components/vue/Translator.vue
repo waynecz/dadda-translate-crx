@@ -7,12 +7,17 @@
   >
 
     <translator-button
-      v-if="!panelVisible && selection"
+      :class="{ 'show': !panelVisible && selection }"
       :style="buttonPositionStyle" 
       @click="panelVisible = true"
     />
 
-    <div class="__transltor_loading" :style="buttonPositionStyle" v-if="!$root.inExtension && panelVisible && !translateLoaded && selection" />
+    <div 
+      class="__transltor_loading" 
+      :style="buttonPositionStyle" 
+      v-if="!$root.inExtension && panelVisible && !translateLoaded && selection" 
+    />
+
     <result-panel 
       v-if="resultPanelVisible" 
       :hide="hidePanelInRoot" 
@@ -28,7 +33,7 @@
 <script>
 import selectionMixin from '@/components/vue/Selection-mixin'
 import { _calcPositionAsDialog } from '@/utils'
-import { TR_SETTING_IS_DIRECTLY_KEY } from '@/utils/constant'
+import { TR_SETTING_IS_DIRECTLY_KEY, TR_SETTING_IS_ENABLE_KEY } from '@/utils/constant'
 
 export default {
   name: 'translator',
@@ -45,7 +50,7 @@ export default {
   async created() {
     this.$root.inExtension = window.location.href.includes(chrome.runtime.getURL(''))
 
-    this.$root.translateDirectly = await this.$storage.get(TR_SETTING_IS_DIRECTLY_KEY)
+    this.$root.translateEnable = await this.$storage.get(TR_SETTING_IS_ENABLE_KEY, true)
 
     if (this.$root.inExtension) {
       window.translator = this
@@ -53,21 +58,21 @@ export default {
   },
 
   mounted() {
-    const { onMouseDown } = this
+    const { onMouseUp } = this
 
-    document.addEventListener('mouseup', onMouseDown)
+    document.addEventListener('mouseup', onMouseUp)
   },
 
   methods: {
     hidePanelInRoot() {
-      this.hidePanel()
       this.resultAsDialog = false
+      this.hidePanel()
     },
 
     showPanelAsDialog(text) {
+      this.selection = text
       this.resultAsDialog = true
       this.position = _calcPositionAsDialog()
-      this.selection = text
       this.showPanel(text)
     }
   }

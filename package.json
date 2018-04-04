@@ -1,7 +1,7 @@
 {
   "name": "translate-and-remember",
   "version": "0.0.1",
-  "description": "Rich your vocabulary by this extension",
+  "description": "translate and remember",
   "scripts": {
     "dev": "node_modules/.bin/webpack --progress --config build/webpack.dev.js",
     "build": "rm -rf ./dist && node_modules/.bin/webpack --config build/webpack.production.js"
@@ -9,6 +9,13 @@
   "keywords": ["translate", "chrome-extension", "learning-english"],
   "author": "Waynecz",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/waynecz/dadda-translate-crx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/waynecz/dadda-translate-crx/issues"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "lodash-es": "^4.17.7",

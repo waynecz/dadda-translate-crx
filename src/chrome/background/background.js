@@ -3,36 +3,20 @@ import HotReload from './hot-reload'
 import Vocabulary from '@/utils/vocabulary'
 import Storage from '@/utils/storage'
 import Toast from '@/chrome/toast'
+import setNewAlarm from '@/chrome/alarm'
 import { _removeTRId, _hasTRId, _wrapTRId, _sleep } from '@/utils'
-import { DELAY_MINS_IN_EVERY_STAGE, CAMBRIDGR_DICT_HOST, TR_SETTING_HAS_TOAST_KEY, TR_SETTING_IS_DIRECTLY_KEY } from '@/utils/constant'
+import { SOUGOU_SPOKEN_URL, DICTIONARY_HOST } from '@/api/host'
+import { DELAY_MINS_IN_EVERY_STAGE, TR_SETTING_HAS_TOAST_KEY, TR_SETTING_IS_DIRECTLY_KEY, TR_SETTING_IS_ENABLE_KEY } from '@/utils/constant'
 
 HotReload()
 
+// 生词簿地址
 const vocabularyBackgroundURL = chrome.runtime.getURL('options/options.html')
 
-const setNewAlarm = ({ delayInMinutes, word }) => {
-  const alarmId = _wrapTRId(word)
-
-  chrome.alarms.clear(alarmId, wasCleared => {
-    chrome.alarms.create(alarmId, {
-      delayInMinutes,
-      periodInMinutes: delayInMinutes
-    })
-  })
-}
-
 const moveWord2NextStage = async word => {
-  const currentVocabulary = await Vocabulary.get()
+  const nextStage = await Vocabulary.setStage({ word, acc: true })
 
-  const targetWordObj = currentVocabulary.find(wordObj => wordObj.t === word)
-
-  const { s: currentStage } = targetWordObj
-
-  targetWordObj.s = currentStage + 1
-
-  await Vocabulary.save(currentVocabulary)
-
-  const delayInMinutes = DELAY_MINS_IN_EVERY_STAGE[targetWordObj.s]
+  const delayInMinutes = DELAY_MINS_IN_EVERY_STAGE[nextStage]
 
   setNewAlarm({ delayInMinutes, word })
 }
@@ -42,6 +26,7 @@ const moveWord2NextStage = async word => {
  */
 chrome.runtime.onInstalled.addListener(async reason => {
   if (reason.reason !== 'update') {
+    Storage.set(TR_SETTING_IS_ENABLE_KEY, true)
     Storage.set(TR_SETTING_HAS_TOAST_KEY, true)
     Storage.set(TR_SETTING_IS_DIRECTLY_KEY, false)
   }
@@ -55,7 +40,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
   switch (type) {
     case 'translate': {
       api.sougouTranslate(request.text).then(async res => {
-        await _sleep(100)
+        if (!request.inExtension) {
+          await _sleep(100)
+        }
         sendRes(res)
       })
       return true
@@ -117,7 +104,7 @@ chrome.notifications.onButtonClicked.addListener(async (notiId, btnId) => {
 chrome.notifications.onClicked.addListener(async notiId => {
   if (_hasTRId(notiId)) {
     const word = _removeTRId(notiId)
-    chrome.tabs.create({ url: `${CAMBRIDGR_DICT_HOST}${word}` })
+    chrome.tabs.create({ url: `${DICTIONARY_HOST}${word}` })
     moveWord2NextStage(word)
   }
 })

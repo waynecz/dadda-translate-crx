@@ -8,7 +8,7 @@
   flex-flow: column;
   max-width: var(--panel-width);
   min-width: var(--panel-width);
-  padding: 15px 25px 25px;
+  padding: 15px 25px 15px;
   color: #111;
   background: #fff;
   border-radius: 6px;
@@ -277,6 +277,23 @@
       &::after {
         transform: rotate(225deg) txy(-1px, -1px);
       }
+    }
+  }
+
+  @include e(footer) {
+    display: flex;
+    margin-top: 10px;
+    justify-content: flex-end;
+  }
+
+  @include e(cg) {
+    color: #aaa;
+    text-decoration: underline;
+    @include font-normal;
+    font-size: 12px;
+
+    &:hover {
+      color: $primary;
     }
   }
 }

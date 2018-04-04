@@ -47,25 +47,35 @@ export default {
 
   methods: {
     hidePanel() {
+      this.selection = ''
       this.translateLoaded = false
       this.panelVisible = false
     },
 
     async showPanel(text) {
       const { $root, $root: { count, translateDirectly, inExtension }, $storage } = this
+      const isDirectly = await $storage.get(TR_SETTING_IS_DIRECTLY_KEY)
       // 如果设置了直接翻译则直接显示结果面板
-      this.panelVisible = inExtension ? true : count === 0 ? translateDirectly : await $storage.get(TR_SETTING_IS_DIRECTLY_KEY)
+
+      if (inExtension) {
+        this.panelVisible = true
+      } else {
+        this.panelVisible = isDirectly
+      }
+
       this.translationResult = null
       this.translateLoaded = false
 
-      chrome.runtime.sendMessage({ name: 'translate', text }, res => {
+      chrome.runtime.sendMessage({ name: 'translate', text, inExtension }, res => {
         this.translationResult = res
         this.translateLoaded = true
         this.$root.count = ++$root.count
       })
     },
 
-    onMouseDown(e) {
+    onMouseUp(e) {
+      if (!this.$root.translateEnable && !this.$root.inExtension) return
+
       if (e.button === 0) {
         this.position = _calcPosition(e)
 

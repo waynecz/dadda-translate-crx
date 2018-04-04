@@ -69,10 +69,10 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 60px;
+      font-size: 40px;
       font-weight: bold;
       color: #ddd;
-      font-family: 'Roboto', sans-serif;
+      @include font-old;
 
       &::before {
         content: '';
@@ -88,7 +88,7 @@ body {
       }
 
       &::after {
-        content: 'Meow! NOT FOUND';
+        content: 'Meow~ Absolutely nothing!';
       }
     }
   }
@@ -274,6 +274,7 @@ body {
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 1px;
+    white-space: nowrap;
     @include font-kai;
   }
 
@@ -336,6 +337,10 @@ body {
     display: flex;
     margin-left: 10px;
     cursor: pointer;
+
+    &.hidden {
+      display: none;
+    }
   }
 }
 

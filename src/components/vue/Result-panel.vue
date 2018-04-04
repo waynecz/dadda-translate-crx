@@ -2,7 +2,7 @@
   <div 
     class="__result" 
     @wheel.stop="e => e.preventDefault()" 
-    @mouseup.stop="onMouseDown" 
+    @mouseup.stop="onMouseUp" 
     :class="{ 
       '__result--invisible': !visible, 
       '__is-dialog': isDialog 
@@ -88,10 +88,14 @@
       </div>
     </div>
 
+    <div class="__result_footer" v-if="inDict">
+      <a :href="CGDICT_HOST + this.text" target="_blank" class="__result_cg">点击查看词根词缀</a>
+    </div>
+
     <!-- 画中画 -->
     
     <translator-button
-      v-if="!panelVisible && selection"
+      :class="{ 'show': !panelVisible && selection }"
       :style="buttonPositionStyle" 
       @click="panelVisible = true"
     />
@@ -115,8 +119,7 @@ import TranslationModel from '@/model/translation'
 import selectionMixin from '@/components/vue/Selection-mixin'
 import { _removeTag, _abridgePOS, _uuid } from '@/utils'
 import { DELAY_MINS_IN_EVERY_STAGE } from '@/utils/constant'
-
-import { SOUGOU_SPOKEN_URL } from '@/api/host'
+import { SOUGOU_SPOKEN_URL, CGDICT_HOST } from '@/api/host'
 
 export default {
   name: 'result-panel',
@@ -135,6 +138,24 @@ export default {
 
     isDialog: {
       type: Boolean
+    }
+  },
+
+  // ------------------------ 数 据 --------------------------------------------------------
+  data() {
+    return {
+      uuid: '',
+      oxfordEle: null,
+      currentVocabulary: null,
+      CGDICT_HOST,
+
+      expanded: false,
+      currentEnglishMeaning: '',
+
+      visible: false,
+      inCollection: false,
+
+      translationStructure: null
     }
   },
 
@@ -241,23 +262,6 @@ export default {
      */
     simpleTranslate() {
       return this.resultAfterFixed.translate.dit || '无释义'
-    }
-  },
-
-  // ------------------------ 数 据 --------------------------------------------------------
-  data() {
-    return {
-      uuid: '',
-      oxfordEle: null,
-      currentVocabulary: null,
-
-      expanded: false,
-      currentEnglishMeaning: '',
-
-      visible: false,
-      inCollection: false,
-
-      translationStructure: null
     }
   },
 
