@@ -27,12 +27,13 @@
 ![presentation](https://raw.githack.com/waynecz/dadda-translate-crx/master/src/assets/presentation.gif)
 
 <details><summary>其他截图</summary><br>
-<img width="100%" src="https://raw.githack.com/waynecz/dadda-translate-crx/master/src/assets/vocabulary.jpg" alt="Dadda" />
-<img width="100%" src="https://raw.githack.com/waynecz/dadda-translate-crx/master/src/assets/toast.jpg" alt="Dadda" />
+<img width="100%" src="https://raw.githack.com/waynecz/dadda-translate-crx/master/src/assets/vocabulary.jpg" alt="生词簿" />
+<img width="100%" src="https://raw.githack.com/waynecz/dadda-translate-crx/master/src/assets/toast.jpg" alt="吐司" />
 <br>
 </details>
 
 <br>
+
 ## 下载
 
 * 手动[下载](https://github.com/waynecz/dadda-translate-crx/releases)安装
@@ -63,8 +64,8 @@
 </details>
 
 <details><summary>为什么叫达达</summary><br>
-达达是我主子，血统纯正的 <a href="https://baike.baidu.com/item/%E7%8B%B8%E8%8A%B1%E7%8C%AB/987844?fromtitle=%E4%B8%AD%E5%9B%BD%E7%8B%B8%E8%8A%B1%E7%8C%AB&fromid=4535437" target="_blank">Chines Li Hua</a>，放张照片
-<img width="100%" src="https://cdn.rawgit.com/waynecz/dadda-translate-crx/c8198112/src/assets/dadda.jpg" alt="Dadda" />
+达达是我主子，血统纯正的 <a href="https://baike.baidu.com/item/%E7%8B%B8%E8%8A%B1%E7%8C%AB/987844?fromtitle=%E4%B8%AD%E5%9B%BD%E7%8B%B8%E8%8A%B1%E7%8C%AB&fromid=4535437" target="_blank">Chines Li Hua</a>，放张照片，凡人们
+<img width="100%" src="https://raw.githack.com/waynecz/dadda-translate-crx/master/src/assets/dadda.jpg" alt="Dadda" />
 <br>
 </details>
 
