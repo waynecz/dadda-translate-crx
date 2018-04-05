@@ -37,15 +37,25 @@
 </template>
 
 <script>
-import { TR_SETTING_HAS_TOAST_KEY, TR_SETTING_IS_DIRECTLY_KEY, TR_SETTING_IS_ENABLE_KEY } from '@/utils/constant'
+import {
+  TR_SETTING_HAS_TOAST_KEY,
+  TR_SETTING_IS_DIRECTLY_KEY,
+  TR_SETTING_IS_ENABLE_KEY
+} from '@/utils/constant'
 
 export default {
   name: 'popup',
 
   async created() {
-    this.translateDirectly = await this.$storage.get(TR_SETTING_IS_DIRECTLY_KEY, false)
+    this.translateDirectly = await this.$storage.get(
+      TR_SETTING_IS_DIRECTLY_KEY,
+      false
+    )
     this.hasToast = await this.$storage.get(TR_SETTING_HAS_TOAST_KEY, true)
-    this.endableTranslate = await this.$storage.get(TR_SETTING_IS_ENABLE_KEY, true)
+    this.endableTranslate = await this.$storage.get(
+      TR_SETTING_IS_ENABLE_KEY,
+      true
+    )
   },
 
   data() {
@@ -72,7 +82,23 @@ export default {
 
   methods: {
     goVocabularry() {
-      chrome.tabs.create({ url: chrome.runtime.getURL('options/options.html') })
+      let isActive = false
+      const path = 'options/options.html'
+      chrome.tabs.query(
+        { windowId: chrome.windows.WINDOW_ID_CURRENT },
+        tabs => {
+          tabs.forEach(tab => {
+            if (tab.url && tab.url.indexOf(path) > -1) {
+              isActive = true
+              chrome.tabs.update(tab.id, { active: true })
+            }
+          })
+
+          if (!isActive) {
+            chrome.tabs.create({ url: chrome.runtime.getURL(path) })
+          }
+        }
+      )
     }
   }
 }
