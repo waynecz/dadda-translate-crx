@@ -115,6 +115,7 @@ module.exports = {
       },
       {
         from: 'assets',
+        ignore: ['toast.jpg', 'vocabulary.jpg', 'presentation.gif'],
         to: resolve('dist/assets')
       }
     ])

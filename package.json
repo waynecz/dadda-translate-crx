@@ -6,7 +6,11 @@
     "dev": "node_modules/.bin/webpack --progress --config build/webpack.dev.js",
     "build": "rm -rf ./dist && node_modules/.bin/webpack --config build/webpack.production.js"
   },
-  "keywords": ["translate", "chrome-extension", "learning-english"],
+  "keywords": [
+    "translate",
+    "chrome-extension",
+    "learning-english"
+  ],
   "author": "Waynecz",
   "license": "MIT",
   "repository": {
@@ -19,6 +23,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "lodash-es": "^4.17.7",
+    "raven-js": "^3.24.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",

@@ -1,14 +1,26 @@
-import { POS_MAP, TR_ID_PREFIX } from './constant'
+import { POS_MAP, TR_ID_PREFIX, TR_SETTING_BLACK_LIST_KEY } from './constant'
+import Storage from './storage'
 
 export const _hasEnglish = content => {
   return /[a-zA-Z]+/g.test(content)
 }
 
-/**
- * @summary 中英文混杂时剔除中文
- */
 export const _stripChinese = content => {
   return content.replace(/[\u4e00-\u9fa5]/gm, '').trim()
+}
+
+export const _isAllChinese = content => {
+  return /^[\u4e00-\u9fa5]+$/gm.test(content.trim())
+}
+
+export const _isAllNumber = content => {
+  return /^[\d]+$/gm.test(content.trim())
+}
+
+export const _isAllPunctuation = content => {
+  /* eslint-disable no-useless-escape */
+  const reg = /^([\[\]\,.?"\(\)+_*\/\\&\$#^@!%~`<>:;\{\}？，。·！￥……（）+｛｝【】、|《》]|(?!\s)'\s+|\s+'(?!\s))+$/gi
+  return /^[\d]+$/gm.test(content.trim())
 }
 
 /**
@@ -153,3 +165,29 @@ export const _hasTRId = str => str.slice(0, TR_ID_PREFIX.length) === TR_ID_PREFI
  * @summary 移除插件命名空间
  */
 export const _removeTRId = str => str.slice(TR_ID_PREFIX.length)
+
+/**
+ * @summary 解析 url
+ */
+export const _parseURL = url => {
+  // @ref http://harttle.land/2016/02/23/javascript-regular-expressions.html
+  const parseReg = /^(?:(.+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/
+  const result = parseReg.exec(url)
+  const fields = ['url', 'scheme', 'slash', 'host', 'port', 'path', 'query', 'hash']
+
+  return {
+    protocol: result[1],
+    host: result[3],
+    port: result[4],
+    path: result[5]
+  }
+}
+
+/**
+ * @summary 是否在黑名单里
+ */
+export const _inBlackList = async (host = window.location.host) => {
+  const blackList = await Storage.get(TR_SETTING_BLACK_LIST_KEY, {})
+
+  return blackList[host] || false
+}

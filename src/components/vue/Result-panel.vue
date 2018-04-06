@@ -12,10 +12,10 @@
     <div class="__result_origin">
       <h5 class="__result_word" :class="{ '__result_word--sentence': !inDict }">{{text}}</h5>
       <div 
-        class="__result_pronunciation __tooltip __top"
-        :tooltip="phonetic.filename ? '点击发音' : '暂无发音'"
         v-if="inDict" 
         v-for="(phonetic, i) in phonetics" 
+        class="__result_pronunciation __tooltip __top"
+        :tooltip="phonetic.filename ? '点击发音' : '暂无发音'"
         :key="phonetic.filename || i" 
         @click.stop="e => phonetic.filename ? speak(phonetic.type) : e"
       >
@@ -25,8 +25,14 @@
           :id="`x__result_${phonetic.type}-${uuid}`" 
           :src="`https:${phonetic.filename}`"
           class="__result_audio" 
-        ></audio>
+        />
       </div>
+      <audio 
+        v-if="!inDict"
+        :id="`x__result-${uuid}`" 
+        :src="dict.phonetic"
+        class="__result_audio" 
+      />
 
       <div class="__result_chinese __result_chinese--brief">{{currentEnglishMeaning}}</div>
 
@@ -118,7 +124,7 @@ import WordModel from '@/model/word'
 import TranslationModel from '@/model/translation'
 import selectionMixin from '@/components/vue/Selection-mixin'
 import { _removeTag, _abridgePOS, _uuid } from '@/utils'
-import { DELAY_MINS_IN_EVERY_STAGE } from '@/utils/constant'
+import { TR_SETTING_AUTO_SPEAK } from '@/utils/constant'
 import { SOUGOU_SPOKEN_URL, CGDICT_HOST } from '@/api/host'
 
 export default {
@@ -191,7 +197,7 @@ export default {
      */
     dict() {
       const cotentWhileNotInDict = {
-        phonetic: [`${SOUGOU_SPOKEN_URL}${this.text}`],
+        phonetic: `${SOUGOU_SPOKEN_URL}${this.text}`,
         content: [
           {
             item: {
@@ -273,14 +279,26 @@ export default {
 
     await this.refreshVocabulary()
 
-    this.inCollection = this.currentVocabulary.some(wordObj => wordObj.t.toLowerCase() === this.text.toLowerCase())
+    this.inCollection = this.currentVocabulary.some(
+      wordObj => wordObj.t.toLowerCase() === this.text.toLowerCase()
+    )
   },
 
   mounted() {
     document.addEventListener('click', this.handleClickOutside, false)
-    this.$nextTick(_ => {
+    this.$nextTick(async _ => {
       this.oxfordEle = this.$el.querySelector('.__result_oxford')
       this.visible = true
+
+      const autoSpeak = await this.$storage.get(TR_SETTING_AUTO_SPEAK, false)
+      if (autoSpeak) {
+        if (this.inDict) {
+          this.speak('uk')
+        } else {
+          const speaker = document.getElementById(`x__result-${this.uuid}`)
+          speaker && speaker.play()
+        }
+      }
     })
   },
 

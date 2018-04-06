@@ -32,8 +32,8 @@
 
 <script>
 import selectionMixin from '@/components/vue/Selection-mixin'
-import { _calcPositionAsDialog } from '@/utils'
-import { TR_SETTING_IS_DIRECTLY_KEY, TR_SETTING_IS_ENABLE_KEY } from '@/utils/constant'
+import { _calcPositionAsDialog, _inBlackList } from '@/utils'
+import { TR_SETTING_IS_DIRECTLY_KEY } from '@/utils/constant'
 
 export default {
   name: 'translator',
@@ -48,9 +48,10 @@ export default {
   },
 
   async created() {
+    // 判断是否在插件里面（生词簿）
     this.$root.inExtension = window.location.href.includes(chrome.runtime.getURL(''))
 
-    this.$root.translateEnable = await this.$storage.get(TR_SETTING_IS_ENABLE_KEY, true)
+    this.$root.translateEnable = await _inBlackList()
 
     if (this.$root.inExtension) {
       window.translator = this

@@ -3,9 +3,9 @@
     <div class="popup_banner"/>
 
     <div class="popup_item">
-      <div class="popup_label">启用插件</div>
+      <div class="popup_label">当前站点禁用</div>
       <div class="popup_content">
-        <Switcher v-model="endableTranslate"/>
+        <Switcher v-model="disabledInThisSite"/>
       </div>
     </div>
 
@@ -13,6 +13,20 @@
       <div class="popup_label">是否直接翻译</div>
       <div class="popup_content">
         <Switcher v-model="translateDirectly"/>
+      </div>
+    </div>
+
+    <div class="popup_item">
+      <div class="popup_label">不翻译纯中文</div>
+      <div class="popup_content">
+        <Switcher v-model="skipChinese"/>
+      </div>
+    </div>
+
+    <div class="popup_item">
+      <div class="popup_label">自动朗读</div>
+      <div class="popup_content">
+        <Switcher v-model="autoSpeak"/>
       </div>
     </div>
 
@@ -40,29 +54,37 @@
 import {
   TR_SETTING_HAS_TOAST_KEY,
   TR_SETTING_IS_DIRECTLY_KEY,
-  TR_SETTING_IS_ENABLE_KEY
+  TR_SETTING_SKIP_CHINESE_KEY,
+  TR_SETTING_BLACK_LIST_KEY,
+  TR_SETTING_AUTO_SPEAK
 } from '@/utils/constant'
+
+import { _parseURL, _inBlackList } from '@/utils'
 
 export default {
   name: 'popup',
 
   async created() {
-    this.translateDirectly = await this.$storage.get(
-      TR_SETTING_IS_DIRECTLY_KEY,
-      false
-    )
+    this.translateDirectly = await this.$storage.get(TR_SETTING_IS_DIRECTLY_KEY, false)
     this.hasToast = await this.$storage.get(TR_SETTING_HAS_TOAST_KEY, true)
-    this.endableTranslate = await this.$storage.get(
-      TR_SETTING_IS_ENABLE_KEY,
-      true
-    )
+    this.skipChinese = await this.$storage.get(TR_SETTING_SKIP_CHINESE_KEY, false)
+    this.autoSpeak = await this.$storage.get(TR_SETTING_AUTO_SPEAK, false)
+
+    chrome.tabs.query({ active: true, windowId: chrome.windows.WINDOW_ID_CURRENT }, async tabs => {
+      const currentTab = tabs[0]
+      this.currentHost = _parseURL(currentTab.url).host
+      this.disabledInThisSite = await _inBlackList(this.currentHost)
+    })
   },
 
   data() {
     return {
+      currentHost: null,
       translateDirectly: false,
       hasToast: true,
-      endableTranslate: true
+      autoSpeak: false,
+      skipChinese: false,
+      disabledInThisSite: false
     }
   },
 
@@ -75,30 +97,38 @@ export default {
       this.$storage.set(TR_SETTING_HAS_TOAST_KEY, val)
     },
 
-    endableTranslate(val) {
-      this.$storage.set(TR_SETTING_IS_ENABLE_KEY, val)
+    skipChinese(val) {
+      this.$storage.set(TR_SETTING_SKIP_CHINESE_KEY, val)
+    },
+
+    autoSpeak(val) {
+      this.$storage.set(TR_SETTING_AUTO_SPEAK, val)
+    },
+
+    async disabledInThisSite(val) {
+      const blackList = await this.$storage.get(TR_SETTING_BLACK_LIST_KEY, {})
+      blackList[this.currentHost] = val
+
+      this.$storage.set(TR_SETTING_BLACK_LIST_KEY, blackList)
     }
   },
 
   methods: {
     goVocabularry() {
       let isActive = false
-      const path = 'options/options.html'
-      chrome.tabs.query(
-        { windowId: chrome.windows.WINDOW_ID_CURRENT },
-        tabs => {
-          tabs.forEach(tab => {
-            if (tab.url && tab.url.indexOf(path) > -1) {
-              isActive = true
-              chrome.tabs.update(tab.id, { active: true })
-            }
-          })
-
-          if (!isActive) {
-            chrome.tabs.create({ url: chrome.runtime.getURL(path) })
+      const vocabularyPath = chrome.runtime.getURL('options/options.html')
+      chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, tabs => {
+        tabs.forEach(tab => {
+          if (tab.url === vocabularyPath) {
+            isActive = true
+            chrome.tabs.update(tab.id, { active: true })
           }
+        })
+
+        if (!isActive) {
+          chrome.tabs.create({ url: vocabularyPath })
         }
-      )
+      })
     }
   }
 }

@@ -295,5 +295,9 @@
     &:hover {
       color: $primary;
     }
+
+    &:visited {
+      color: #aaa;
+    }
   }
 }

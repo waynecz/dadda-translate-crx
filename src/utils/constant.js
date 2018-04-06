@@ -7,11 +7,17 @@ export const TR_STORAGE_KEY = '__TR_VOCABULARY__'
 // 是否启用划词直接翻译（不需要点击翻译按钮
 export const TR_SETTING_IS_DIRECTLY_KEY = '__TR_BUTTON__'
 
-// 是否启用翻译翻译
-export const TR_SETTING_IS_ENABLE_KEY = '__TR_ENABLE__'
+// 网站黑名单
+export const TR_SETTING_BLACK_LIST_KEY = '__TR_DISABLED__'
 
 // 是否启用吐司弹词
 export const TR_SETTING_HAS_TOAST_KEY = '__TR_TOAST__'
+
+// 是否不翻译纯中文
+export const TR_SETTING_SKIP_CHINESE_KEY = '__TR_SKIP_CHINESE__'
+
+// 是否自动朗读
+export const TR_SETTING_AUTO_SPEAK = '__TR_SKIP_AUTO_SPEAK__'
 
 /**
  * @summary 词性 (part of speech) 对应中文

@@ -17,7 +17,7 @@ html {
 
   @include e(banner) {
     content: url('chrome-extension://__MSG_@@extension_id__/assets/banner.svg');
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 
   @include e(item) {
@@ -26,7 +26,7 @@ html {
     box-sizing: border-box;
     margin: 0 auto;
     align-items: center;
-    padding: 18px 30px;
+    padding: 10px 30px;
     margin-bottom: 15px;
     background: #ffffff;
     color: #555;
@@ -35,13 +35,23 @@ html {
   }
 
   @include e(label) {
-    font-size: 14px;
+    font-size: 12px;
+    transform: scale(0.9);
+    transform-origin: 0 50%;
     flex-grow: 1;
+  }
+
+  @include e(content) {
+    transform: scale(0.8);
   }
 
   @include e(footer) {
     display: flex;
     justify-content: center;
+
+    a:focus {
+      outline: none;
+    }
   }
 
   @include e(link) {
@@ -52,7 +62,7 @@ html {
 
   @include e(button) {
     box-sizing: border-box;
-    margin: 40px auto 20px;
+    margin: 30px auto 20px;
     width: 312px;
     padding: 15px 0;
     text-align: center;

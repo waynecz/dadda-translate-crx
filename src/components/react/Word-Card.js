@@ -26,11 +26,18 @@ const lookDetailInDialog = word => {
   window.translator.showPanelAsDialog(word.t)
 }
 
+// -------------------------------- 卡 片 代 码 ----------------------------------------------------
 let WordCard = ({ word }) => {
   const phonetics = JSON.parse(word.p)
 
   return (
-    <div className={`word word--${word.s}`} onClick={e => lookDetailInDialog(word)}>
+    <div
+      className={`word word--${word.s}`}
+      onMouseUp={e => {
+        e.stopPropagation()
+        lookDetailInDialog(word)
+      }}
+    >
       <div className="word_time">{new Date(word.c).toLocaleDateString()}</div>
       <div className="word_text">{word.t}</div>
       <div className="word_speaker">
@@ -38,7 +45,7 @@ let WordCard = ({ word }) => {
           return (
             <div
               key={phonetic.text + i}
-              onClick={e => {
+              onMouseUp={e => {
                 if (!phonetic.filename) return
                 e.stopPropagation()
                 speak(word.t, phonetic.type)
@@ -48,15 +55,25 @@ let WordCard = ({ word }) => {
             >
               <div className={`word_flag word_flag--${phonetic.type}`} />
               <div className="word_phonetic">[{phonetic.text}]</div>
-              <audio id={word.t + '_' + phonetic.type} src={'http:' + phonetic.filename} className="word_audio" />
+              <audio
+                id={word.t + '_' + phonetic.type}
+                src={'http:' + phonetic.filename}
+                className="word_audio"
+              />
             </div>
           )
         })}
       </div>
-      <div className="word_eg" onClick={e => e.stopPropagation()}>
+      <div className="word_eg" onMouseUp={e => e.stopPropagation()}>
         eg: {`${word.e} : ${word.d || '缺'}`}
       </div>
-      <a className="word_ref __tooltip __left" tooltip="单词出处" target="_blank" href={word.r} onClick={e => e.stopPropagation()}>
+      <a
+        className="word_ref __tooltip __left"
+        tooltip="单词出处"
+        target="_blank"
+        href={word.r}
+        onMouseUp={e => e.stopPropagation()}
+      >
         <i className="__icon __icon-ref" />
       </a>
 
@@ -74,21 +91,43 @@ let WordCard = ({ word }) => {
           <g fill="none" fillRule="evenodd">
             <g opacity=".067" className="circle-outer">
               <use className="circle-1" fill="#FF2C2C" xlinkHref="#status-a" />
-              <use fill="url(#status-b)" style={{ mixBlendMode: 'lighten' }} xlinkHref="#status-a" />
+              <use
+                fill="url(#status-b)"
+                style={{ mixBlendMode: 'lighten' }}
+                xlinkHref="#status-a"
+              />
             </g>
             <g opacity=".139">
               <use className="circle-2" fill="#FF2C2C" xlinkHref="#status-c" />
-              <use fill="url(#status-b)" style={{ mixBlendMode: 'lighten' }} xlinkHref="#status-c" />
+              <use
+                fill="url(#status-b)"
+                style={{ mixBlendMode: 'lighten' }}
+                xlinkHref="#status-c"
+              />
             </g>
-            <circle className="circle-3" cx="42.5" cy="44.5" r="29.5" fill="#FF2C2C" opacity=".367" />
-            <circle className="circle-4" cx="43.5" cy="38.5" r="21.5" fill="#FF2C2C" opacity=".745" />
+            <circle
+              className="circle-3"
+              cx="42.5"
+              cy="44.5"
+              r="29.5"
+              fill="#FF2C2C"
+              opacity=".367"
+            />
+            <circle
+              className="circle-4"
+              cx="43.5"
+              cy="38.5"
+              r="21.5"
+              fill="#FF2C2C"
+              opacity=".745"
+            />
           </g>
         </svg>
 
         <div className="word_actions">
           {/* 上一回合 */}
           <div
-            onClick={e => {
+            onMouseUp={e => {
               e.stopPropagation()
               setStage(word, true)
             }}
@@ -100,7 +139,7 @@ let WordCard = ({ word }) => {
           </div>
           {/* 下一回合 */}
           <div
-            onClick={e => {
+            onMouseUp={e => {
               e.stopPropagation()
               setStage(word, false)
             }}
@@ -112,7 +151,7 @@ let WordCard = ({ word }) => {
           </div>
           {/* 删除 */}
           <div
-            onClick={e => {
+            onMouseUp={e => {
               e.stopPropagation()
               delWord(word)
             }}
