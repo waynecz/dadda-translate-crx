@@ -44,17 +44,34 @@ $breakpoints: (
 
 // 字体
 @mixin font-old {
-  font-family: 'old-style', Baskerville, Georgia, 'Liberation Serif', 'Kaiti SC', STKaiti, 'AR PL UKai CN', 'AR PL UKai HK', 'AR PL UKai TW',
-    'AR PL UKai TW MBE', 'AR PL KaitiM GB', KaiTi, KaiTi_GB2312, DFKai-SB, 'TW\-Kai', serif !important;
+  font-family: 'old-style', Baskerville, Georgia, 'Liberation Serif', 'Kaiti SC', STKaiti,
+    'AR PL UKai CN', 'AR PL UKai HK', 'AR PL UKai TW', 'AR PL UKai TW MBE', 'AR PL KaitiM GB', KaiTi,
+    KaiTi_GB2312, DFKai-SB, 'TW\-Kai', serif !important;
 }
 
-@mixin font-kai {
-  font-family: Baskerville, Georgia, 'Liberation Serif', 'Kaiti SC', STKaiti, 'AR PL UKai CN', 'AR PL UKai HK', 'AR PL UKai TW', 'AR PL UKai TW MBE',
-    'AR PL KaitiM GB', KaiTi, KaiTi_GB2312, DFKai-SB, 'TW\-Kai', serif !important;
+@function font-kai() {
+  @return Baskerville, Georgia, 'Liberation Serif', 'Kaiti SC', STKaiti, 'AR PL UKai CN',
+    'AR PL UKai HK', 'AR PL UKai TW', 'AR PL UKai TW MBE', 'AR PL KaitiM GB', KaiTi, KaiTi_GB2312,
+    DFKai-SB, 'TW\-Kai', serif !important;
+}
+
+@function font-hei() {
+  @return -apple-system, 'Noto Sans', 'Helvetica Neue', Helvetica, 'Nimbus Sans L', Arial,
+    'Liberation Sans', 'PingFang SC', 'Hiragino Sans GB', 'Noto Sans CJK SC', 'Source Han Sans SC',
+    'Source Han Sans CN', 'Microsoft YaHei', 'Wenquanyi Micro Hei', 'WenQuanYi Zen Hei', 'ST Heiti',
+    SimHei, 'WenQuanYi Zen Hei Sharp', sans-serif;
+}
+
+@function font-song() {
+  @return Georgia, 'Nimbus Roman No9 L', 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC',
+    'Source Han Serif CN', STSong, 'AR PL New Sung', 'AR PL SungtiL GB', NSimSun, SimSun, 'TW\-Sung',
+    'WenQuanYi Bitmap Song', 'AR PL UMing CN', 'AR PL UMing HK', 'AR PL UMing TW',
+    'AR PL UMing TW MBE', PMingLiU, MingLiU, serif;
 }
 
 @mixin font-normal {
-  font-family: -apple-system, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Arial, sans-serif;
+  font-family: -apple-system, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Arial,
+    sans-serif;
 }
 
 // 最常用transition

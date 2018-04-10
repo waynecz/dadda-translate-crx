@@ -1,4 +1,5 @@
 @include b(result) {
+  --content-font: font-song();
   --panel-width: 550px;
 
   box-sizing: border-box;
@@ -8,7 +9,7 @@
   flex-flow: column;
   max-width: var(--panel-width);
   min-width: var(--panel-width);
-  padding: 15px 25px 15px;
+  padding: 15px 25px 12px;
   color: #111;
   background: #fff;
   border-radius: 6px;
@@ -16,6 +17,14 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   box-shadow: 0 12px 45px 0 rgba(0, 0, 0, 0.12);
+
+  &.hei {
+    --content-font: font-hei();
+  }
+
+  &.kai {
+    --content-font: font-kai();
+  }
 
   @include when(dialog) {
     --panel-width: 650px;
@@ -99,7 +108,7 @@
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 1px;
-    @include font-kai;
+    font-family: var(--content-font);
   }
 
   @include e(audio) {
@@ -162,7 +171,7 @@
     font-size: 14px;
     align-items: center;
     flex-wrap: wrap;
-    @include font-kai;
+    font-family: var(--content-font);
     margin-left: -10px;
     padding-left: 10px;
 
@@ -202,7 +211,7 @@
 
   @include e(chinese) {
     font-size: 13px;
-    @include font-kai;
+    font-family: var(--content-font);
 
     @include m(simple) {
       font-size: 16px;
@@ -282,8 +291,8 @@
 
   @include e(footer) {
     display: flex;
-    margin-top: 10px;
-    justify-content: flex-end;
+    margin-top: 15px;
+    justify-content: space-between;
   }
 
   @include e(cg) {
@@ -298,6 +307,34 @@
 
     &:visited {
       color: #aaa;
+    }
+  }
+
+  @include e('fonts-select') {
+    display: flex;
+  }
+
+  @include e(font) {
+    cursor: pointer;
+    color: #ddd;
+    padding: 3px;
+    font-size: 12px;
+    margin-left: 3px;
+
+    &:hover, &.active {
+      color: $primary;
+    }
+
+    &.song {
+      font-family: font-song();
+    }
+
+    &.kai {
+      font-family: font-kai();
+    }
+
+    &.hei {
+      font-family: font-hei();
     }
   }
 }

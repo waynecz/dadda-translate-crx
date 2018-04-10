@@ -67,7 +67,7 @@ export const _calcPosition = e => {
     y = innerHeight - clientY + 30
     maxHeight = innerHeight - y - 10
   } else {
-    y = clientY + 10
+    y = clientY + 15
     maxHeight = innerHeight - y - 10
   }
 

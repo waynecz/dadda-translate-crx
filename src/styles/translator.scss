@@ -13,12 +13,11 @@
     display: none;
     position: fixed;
     z-index: 10000;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    @include font-kai;
     background-color: #fff;
-    content: url('chrome-extension://__MSG_@@extension_id__/assets/logo.png');
+    content: url('chrome-extension://__MSG_@@extension_id__/assets/logo.svg');
     box-shadow: 0 12px 20px -8px mix($primary, transparent, 80);
     cursor: pointer;
     user-select: none;

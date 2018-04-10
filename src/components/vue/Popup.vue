@@ -38,7 +38,7 @@
     </div>
 
     <div class="popup_button" @click="goVocabularry">
-      <i class="__icon __icon-paw"/>
+      <i class="__icon __icon-mao"/>
       查看生词簿
     </div>
 

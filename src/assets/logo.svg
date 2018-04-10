@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="358px" height="356px" viewBox="0 0 358 356" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
+    <title>Logo-2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="179" cy="179" r="179"></circle>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Logo-2">
+            <g id="Group">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Oval-3" fill="#1A30D7" xlink:href="#path-1"></use>
+                <path d="M202.512449,430.727636 C191.422467,381.639235 218.101411,305.185179 234.835613,294.739909 C263.295783,291.820771 308.273967,244.725559 308.273967,196.49661 C308.273967,113.192324 266.155251,63.2704214 240.434493,46.6268982 C230.67897,40.314243 219.793911,83.3000751 222.580479,102.644589 C156.779897,94.1714547 127.057383,130.3025 115.962288,136.602285 C110.189604,132.034127 65.1973098,82.1444424 51.4130671,94.6045044 C43.6541126,126.076398 58.64228,225.178807 87.784892,251.10935 C79.0451953,281.126658 13.3483345,313.310006 6,317.693464" id="Path-11" fill="#FFFFFF" mask="url(#mask-2)"></path>
+                <path d="M243.750199,180.091783 C248.53516,180.242613 253.063266,175.6707 253.063266,170.072319 C253.063266,164.473938 248.68865,159.213359 243.142171,159.041943 C237.595693,158.870527 233.963462,164.790399 233.769367,169.524607 C233.575271,174.258815 238.965238,179.940952 243.750199,180.091783 Z" id="Oval-4" fill="#1A30D7" mask="url(#mask-2)" transform="translate(243.413770, 169.566857) rotate(-24.000000) translate(-243.413770, -169.566857) "></path>
+                <path d="M189.534133,208.038117 C195.333123,208.038117 200.882708,203.934959 200.882708,198.135969 C200.882708,192.336979 194.881156,186.700415 189.082166,186.700415 C183.283176,186.700415 178.485978,191.540687 178.485978,197.339677 C178.485978,203.138667 183.735144,208.038117 189.534133,208.038117 Z" id="Oval-4-Copy" fill="#1A30D7" mask="url(#mask-2)" transform="translate(189.684343, 197.369266) rotate(13.000000) translate(-189.684343, -197.369266) "></path>
+                <path d="M239.063155,217.354295 C243.69914,213.857497 244.584984,206.430311 242.765808,203.96778 C237.859518,201.92618 227.859093,204.950142 226.088076,213.441735 C228.579488,216.395723 232.82869,217.289409 239.063155,217.354295 Z" id="Oval-4-Copy-2" fill="#1A30D7" mask="url(#mask-2)" transform="translate(234.867577, 210.354099) rotate(-3.000000) translate(-234.867577, -210.354099) "></path>
+                <path d="M238,214 L241,221" id="Path-3" stroke="#1A30D7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" mask="url(#mask-2)"></path>
+                <circle id="Oval-11" fill="#1A30D7" opacity="0.101505888" mask="url(#mask-2)" cx="258" cy="190" r="6"></circle>
+                <circle id="Oval-11-Copy" fill="#1A30D7" opacity="0.0799365942" mask="url(#mask-2)" cx="208.5" cy="222.5" r="6.5"></circle>
+                <path d="M305,210.971102 L317.576452,209" id="Path-16" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" mask="url(#mask-2)"></path>
+                <path d="M304,214 L313.880628,215.564938" id="Path-16-Copy" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" mask="url(#mask-2)"></path>
+                <path d="M137.873048,129.718425 L124,112" id="Path-17" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" mask="url(#mask-2)"></path>
+                <path d="M142.597876,132.473053 L132.711855,112.257449" id="Path-17-Copy" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" mask="url(#mask-2)"></path>
+            </g>
+        </g>
+    </g>
+</svg>

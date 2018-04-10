@@ -13,27 +13,16 @@ import {
   TR_SETTING_IS_DIRECTLY_KEY,
   TR_SETTING_BLACK_LIST_KEY,
   TR_SETTING_SKIP_CHINESE_KEY,
-  TR_SETTING_AUTO_SPEAK
+  TR_SETTING_AUTO_SPEAK,
+  TR_SETTING_FONT_FAMILY
 } from '@/utils/constant'
 
 import HotReload from './hot-reload'
-import Raven from 'raven-js'
 
-let ENV = ''
-
-chrome.management.getSelf(self => {
-  ENV = self.installType
-  Raven.config('https://0a3767f6d4874292851ff6d0ed11bf96@sentry.io/1123040', {
-    allowDuplicates: true,
-    environment: ENV
-  }).install()
-})
-
+// 开发环境热加载
 HotReload()
 
-// 生词簿地址
-const vocabularyBackgroundURL = chrome.runtime.getURL('options/options.html')
-
+// 将单词推入下一个阶段
 const moveWord2NextStage = async word => {
   const nextStage = await Vocabulary.setStage({ word, acc: true })
 
@@ -52,8 +41,7 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_IS_DIRECTLY_KEY, false)
     Storage.set(TR_SETTING_SKIP_CHINESE_KEY, false)
     Storage.set(TR_SETTING_AUTO_SPEAK, false)
-
-    Raven.captureMessage('installed')
+    Storage.set(TR_SETTING_FONT_FAMILY, 'song')
   }
 })
 
@@ -64,13 +52,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
   const { name: type } = request
   switch (type) {
     case 'translate': {
-      Raven.captureMessage('translate', {
-        level: 'info',
-        tag: {
-          txt: request.text.slice(0, 20)
-        }
-      })
-
       api.sougouTranslate(request.text).then(async res => {
         if (!request.inExtension) {
           await _sleep(100)

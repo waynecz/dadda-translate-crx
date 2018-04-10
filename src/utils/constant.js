@@ -19,6 +19,9 @@ export const TR_SETTING_SKIP_CHINESE_KEY = '__TR_SKIP_CHINESE__'
 // 是否自动朗读
 export const TR_SETTING_AUTO_SPEAK = '__TR_SKIP_AUTO_SPEAK__'
 
+// 字体选择
+export const TR_SETTING_FONT_FAMILY = '__TR_FONT_FAMILY__'
+
 /**
  * @summary 词性 (part of speech) 对应中文
  */

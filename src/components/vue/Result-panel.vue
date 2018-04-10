@@ -3,10 +3,13 @@
     class="__result" 
     @wheel.stop="e => e.preventDefault()" 
     @mouseup.stop="onMouseUp" 
-    :class="{ 
-      '__result--invisible': !visible, 
-      '__is-dialog': isDialog 
-    }"
+    :class="[
+      { 
+        '__result--invisible': !visible, 
+        '__is-dialog': isDialog 
+      },
+      font
+    ]"
   >
     <!-- 头部 -->
     <div class="__result_origin">
@@ -96,6 +99,9 @@
 
     <div class="__result_footer" v-if="inDict">
       <a :href="CGDICT_HOST + this.text" target="_blank" class="__result_cg">点击查看词根词缀</a>
+      <div class="__result_fonts-select">
+        <div class="__result_font song" v-for="fontItem in fonts" :key="fontItem.label" :class="{'active' : font === fontItem.value}" @click="changeFont(fontItem.value)">{{fontItem.label}}</div>
+      </div>
     </div>
 
     <!-- 画中画 -->
@@ -124,7 +130,7 @@ import WordModel from '@/model/word'
 import TranslationModel from '@/model/translation'
 import selectionMixin from '@/components/vue/Selection-mixin'
 import { _removeTag, _abridgePOS, _uuid } from '@/utils'
-import { TR_SETTING_AUTO_SPEAK } from '@/utils/constant'
+import { TR_SETTING_AUTO_SPEAK, TR_SETTING_FONT_FAMILY } from '@/utils/constant'
 import { SOUGOU_SPOKEN_URL, CGDICT_HOST } from '@/api/host'
 
 export default {
@@ -154,6 +160,12 @@ export default {
       oxfordEle: null,
       currentVocabulary: null,
       CGDICT_HOST,
+      fonts: [
+        { value: 'song', label: 'S' },
+        { value: 'kai', label: 'K' },
+        { value: 'hei', label: 'H' }
+      ],
+      font: 'song',
 
       expanded: false,
       currentEnglishMeaning: '',
@@ -287,6 +299,7 @@ export default {
   mounted() {
     document.addEventListener('click', this.handleClickOutside, false)
     this.$nextTick(async _ => {
+      this.font = await this.$storage.get(TR_SETTING_FONT_FAMILY, 'song')
       this.oxfordEle = this.$el.querySelector('.__result_oxford')
       this.visible = true
 
@@ -412,6 +425,11 @@ export default {
       const audio = document.getElementById(`x__result_${type}-${this.uuid}`)
 
       audio && audio.play()
+    },
+
+    async changeFont(font) {
+      await this.$storage.set(TR_SETTING_FONT_FAMILY, font)
+      this.font = font
     }
   }
 }

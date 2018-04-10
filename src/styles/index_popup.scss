@@ -1,9 +1,9 @@
-@import 'core/mixin';
-@import 'core/transition';
+@import "core/mixin";
+@import "core/transition";
 
-@import 'font';
-@import 'tooltip';
-@import 'switch';
+@import "font";
+@import "tooltip";
+@import "switch";
 
 body,
 html {
@@ -11,12 +11,12 @@ html {
   padding: 0;
 }
 
-@include b(popup, '') {
+@include b(popup, "") {
   width: 350px;
   padding-bottom: 15px;
 
   @include e(banner) {
-    content: url('chrome-extension://__MSG_@@extension_id__/assets/banner.svg');
+    content: url("chrome-extension://__MSG_@@extension_id__/assets/banner.svg");
     margin-bottom: 20px;
   }
 
@@ -64,8 +64,10 @@ html {
     box-sizing: border-box;
     margin: 30px auto 20px;
     width: 312px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 15px 0;
-    text-align: center;
     font-size: 13px;
     background: $primary;
     color: #fff;
@@ -75,7 +77,7 @@ html {
 
     .__icon {
       margin-right: 5px;
-      font-size: 14px;
+      font-size: 20px;
     }
   }
 }
