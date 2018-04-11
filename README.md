@@ -46,8 +46,8 @@
 
 > 注意，如果你是上架之前就在使用插件的测试用户，在商店重新安装插件将会丢失原本的生词簿内容，暂无解决方法，请知悉！
 
-* Chrome 商店安装（正在审核）
-* [手动下载](https://github.com/waynecz/dadda-translate-crx/releases)安装
+* [Chrome 商店](https://chrome.google.com/webstore/detail/%E8%BE%BE%E8%BE%BE%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/cajhcjfcodjoalmhjekljnfkgjlkeajl)安装 （强烈建议此方法安装
+* [手动下载](https://github.com/waynecz/dadda-translate-crx/releases) 安装
 
 <br>
 
@@ -65,6 +65,8 @@
 > 当前有个强烈的需求是单词簿导出扇贝、Anki 格式，如果您拥有这方面的经验或者很想尝试开发这个，十分感谢如果能有你的帮助一起开发
 
 在你开始开发前，关于项目代码的情况，可以阅读[这份开发文档, 还没写，不用点](https://github.com/waynecz/dadda-translate-crx/blob/master/DEV.md)，当然也可直接联系我 🤪
+
+<br>
 
 ## 可能还要做的
 

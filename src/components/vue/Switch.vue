@@ -1,6 +1,6 @@
 
 <template>
-  <div class="switch" @click="toggle" :class="[{'disabled': disabled, 'on': status, 'plain': plain }, type]"></div>
+  <div class="switch" @click="toggle" :class="[{'disabled': disabled, 'on': status, 'plain': plain }, type]"/>
 </template>
 <script>
 export default {
