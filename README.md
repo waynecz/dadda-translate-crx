@@ -6,8 +6,6 @@
 
 # Dadda（达达）
 
-> 当前为测试版本，建议上架应用商店后去下载应用商店的版本，以便以后更新，预计上架日期 ·4.12·
-
 <br>
 
 ![Chrome 60+](https://img.shields.io/badge/chrome-60%2B-blue.svg?style=for-the-badge)
