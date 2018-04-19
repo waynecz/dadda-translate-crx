@@ -130,3 +130,18 @@ chrome.notifications.onClicked.addListener(async notiId => {
     moveWord2NextStage(word)
   }
 })
+
+/**
+ * @summary 移除 response header 中的 csp 策略，解决部分网站无法播放音频的问题
+ */
+chrome.webRequest.onHeadersReceived.addListener((details) => {
+  for (var i = 0; i < details.responseHeaders.length; i++) {
+    if (details.responseHeaders[i].name.toLowerCase() === 'content-security-policy') {
+      details.responseHeaders[i].value = details.responseHeaders[i].value.replace(/((media|default)-src[^;]+)/ig, '')
+    }
+  }
+
+  return {
+    responseHeaders: details.responseHeaders
+  }
+}, { urls: ['*://*/*'], types: ['main_frame', 'sub_frame'] }, ['blocking', 'responseHeaders'])
