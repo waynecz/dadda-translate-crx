@@ -137,7 +137,7 @@ chrome.notifications.onClicked.addListener(async notiId => {
 chrome.webRequest.onHeadersReceived.addListener((details) => {
   for (var i = 0; i < details.responseHeaders.length; i++) {
     if (details.responseHeaders[i].name.toLowerCase() === 'content-security-policy') {
-      details.responseHeaders[i].value = ''
+      details.responseHeaders[i].value = details.responseHeaders[i].value.replace(/((media|default)-src[^;]+)/ig, '')
     }
   }
 
