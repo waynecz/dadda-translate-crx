@@ -7,7 +7,7 @@
   >
 
     <translator-button
-      :class="{ 'show': !panelVisible && selection }"
+      :class="{ '__is-show': !panelVisible && selection }"
       :style="buttonPositionStyle" 
       @click="panelVisible = true"
     />

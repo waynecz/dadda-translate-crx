@@ -4,7 +4,6 @@ import withView from './@View'
 import mapState from '@/utils/mapState'
 
 import WordCard from './Word-Card'
-import Empty from './Empty'
 
 @withView
 @connect(mapState)
@@ -34,7 +33,9 @@ class Vocabulary extends Component {
       return (vocabulary.s === filter.stage || filter.stage === 0) && reg.test(vocabulary.t)
     })
 
-    return vocabularyFiltered.length ? vocabularyFiltered.map(vocabulary => <WordCard key={vocabulary.t} word={vocabulary} />) : null
+    return vocabularyFiltered.length
+      ? vocabularyFiltered.map((vocabulary, index) => <WordCard key={index} word={vocabulary} />)
+      : null
   }
 }
 

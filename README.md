@@ -8,6 +8,7 @@
 
 <br>
 
+![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg)
 ![Chrome 60+](https://img.shields.io/badge/chrome-60%2B-blue.svg?style=for-the-badge)
 ![Webpack 4.0+](https://img.shields.io/badge/webpack-4-brightgreen.svg?style=for-the-badge)
 
@@ -15,9 +16,11 @@
 
 <br>
 
+> = - 最近几个月没时间修 bug 了，见谅
+
 ## 特性
 
-* 自带「生词簿」，可同步至其他桌面 Chrome 设备
+* 自带「生词簿」
 * 基于记忆曲线的「吐司弹词」
 * 基于牛津字典的「英英翻译」、「例句」
 * 外链「词根词缀」
@@ -58,18 +61,18 @@
 
 <br>
 
-## 一起帮助完善这个插件
-
-> 当前有个强烈的需求是单词簿导出扇贝、Anki 格式，如果您拥有这方面的经验或者很想尝试开发这个，十分感谢如果能有你的帮助一起开发
-
-在你开始开发前，关于项目代码的情况，可以阅读[这份开发文档, 还没写，不用点](https://github.com/waynecz/dadda-translate-crx/blob/master/DEV.md)，当然也可直接联系我 🤪
+## 求一起帮助完善这个插件
 
 <br>
 
 ## 可能还要做的
 
 * [ ] 导出扇贝、Anki 格式的生词簿
-* [ ] 面板内添加词根词缀
+* [ ] 添加手动翻译框
+* [ ] 词根词缀
+* [ ] 其他翻译引擎
+* [ ] 添加快捷键
+* [ ] PDF 划词
 
 <br>
 

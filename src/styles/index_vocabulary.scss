@@ -45,11 +45,13 @@ body {
     display: grid;
     grid-template-columns: repeat(var(--columns), 1fr);
     grid-gap: 20px 25px;
+    grid-auto-rows: max-content;
     align-content: start;
+    height: calc(100vh - 160px);
     padding-top: 20px;
     padding-right: 15px;
     padding-left: calc(var(--padding-left) - 20px);
-    height: calc(100vh - 160px);
+    padding-bottom: 40px;
     overflow: auto;
 
     &.hei {

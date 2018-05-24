@@ -1,6 +1,6 @@
 {
   "name": "dadda-translate-crx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "translate and remember",
   "scripts": {
     "dev": "node_modules/.bin/webpack --progress --config build/webpack.dev.js",
@@ -23,6 +23,7 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
+    "url-parse": "^1.4.0",
     "vue": "^2.5.13"
   },
   "devDependencies": {

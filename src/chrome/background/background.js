@@ -14,7 +14,8 @@ import {
   TR_SETTING_BLACK_LIST_KEY,
   TR_SETTING_SKIP_CHINESE_KEY,
   TR_SETTING_AUTO_SPEAK,
-  TR_SETTING_FONT_FAMILY
+  TR_SETTING_FONT_FAMILY,
+  TR_STORAGE_KEY
 } from '@/utils/constant'
 
 import HotReload from './hot-reload'
@@ -42,6 +43,17 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_SKIP_CHINESE_KEY, false)
     Storage.set(TR_SETTING_AUTO_SPEAK, false)
     Storage.set(TR_SETTING_FONT_FAMILY, 'song')
+  } else {
+    // 兼容 1.0.0 版本的在 Chrome 云端同步的数据
+    chrome.storage['sync'].get(TR_STORAGE_KEY, async data => {
+      data = data || {}
+      const currentVocabulary = Vocabulary.get()
+      const synchronousVoca = data[TR_STORAGE_KEY] || []
+      if (synchronousVoca.length) {
+        await Vocabulary.save([...currentVocabulary, ...synchronousVoca])
+        await Storage.set(TR_STORAGE_KEY, [])
+      }
+    })
   }
 })
 

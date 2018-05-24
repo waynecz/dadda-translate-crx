@@ -1,5 +1,6 @@
 import { POS_MAP, TR_ID_PREFIX, TR_SETTING_BLACK_LIST_KEY } from './constant'
 import Storage from './storage'
+import URL from 'url-parse'
 
 export const _hasEnglish = content => {
   return /[a-zA-Z]+/g.test(content)
@@ -10,7 +11,7 @@ export const _stripChinese = content => {
 }
 
 export const _isAllChinese = content => {
-  return /^[\u4e00-\u9fa5]+$/gm.test(content.trim())
+  return /^[\u4e00-\u9fa5？，。·！￥……（）+｛｝【】、|《》]+$/gm.test(content.trim())
 }
 
 export const _isAllNumber = content => {
@@ -20,7 +21,7 @@ export const _isAllNumber = content => {
 export const _isAllPunctuation = content => {
   /* eslint-disable no-useless-escape */
   const reg = /^([\[\]\,.?"\(\)+_*\/\\&\$#^@!%~`<>:;\{\}？，。·！￥……（）+｛｝【】、|《》]|(?!\s)'\s+|\s+'(?!\s))+$/gi
-  return /^[\d]+$/gm.test(content.trim())
+  return reg.test(content.trim())
 }
 
 /**
@@ -170,23 +171,14 @@ export const _removeTRId = str => str.slice(TR_ID_PREFIX.length)
  * @summary 解析 url
  */
 export const _parseURL = url => {
-  // @ref http://harttle.land/2016/02/23/javascript-regular-expressions.html
-  const parseReg = /^(?:(.+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/
-  const result = parseReg.exec(url)
-  const fields = ['url', 'scheme', 'slash', 'host', 'port', 'path', 'query', 'hash']
-
-  return {
-    protocol: result[1],
-    host: result[3],
-    port: result[4],
-    path: result[5]
-  }
+  return new URL(url)
 }
 
 /**
  * @summary 是否在黑名单里
  */
-export const _inBlackList = async (host = window.location.host) => {
+export const _inBlackList = async host => {
+  host = host || new URL(location.href).host
   const blackList = await Storage.get(TR_SETTING_BLACK_LIST_KEY, {})
 
   return blackList[host] || false

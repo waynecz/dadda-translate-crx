@@ -22,7 +22,7 @@
     cursor: pointer;
     user-select: none;
 
-    &.show {
+    &.__is-show {
       display: flex;
     }
   }
