@@ -53,6 +53,7 @@ chrome.runtime.onInstalled.addListener(async reason => {
     if (synchronousVoca.length) {
       await Promise.all(
         synchronousVoca.map(wordObj => {
+          chrome.alarms.clear(_wrapTRId(wordObj.t))
           return Vocabulary.add(wordObj, null, wordObj.s)
         })
       )
