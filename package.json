@@ -1,6 +1,6 @@
 {
   "name": "dadda-translate-crx",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "translate and remember",
   "scripts": {
     "dev": "node_modules/.bin/webpack --progress --config build/webpack.dev.js",

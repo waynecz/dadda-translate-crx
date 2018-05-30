@@ -57,7 +57,7 @@ let WordCard = ({ word }) => {
               <div className="word_phonetic">[{phonetic.text}]</div>
               <audio
                 id={word.t + '_' + phonetic.type}
-                src={'http:' + phonetic.filename}
+                src={'https:' + phonetic.filename}
                 className="word_audio"
               />
             </div>

@@ -43,18 +43,22 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_SKIP_CHINESE_KEY, false)
     Storage.set(TR_SETTING_AUTO_SPEAK, false)
     Storage.set(TR_SETTING_FONT_FAMILY, 'song')
-  } else {
-    // 兼容 1.0.0 版本的在 Chrome 云端同步的数据
-    chrome.storage['sync'].get(TR_STORAGE_KEY, async data => {
-      data = data || {}
-      const currentVocabulary = Vocabulary.get()
-      const synchronousVoca = data[TR_STORAGE_KEY] || []
-      if (synchronousVoca.length) {
-        await Vocabulary.save([...currentVocabulary, ...synchronousVoca])
-        await Storage.set(TR_STORAGE_KEY, [])
-      }
-    })
   }
+  // 兼容 1.0.0 版本的在 Chrome 云端同步的数据
+  chrome.storage['sync'].get(TR_STORAGE_KEY, async data => {
+    data = data || {}
+    const currentVocabulary = Vocabulary.get()
+    const synchronousVoca = data[TR_STORAGE_KEY] || []
+
+    if (synchronousVoca.length) {
+      await Promise.all(
+        synchronousVoca.map(wordObj => {
+          return Vocabulary.add(wordObj, null, wordObj.s)
+        })
+      )
+      chrome.storage.sync.set({ [TR_STORAGE_KEY]: [] })
+    }
+  })
 })
 
 /**
@@ -104,11 +108,7 @@ chrome.alarms.onAlarm.addListener(async alarm => {
     const currentVocabulary = await Vocabulary.get()
     const word = _removeTRId(alarm.name)
 
-    const { d: translation } = currentVocabulary.find(wordObj => wordObj.t === word) || {
-      d: '暂无翻译'
-    }
-
-    Toast(word, translation)
+    Toast(word, 'Click to see at dictionary.com')
   }
 })
 

@@ -8,13 +8,11 @@ class Word {
      * @name r 单词出处 URL
      * @name s stage 当前的阶段
      * @name p phonetic 发音
-     * @name d dit 简单中文翻译
      * @description stage: 分为5各阶段 分别是 5分钟-30分钟-1小时-6小时-12小时 每个阶段通过 notification 提醒一次
      */
     this.t = t
     this.e = e
     this.r = r
-    this.d = d
     this.p = p
     this.c = +new Date()
     this.s = 1

@@ -41,10 +41,10 @@
 
       <!-- 收藏 -->
       <div 
+        v-if="!$root.inExtension" 
         class="__result_star __tooltip __left" 
         :class="{ '__result_star--ed' : inCollection }" 
         :tooltip="inCollection ? '从生词簿内删除' : '加入生词簿'" 
-        v-if="inDict && !$root.inExtension" 
         @click.stop="toggleCollect"
       >
         <i class="__icon" :class="[inCollection ? '__icon-star-solid' : '__icon-star']"></i>
@@ -376,14 +376,23 @@ export default {
     },
 
     async addToVocabulary() {
-      const { text: word, currentVocabulary, phonetics, simpleTranslate, $vocabulary } = this
+      let { text: word, currentVocabulary, phonetics, simpleTranslate, $vocabulary } = this
+
+      if (typeof phonetics === 'string') {
+        phonetics = [
+          {
+            text: 'click to speak',
+            type: 'uk',
+            filename: phonetics.replace(/http(s?):/g, '')
+          }
+        ]
+      }
 
       const wordObj = new WordModel({
         t: word,
         r: window.location.href,
         e: _removeTag(this.oxfordTranslations[0].item.core[0].example[0].en),
-        p: JSON.stringify(phonetics),
-        d: simpleTranslate
+        p: JSON.stringify(phonetics)
       })
 
       if (await $vocabulary.has(word, currentVocabulary)) {

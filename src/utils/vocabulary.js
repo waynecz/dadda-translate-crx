@@ -23,7 +23,7 @@ class Vocabulary {
   }
 
   // 添加词汇
-  async add(wordObj, vocabulary) {
+  async add(wordObj, vocabulary, stage = 1) {
     const currentVocabulary = vocabulary || (await this.get())
 
     const newVocabulary = [wordObj, ...currentVocabulary]
@@ -31,7 +31,7 @@ class Vocabulary {
     await this.save(newVocabulary)
 
     const alarmOption = {
-      delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[1],
+      delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[stage],
       word: wordObj.t
     }
 
