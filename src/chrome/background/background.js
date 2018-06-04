@@ -69,6 +69,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
   const { name: type } = request
   switch (type) {
     case 'translate': {
+      chrome.cookies.get({ url: 'http://www.shanbay.com', name: 'auth_token' }, function(cookie) {
+        console.log('​Vocabulary -> asyncadd -> cookie', cookie)
+        if (cookie) {
+          api.addToShanbay(request.text, cookie.value)
+        } else {
+          console.warn(22)
+        }
+      })
       api.sougouTranslate(request.text).then(async res => {
         if (!request.inExtension) {
           await _sleep(100)

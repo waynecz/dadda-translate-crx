@@ -1,4 +1,4 @@
-import { google, sougou } from './client'
+import { google, sougou, shanbay } from './client'
 import { _sougouUuid } from '@/utils'
 
 export default {
@@ -42,5 +42,22 @@ export default {
     }, '')
 
     return sougou.post('/reventondc/translate', data)
+  },
+
+  shanbayTranslate(word) {
+    return shanbay(`/bdc/search/?word=${word}`)
+  },
+
+  addToShanbayVocabulary(id) {
+    return shanbay.post('/bdc/learning/', {
+      content_type: 'vocabulary',
+      id
+    })
+  },
+
+  delInShanbayVocabulary(learningId) {
+    return shanbay.put(`/bdc/learn/${learningId}`, {
+      retention: 1
+    })
   }
 }
