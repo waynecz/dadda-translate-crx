@@ -88,9 +88,8 @@ export default {
        * @summary 以下判断是否开启翻译关键语句
        * @param {inBlackList} 网站是在黑名单中则不翻译
        * @param {inExtension} 在插件页面中则不翻译
-       * @param {skipChinese} 是否不翻译纯中文
        * @param {isAllNumber} 全数字不翻译
-       * @param {skipChinese} 若开启全中文不翻译
+       * @param {skipChinese} 若开启全中文不翻译则不翻译
        */
       if ((inBlackList && !this.$root.inExtension) || this.resultAsDialog) return
 

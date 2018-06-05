@@ -12,7 +12,7 @@ html {
 }
 
 @include b(popup, '') {
-  width: 350px;
+  width: 330px;
   padding-bottom: 15px;
 
   @include e(banner) {
@@ -22,7 +22,7 @@ html {
 
   @include e(item) {
     display: flex;
-    width: 300px;
+    width: 200px;
     box-sizing: border-box;
     margin: 0 auto;
     align-items: center;
@@ -63,7 +63,7 @@ html {
   @include e(button) {
     box-sizing: border-box;
     margin: 30px auto 20px;
-    width: 312px;
+    width: 300px;
     display: flex;
     align-items: center;
     justify-content: center;

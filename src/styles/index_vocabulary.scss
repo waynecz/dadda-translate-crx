@@ -1,7 +1,10 @@
 @import 'core/mixin';
 @import 'font';
 @import 'side';
+@import './setting';
+@import 'switch';
 @import 'tooltip';
+@import 'toast';
 
 html,
 body {
@@ -196,6 +199,15 @@ body {
     }
   }
 
+  @include e(shanbay) {
+    display: none;
+    position: absolute !important;
+    left: 10px;
+    bottom: 10px;
+    cursor: pointer;
+    color: rgb(29, 168, 76);
+  }
+
   @include pseudo(hover) {
     @include e(actions) {
       opacity: 1;
@@ -207,6 +219,10 @@ body {
       transform: txy(100%, 100%);
       opacity: 0.5;
       pointer-events: none;
+    }
+
+    @include e(shanbay) {
+      display: block;
     }
   }
 

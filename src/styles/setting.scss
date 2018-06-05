@@ -1,0 +1,61 @@
+@include b(setting, '') {
+  @include e(card) {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 10px 20px 20px;
+    height: 110px;
+    background: #fff;
+    color: #111;
+    box-shadow: 0 17px 37px -12px rgba(104, 104, 104, 0.24);
+    border-radius: 10px;
+    border: 3px solid transparent;
+
+    &:hover {
+      border: 3px solid $primary;
+      box-shadow: 0 17px 37px -12px rgba(20, 30, 160, 0.24);
+
+      > .__icon {
+        color: $primary;
+        animation: spin 2s linear infinite;
+      }
+    }
+
+    > .__icon {
+      position: absolute;
+      bottom: 5px;
+      left: 7px;
+      color: #aaa;
+      font-size: 12px !important;
+    }
+  }
+
+  @include e(label) {
+    position: relative;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  @include e(tip) {
+    position: absolute;
+    font-weight: normal;
+    top: 27px;
+    color: #777;
+    left: 0;
+    width: 100%;
+    font-size: 12px;
+    white-space: nowrap;
+    transform-origin: 0 0;
+    transform: scale(0.9);
+
+    > a {
+      color: #666;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -99,6 +99,10 @@
 
     <div class="__result_footer" v-if="inDict">
       <a :href="CGDICT_HOST + this.text" target="_blank" class="__result_cg">点击查看词根词缀</a>
+      <transition name="fade">
+        <small v-if="error" class="__result_error">{{error}}</small>
+      </transition>
+
       <div class="__result_fonts-select">
         <div class="__result_font song" v-for="fontItem in fonts" :key="fontItem.label" :class="{'active' : font === fontItem.value}" @click="changeFont(fontItem.value)">{{fontItem.label}}</div>
       </div>
@@ -130,7 +134,7 @@ import WordModel from '@/model/word'
 import TranslationModel from '@/model/translation'
 import selectionMixin from '@/components/vue/Selection-mixin'
 import { _removeTag, _abridgePOS, _uuid } from '@/utils'
-import { TR_SETTING_AUTO_SPEAK, TR_SETTING_FONT_FAMILY } from '@/utils/constant'
+import { TR_SETTING_AUTO_SPEAK, TR_SETTING_FONT_FAMILY, TR_SETTING_SHANBAY } from '@/utils/constant'
 import { SOUGOU_SPOKEN_URL, CGDICT_HOST } from '@/api/host'
 
 export default {
@@ -173,7 +177,9 @@ export default {
       visible: false,
       inCollection: false,
 
-      translationStructure: null
+      translationStructure: null,
+
+      error: ''
     }
   },
 
@@ -283,6 +289,17 @@ export default {
     }
   },
 
+  // ------------------------ 监 听 -------------------------------------------------------------
+  watch: {
+    error(val) {
+      if (val) {
+        setTimeout(() => {
+          this.error = ''
+        }, 5000)
+      }
+    }
+  },
+
   // ------------------------ 生 命 周 期 --------------------------------------------------------
   async created() {
     this.uuid = this.gengerateUUID()
@@ -376,7 +393,14 @@ export default {
     },
 
     async addToVocabulary() {
-      let { text: word, currentVocabulary, phonetics, simpleTranslate, $vocabulary } = this
+      let {
+        text: word,
+        currentVocabulary,
+        phonetics,
+        simpleTranslate,
+        $vocabulary,
+        $storage
+      } = this
 
       if (typeof phonetics === 'string') {
         phonetics = [
@@ -404,6 +428,17 @@ export default {
       await this.refreshVocabulary()
 
       this.inCollection = true
+
+      const shouldAddToShanbay = await $storage.get(TR_SETTING_SHANBAY, false)
+
+      if (shouldAddToShanbay) {
+        chrome.runtime.sendMessage({ name: 'addToShanbay', word }, res => {
+          if (res.status_code !== 0) {
+            this.error = '扇贝词库同步失败，请稍后重试'
+            console.warn('添加扇贝失败，请稍后重试')
+          }
+        })
+      }
     },
 
     async delWordInVocabulary() {

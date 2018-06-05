@@ -2,6 +2,8 @@ import api from '@/api'
 
 import Vocabulary from '@/utils/vocabulary'
 import Storage from '@/utils/storage'
+import shanbay from '@/utils/shanbay.js'
+
 import Toast from '@/chrome/toast'
 import setNewAlarm from '@/chrome/alarm'
 
@@ -15,7 +17,9 @@ import {
   TR_SETTING_SKIP_CHINESE_KEY,
   TR_SETTING_AUTO_SPEAK,
   TR_SETTING_FONT_FAMILY,
-  TR_STORAGE_KEY
+  TR_STORAGE_KEY,
+  TR_SETTING_SHANBAY,
+  TR_SETTING_ENGLISH_MEANING
 } from '@/utils/constant'
 
 import HotReload from './hot-reload'
@@ -40,26 +44,29 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_BLACK_LIST_KEY, {})
     Storage.set(TR_SETTING_HAS_TOAST_KEY, true)
     Storage.set(TR_SETTING_IS_DIRECTLY_KEY, false)
-    Storage.set(TR_SETTING_SKIP_CHINESE_KEY, false)
+    Storage.set(TR_SETTING_SKIP_CHINESE_KEY, true)
+    Storage.set(TR_SETTING_SHANBAY, false)
     Storage.set(TR_SETTING_AUTO_SPEAK, false)
+    Storage.set(TR_SETTING_ENGLISH_MEANING, true)
     Storage.set(TR_SETTING_FONT_FAMILY, 'song')
   }
-  // 兼容 1.0.0 版本的在 Chrome 云端同步的数据
-  chrome.storage['sync'].get(TR_STORAGE_KEY, async data => {
-    data = data || {}
-    const currentVocabulary = Vocabulary.get()
-    const synchronousVoca = data[TR_STORAGE_KEY] || []
+})
 
-    if (synchronousVoca.length) {
-      await Promise.all(
-        synchronousVoca.map(wordObj => {
-          chrome.alarms.clear(_wrapTRId(wordObj.t))
-          return Vocabulary.add(wordObj, null, wordObj.s)
-        })
-      )
-      chrome.storage.sync.set({ [TR_STORAGE_KEY]: [] })
-    }
-  })
+// 兼容 1.0.0 版本的在 Chrome 云端同步的数据
+chrome.storage['sync'].get(TR_STORAGE_KEY, async data => {
+  data = data || {}
+  const currentVocabulary = Vocabulary.get()
+  const synchronousVoca = data[TR_STORAGE_KEY] || []
+
+  if (synchronousVoca.length) {
+    await Promise.all(
+      synchronousVoca.map(wordObj => {
+        chrome.alarms.clear(_wrapTRId(wordObj.t))
+        return Vocabulary.add(wordObj, null, wordObj.s)
+      })
+    )
+    chrome.storage.sync.set({ [TR_STORAGE_KEY]: [] })
+  }
 })
 
 /**
@@ -69,14 +76,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
   const { name: type } = request
   switch (type) {
     case 'translate': {
-      chrome.cookies.get({ url: 'http://www.shanbay.com', name: 'auth_token' }, function(cookie) {
-        console.log('​Vocabulary -> asyncadd -> cookie', cookie)
-        if (cookie) {
-          api.addToShanbay(request.text, cookie.value)
-        } else {
-          console.warn(22)
-        }
-      })
       api.sougouTranslate(request.text).then(async res => {
         if (!request.inExtension) {
           await _sleep(100)
@@ -95,6 +94,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
     case 'clearAlarm': {
       const { word } = request
       chrome.alarms.clear(_wrapTRId(word))
+      return true
+    }
+
+    case 'addToShanbay': {
+      const { word } = request
+      shanbay.addToShanbayVocabulary(word).then(res => {
+        sendRes(res)
+      })
+      return true
+    }
+
+    case 'delInShanbay': {
+      const { word } = request
+      shanbay.delInShanbayVocabulary(word).then(res => {
+        sendRes(res)
+      })
       return true
     }
 

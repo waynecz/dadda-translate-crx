@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Vocabulary from '@/utils/vocabulary'
+import Storage from '@/utils/storage'
+import { TR_SETTING_SHANBAY } from '@/utils/constant'
 
 const speak = (word, type) => {
   const audio = document.getElementById(`${word}_${type}`)
@@ -9,6 +11,15 @@ const speak = (word, type) => {
 const delWord = async word => {
   await Vocabulary.remove(word.t)
   window.Store.dispatch({ type: 'updateVocabulary', vocabulary: await Vocabulary.get() })
+  if (await Storage.get(TR_SETTING_SHANBAY, false)) {
+    chrome.runtime.sendMessage({ name: 'delInShanbay', word: word.t }, res => {
+      if (res.status_code !== 0) {
+        console.warn('同步扇贝失败，请至扇贝手动操作')
+      } else {
+        message.success('同步至扇贝成功')
+      }
+    })
+  }
 }
 
 /**
@@ -19,6 +30,16 @@ const setStage = async (word, flag = false) => {
   const stage = flag ? --word.s : ++word.s
   await Vocabulary.setStage({ word: word.t, stage })
   window.Store.dispatch({ type: 'updateVocabulary', vocabulary: await Vocabulary.get() })
+}
+
+const addToShanbay = word => {
+  chrome.runtime.sendMessage({ name: 'addToShanbay', word }, res => {
+    if (res.status_code !== 0) {
+      console.warn('添加扇贝失败，请稍后重试')
+    } else {
+      message.success('同步至扇贝成功')
+    }
+  })
 }
 
 // 显示弹框
@@ -65,7 +86,7 @@ let WordCard = ({ word }) => {
         })}
       </div>
       <div className="word_eg" onMouseUp={e => e.stopPropagation()}>
-        eg: {`${word.e} : ${word.d || '缺'}`}
+        eg: {`${word.e}`}
       </div>
       <a
         className="word_ref __tooltip __left"
@@ -76,6 +97,17 @@ let WordCard = ({ word }) => {
       >
         <i className="__icon __icon-ref" />
       </a>
+
+      <div
+        className="word_shanbay __tooltip __right"
+        tooltip="添加至扇贝单词"
+        onMouseUp={e => {
+          e.stopPropagation()
+          addToShanbay(word.t)
+        }}
+      >
+        <i className="__icon __icon-shanbay" />
+      </div>
 
       <div className={`word_status word_status--${word.s}`}>
         <svg className="word_status-indicator" width="50" viewBox="0 0 50 46">

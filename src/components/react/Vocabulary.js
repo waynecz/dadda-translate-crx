@@ -21,10 +21,6 @@ class Vocabulary extends Component {
     }
   }
 
-  async componentDidMount() {
-    const { dispatch, vocabulary, currentLink } = this.props
-  }
-
   render() {
     const { dispatch, vocabulary, currentLink, filter } = this.props
 

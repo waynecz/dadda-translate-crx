@@ -1,5 +1,5 @@
 const initState = {
-  currentLink: 'vocabulary',
+  currentLink: '',
   vocabulary: [],
   filter: {
     stage: 0,
@@ -12,7 +12,7 @@ const vocabularyReducers = (state = initState, action) => {
     case 'changeLink':
       return {
         ...state,
-        currentLink: action.payload
+        currentLink: action.link
       }
 
     case 'updateVocabulary':
