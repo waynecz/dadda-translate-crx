@@ -19,4 +19,10 @@ export const shanbay = axios.create({
 
 google.interceptors.response.use(res => res.data, error => error)
 sougou.interceptors.response.use(res => res.data, error => error)
-shanbay.interceptors.response.use(res => res.data, error => error)
+shanbay.interceptors.response.use(
+  res => res.data,
+  error => {
+    console.warn('同步扇贝失败，请至扇贝手动操作')
+    return Promise.reject(error)
+  }
+)

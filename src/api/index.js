@@ -56,7 +56,7 @@ export default {
   },
 
   delInShanbayVocabulary(learningId) {
-    return shanbay.put(`/bdc/learn/${learningId}`, {
+    return shanbay.put(`/bdc/learning/${learningId}`, {
       retention: 1
     })
   }

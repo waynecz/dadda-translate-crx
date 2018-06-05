@@ -321,7 +321,8 @@
     font-size: 12px;
     margin-left: 3px;
 
-    &:hover, &.active {
+    &:hover,
+    &.active {
       color: $primary;
     }
 
@@ -336,5 +337,10 @@
     &.hei {
       font-family: font-hei();
     }
+  }
+
+  @include e(error) {
+    font-size: 12px;
+    color: rgb(245, 51, 51);
   }
 }

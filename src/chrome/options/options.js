@@ -10,8 +10,17 @@ import translator from '../content/content'
 
 import '@/styles/index_vocabulary.scss'
 
+const query = {}
+window.location.search
+  .slice(1)
+  .split('&')
+  .forEach(string => {
+    const temp = string.split('=')
+    query[temp[0]] = temp[1]
+  })
+
 const Store = createStore(vocabularyReducers, {
-  currentLink: 'vocabulary',
+  currentLink: query.link || 'vocabulary',
   vocabulary: [],
   filter: {
     keyword: '',

@@ -22,6 +22,12 @@ export const TR_SETTING_AUTO_SPEAK = '__TR_SKIP_AUTO_SPEAK__'
 // 字体选择
 export const TR_SETTING_FONT_FAMILY = '__TR_FONT_FAMILY__'
 
+// 同步扇贝单词
+export const TR_SETTING_SHANBAY = '__TR_SHANBAY__'
+
+// 是否显示英英释义
+export const TR_SETTING_ENGLISH_MEANING = '__TR_ENGLISH_MEANING__'
+
 /**
  * @summary 词性 (part of speech) 对应中文
  */
@@ -59,12 +65,3 @@ export const DELAY_MINS_IN_EVERY_STAGE = {
   4: 6 * 60,
   5: 12 * 60
 }
-
-// For test
-// export const DELAY_MINS_IN_EVERY_STAGE = {
-//   1: 0.1,
-//   2: 0.2,
-//   3: 0.3,
-//   4: 0.4,
-//   5: 0.5
-// }

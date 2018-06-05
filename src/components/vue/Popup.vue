@@ -9,41 +9,13 @@
       </div>
     </div>
 
-    <div class="popup_item">
-      <div class="popup_label">是否直接翻译</div>
-      <div class="popup_content">
-        <Switcher v-model="translateDirectly"/>
-      </div>
-    </div>
-
-    <div class="popup_item">
-      <div class="popup_label">不翻译纯中文</div>
-      <div class="popup_content">
-        <Switcher v-model="skipChinese"/>
-      </div>
-    </div>
-
-    <div class="popup_item">
-      <div class="popup_label">自动朗读</div>
-      <div class="popup_content">
-        <Switcher v-model="autoSpeak"/>
-      </div>
-    </div>
-
-    <div class="popup_item">
-      <div class="popup_label">吐司弹词</div>
-      <div class="popup_content">
-        <Switcher v-model="hasToast"/>
-      </div>
-    </div>
-
     <div class="popup_button" @click="goVocabularry">
       <i class="__icon __icon-star-solid"/>
       查看生词簿
     </div>
 
     <div class="popup_footer">
-      <a href="https://github.com/waynecz/dadda-translate-crx" target="_blank" class="popup_link">
+      <a href="https://github.com/waynecz/dadda-translate-crx/issues" target="_blank" class="popup_link">
         <i class="__icon __icon-git"/>
       </a>
     </div>

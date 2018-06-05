@@ -5,6 +5,7 @@
   top: 20px;
   bottom: 20px;
   display: flex;
+  padding-bottom: 25px;
   flex-flow: column;
   align-items: center;
   background: #ffffff;
@@ -18,11 +19,13 @@
     margin-bottom: 30px;
     border-radius: 50%;
     background: #fff;
+    user-select: none;
     content: url('chrome-extension://__MSG_@@extension_id__/assets/logo.png');
     box-shadow: 0 19px 23px -12px rgba(58, 24, 212, 0.67);
   }
 
   @include e(menu) {
+    flex-grow: 1;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -30,10 +33,25 @@
 
   @include e(link) {
     color: #f41e1e;
+    cursor: pointer;
     padding: 0 20px;
 
     @include when(active) {
       box-shadow: 10px 0 0 -4px currentColor inset;
+    }
+  }
+
+  @include e(setting) {
+    cursor: pointer;
+
+    > .__icon {
+      font-size: 25px !important;
+    }
+
+    &.active {
+      > .__icon {
+        color: $primary;
+      }
     }
   }
 }
