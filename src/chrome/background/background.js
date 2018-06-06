@@ -19,7 +19,8 @@ import {
   TR_SETTING_FONT_FAMILY,
   TR_STORAGE_KEY,
   TR_SETTING_SHANBAY,
-  TR_SETTING_ENGLISH_MEANING
+  TR_SETTING_ENGLISH_MEANING,
+  TR_SETTING_KEYBOARD_CONTROL
 } from '@/utils/constant'
 
 import HotReload from './hot-reload'
@@ -48,8 +49,20 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_SHANBAY, false)
     Storage.set(TR_SETTING_AUTO_SPEAK, false)
     Storage.set(TR_SETTING_ENGLISH_MEANING, true)
+    Storage.set(TR_SETTING_KEYBOARD_CONTROL, false)
     Storage.set(TR_SETTING_FONT_FAMILY, 'song')
   }
+})
+
+chrome.notifications.clear('updateInfo')
+
+chrome.notifications.create('updateInfo', {
+  iconUrl: 'http://p5grwrmf4.bkt.clouddn.com/dadda-ico.png',
+  type: 'basic',
+  title: '新v1.1.0 大更',
+  message: '扇贝单词同步 / 快捷键控制 / 简单的翻译框... 点击查看更多更新内容',
+  priority: 2,
+  eventTime: Date.now() + 100000
 })
 
 // 兼容 1.0.0 版本的在 Chrome 云端同步的数据
@@ -160,6 +173,9 @@ chrome.notifications.onButtonClicked.addListener(async (notiId, btnId) => {
  * @summary 点击 notification 打开剑桥辞典并且将单词推入下一步
  */
 chrome.notifications.onClicked.addListener(async notiId => {
+  if (notiId === 'updateInfo') {
+    chrome.tabs.create({ url: 'https://github.com/waynecz/dadda-translate-crx/releases' })
+  }
   if (_hasTRId(notiId)) {
     const word = _removeTRId(notiId)
     chrome.tabs.create({ url: `${DICTIONARY_HOST}${word}` })

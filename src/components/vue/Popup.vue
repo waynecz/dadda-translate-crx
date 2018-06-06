@@ -9,15 +9,22 @@
       </div>
     </div>
 
-    <div class="popup_button" @click="goVocabularry">
-      <i class="__icon __icon-star-solid"/>
-      查看生词簿
+    <div class="popup_translate">
+      <textarea placeholder="在此输入你想要翻译的文字后回车" v-model="text" class="popup_input" @keydown="translate"/>
+      <div v-text="result" class="popup_result"/>
+    </div>
+
+    <div class="popup_button" @click="e => goOptionsPage()">
+      <i class="__icon __icon-star-solid"/>查看生词簿
     </div>
 
     <div class="popup_footer">
       <a href="https://github.com/waynecz/dadda-translate-crx/issues" target="_blank" class="popup_link">
-        <i class="__icon __icon-git"/>
+        <i class="__icon __icon-git"/> 提问题 / 提建议
       </a>
+    </div>
+    <div class="popup_setting __tooltip __left" tooltip="更多设置" @click="goOptionsPage('setting')">
+      <i class="__icon __icon-setting" />
     </div>
   </div>
 </template>
@@ -56,7 +63,10 @@ export default {
       hasToast: true,
       autoSpeak: false,
       skipChinese: false,
-      disabledInThisSite: false
+      disabledInThisSite: false,
+
+      text: '',
+      result: ''
     }
   },
 
@@ -86,21 +96,31 @@ export default {
   },
 
   methods: {
-    goVocabularry() {
+    goOptionsPage(link = 'vocabulary') {
       let isActive = false
-      const vocabularyPath = chrome.runtime.getURL('options/options.html')
+      const path = chrome.runtime.getURL(`options/options.html#link=${link}`)
       chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, tabs => {
         tabs.forEach(tab => {
-          if (tab.url === vocabularyPath) {
+          if (tab.url === path) {
             isActive = true
             chrome.tabs.update(tab.id, { active: true })
           }
         })
 
         if (!isActive) {
-          chrome.tabs.create({ url: vocabularyPath })
+          chrome.tabs.create({ url: path })
         }
       })
+    },
+
+    translate(e) {
+      if (e.keyCode === 13) {
+        e.preventDefault()
+        const { text } = this
+        chrome.runtime.sendMessage({ name: 'translate', text }, res => {
+          this.result = res.translate.dit
+        })
+      }
     }
   }
 }

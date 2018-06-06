@@ -28,6 +28,9 @@ export const TR_SETTING_SHANBAY = '__TR_SHANBAY__'
 // 是否显示英英释义
 export const TR_SETTING_ENGLISH_MEANING = '__TR_ENGLISH_MEANING__'
 
+// 按键后显示翻译
+export const TR_SETTING_KEYBOARD_CONTROL = '__TR_ENGLISH_KEYBOARD_CONTROL__'
+
 /**
  * @summary 词性 (part of speech) 对应中文
  */

@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import mapState from '@/utils/mapState'
 import VocabularyMachine from '@/utils/vocabulary'
+import { _parseQuery, _normalizeQuery } from '@/utils'
 
 import Sidebar from '@/components/react/Sidebar'
 import VocabularyToolBar from '@/components/react/Vocabulary-Tool-Bar'
 import Vocabulary from '@/components/react/Vocabulary'
 import Setting from '@/components/react/Setting'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 
 /**
  * @summary option.html 页面不支持路由，所以 GG
@@ -27,15 +28,18 @@ class App extends Component {
     const { dispatch, currentLink } = this.props
 
     dispatch({ type: 'updateVocabulary', vocabulary })
-    toast('Wow so easy !')
   }
 
   toSetting = () => {
-    this.props.dispatch({ type: 'changeLink', link: 'setting' })
+    this.changeRoute('setting')
   }
 
   changeRoute = link => {
     this.props.dispatch({ type: 'changeLink', link })
+    const query = _parseQuery()
+    query.link = link
+
+    window.location.hash = _normalizeQuery(query)
   }
 
   render() {

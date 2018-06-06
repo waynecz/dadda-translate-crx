@@ -36,6 +36,24 @@
     font-size: 14px;
   }
 
+  @include e(new) {
+    position: absolute;
+    right: 8px;
+    bottom: 5px;
+    color: #fff;
+    background: #ff2c2c;
+    border-radius: 5px;
+    padding: 3px 5px;
+    font-size: 12px;
+    font-weight: bold;
+    transform: scale(0.7);
+    transform-origin: 100% 100%;
+
+    &::before {
+      content: 'New!';
+    }
+  }
+
   @include e(tip) {
     position: absolute;
     font-weight: normal;
@@ -50,6 +68,13 @@
 
     > a {
       color: #666;
+    }
+
+    kbd {
+      background: #f7f7f7;
+      border: 1px solid #aaa;
+      border-radius: 3px;
+      padding: 0 3px 2px;
     }
   }
 }

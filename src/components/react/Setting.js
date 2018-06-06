@@ -12,7 +12,8 @@ import {
   TR_SETTING_SKIP_CHINESE_KEY,
   TR_SETTING_AUTO_SPEAK,
   TR_SETTING_SHANBAY,
-  TR_SETTING_ENGLISH_MEANING
+  TR_SETTING_ENGLISH_MEANING,
+  TR_SETTING_KEYBOARD_CONTROL
 } from '@/utils/constant'
 
 @withView
@@ -31,17 +32,28 @@ class Setting extends Component {
               登录 Web 版扇贝单词
             </a>
           </small>
-        )
+        ),
+        isNew: true
+      },
+      {
+        key: TR_SETTING_KEYBOARD_CONTROL,
+        label: '开启 ALT 键控制',
+        tip: (
+          <small className="setting_tip">
+            开启后需要摁一下 <kbd>alt</kbd> 才会显示翻译
+          </small>
+        ),
+        isNew: true
       },
       {
         key: TR_SETTING_IS_DIRECTLY_KEY,
         label: '是否直接翻译',
-        tip: <small className="setting_tip">开启后划词将直接弹出翻译</small>
+        tip: <small className="setting_tip">开启后划词后将直接弹出翻译</small>
       },
       {
         key: TR_SETTING_AUTO_SPEAK,
         label: '自动朗读',
-        tip: <small className="setting_tip">开启后翻译见自动朗读</small>
+        tip: <small className="setting_tip">开启后翻译将自动朗读</small>
       },
       {
         key: TR_SETTING_SKIP_CHINESE_KEY,
@@ -74,6 +86,7 @@ class Setting extends Component {
           {item.tip ? item.tip : null}
         </span>
         <Switch change={this.change} name={item.key} />
+        {item.isNew ? <span className="setting_new" /> : null}
       </div>
     ))
   }

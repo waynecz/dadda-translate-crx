@@ -12,11 +12,11 @@
       @click="panelVisible = true"
     />
 
-    <div 
+    <!-- <div 
       class="__transltor_loading" 
       :style="buttonPositionStyle" 
       v-if="!$root.inExtension && panelVisible && !translateLoaded && selection" 
-    />
+    /> -->
 
     <result-panel 
       v-if="resultPanelVisible" 
@@ -58,8 +58,8 @@ export default {
     }
   },
 
-  mounted() {
-    const { onMouseUp } = this
+  async mounted() {
+    const { onMouseUp, onAltKeyDown } = this
 
     document.addEventListener('mouseup', onMouseUp)
   },
