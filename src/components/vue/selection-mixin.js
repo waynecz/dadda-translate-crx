@@ -79,7 +79,6 @@ export default {
      * ! 按键控制开启翻译
      */
     onAltKeyDown(e) {
-      console.log('​onAltKeyDown -> e', e)
       if (this.selection && e.altKey) {
         this.hasAltPressed = true
         this.panelVisible = true

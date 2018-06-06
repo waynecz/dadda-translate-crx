@@ -59,7 +59,7 @@ chrome.notifications.clear('updateInfo')
 chrome.notifications.create('updateInfo', {
   iconUrl: 'http://p5grwrmf4.bkt.clouddn.com/dadda-ico.png',
   type: 'basic',
-  title: '新v1.1.0 大更',
+  title: 'v1.1.0 更新',
   message: '扇贝单词同步 / 快捷键控制 / 简单的翻译框... 点击查看更多更新内容',
   priority: 2,
   eventTime: Date.now() + 100000
