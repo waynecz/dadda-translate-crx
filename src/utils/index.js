@@ -183,3 +183,29 @@ export const _inBlackList = async host => {
 
   return blackList[host] || false
 }
+
+export const _parseQuery = (search = window.location.hash) => {
+  const query = {}
+
+  if (search) {
+    search
+      .slice(1)
+      .split('&')
+      .forEach(string => {
+        const temp = string.split('=')
+        query[temp[0]] = temp[1]
+      })
+  }
+
+  return { ...query }
+}
+
+export const _normalizeQuery = (query = _parseQuery()) => {
+  const search = Object.keys(query)
+    .map(key => {
+      return `${key}=${query[key]}`
+    })
+    .join('&')
+
+  return `${search}`
+}

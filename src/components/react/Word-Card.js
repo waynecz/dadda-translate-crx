@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Vocabulary from '@/utils/vocabulary'
 import Storage from '@/utils/storage'
 import { TR_SETTING_SHANBAY } from '@/utils/constant'
+import { toast } from 'react-toastify'
 
 const speak = (word, type) => {
   const audio = document.getElementById(`${word}_${type}`)
@@ -14,9 +15,10 @@ const delWord = async word => {
   if (await Storage.get(TR_SETTING_SHANBAY, false)) {
     chrome.runtime.sendMessage({ name: 'delInShanbay', word: word.t }, res => {
       if (res.status_code !== 0) {
+        toast('❌ Del in Shanbay failed', { closeButton: false })
         console.warn('同步扇贝失败，请至扇贝手动操作')
       } else {
-        message.success('同步至扇贝成功')
+        toast('✅ Success', { closeButton: false })
       }
     })
   }
@@ -35,9 +37,10 @@ const setStage = async (word, flag = false) => {
 const addToShanbay = word => {
   chrome.runtime.sendMessage({ name: 'addToShanbay', word }, res => {
     if (res.status_code !== 0) {
+      toast('❌ Sync shanbay failed, plz try again later', { closeButton: false })
       console.warn('添加扇贝失败，请稍后重试')
     } else {
-      message.success('同步至扇贝成功')
+      toast('✅ Sync sucessfully', { closeButton: false })
     }
   })
 }

@@ -3,6 +3,7 @@ import { Provider } from 'react-redux'
 import { render } from 'react-dom'
 import { createStore } from 'redux'
 import Vocabulary from '@/utils/vocabulary'
+import { _parseQuery } from '@/utils'
 import vocabularyReducers from './reducers'
 import App from '@/components/react/App'
 
@@ -10,14 +11,7 @@ import translator from '../content/content'
 
 import '@/styles/index_vocabulary.scss'
 
-const query = {}
-window.location.search
-  .slice(1)
-  .split('&')
-  .forEach(string => {
-    const temp = string.split('=')
-    query[temp[0]] = temp[1]
-  })
+const query = _parseQuery()
 
 const Store = createStore(vocabularyReducers, {
   currentLink: query.link || 'vocabulary',

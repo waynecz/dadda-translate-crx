@@ -11,6 +11,10 @@ html {
   padding: 0;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 @include b(popup, '') {
   width: 330px;
   padding-bottom: 15px;
@@ -22,7 +26,7 @@ html {
 
   @include e(item) {
     display: flex;
-    width: 200px;
+    width: 300px;
     box-sizing: border-box;
     margin: 0 auto;
     align-items: center;
@@ -41,6 +45,56 @@ html {
     flex-grow: 1;
   }
 
+  @include e(translate) {
+    display: flex;
+    flex-flow: column;
+    width: 300px;
+    margin: 0 auto;
+  }
+
+  @include e(input) {
+    display: block;
+    width: 100%;
+    resize: none;
+    border: none;
+    margin: 0 auto;
+    border-radius: 7px;
+    padding: 15px 20px 5px;
+    height: 100px;
+    background: #f1f1f1;
+    @include scroll-bar;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::-webkit-input-placeholder {
+      color: #949494;
+    }
+  }
+
+  @include e(result) {
+    display: flex;
+    width: 100%;
+    resize: none;
+    margin: 0 auto;
+    margin-top: 10px;
+    border-radius: 7px;
+    padding: 15px 20px;
+    height: 100px;
+    background: $primary;
+    overflow: auto;
+    color: #fff;
+    box-shadow: 0 17px 37px -12px rgba(27, 22, 126, 0.315);
+    @include ts;
+    @include scroll-bar;
+
+    &:empty {
+      color: rgb(67, 108, 241);
+      box-shadow: none;
+    }
+  }
+
   @include e(content) {
     transform: scale(0.8);
   }
@@ -55,9 +109,38 @@ html {
   }
 
   @include e(link) {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
     text-decoration: none;
-    color: #444;
     cursor: pointer;
+    color: #aaa;
+    transform: scale(0.7);
+
+    > .__icon {
+      color: #444;
+      margin-right: 10px;
+      transform: scale(1.2);
+    }
+  }
+
+  @include e(setting) {
+    position: absolute;
+    z-index: 2;
+    top: 10px;
+    right: 10px;
+    background: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 17px 37px -10px rgba(26, 18, 163, 0.342);
+
+    > .__icon.__icon {
+      color: #444;
+      font-size: 15px;
+      color: $primary;
+      animation: spin 2s linear infinite;
+    }
   }
 
   @include e(button) {
@@ -79,5 +162,11 @@ html {
       margin-right: 5px;
       font-size: 14px;
     }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

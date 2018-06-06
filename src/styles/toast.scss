@@ -60,8 +60,8 @@
   box-sizing: border-box;
   margin-bottom: 1rem;
   padding: 8px;
-  border-radius: 1px;
-  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1), 0 2px 15px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  box-shadow: 0 2px 28px 0 rgba(137, 137, 137, 0.17);
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: justify;
@@ -95,6 +95,10 @@
   margin: auto 0;
   -ms-flex: 1;
   flex: 1;
+  color: #111;
+  font-size: 14px;
+  padding-left: 20px;
+  @include font-old;
 }
 @media only screen and (max-width: 480px) {
   .Toastify__toast {

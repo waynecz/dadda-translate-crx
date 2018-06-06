@@ -5,7 +5,12 @@ import {
   _isAllChinese,
   _isAllNumber
 } from '@/utils'
-import { TR_SETTING_IS_DIRECTLY_KEY, TR_SETTING_SKIP_CHINESE_KEY } from '@/utils/constant'
+
+import {
+  TR_SETTING_IS_DIRECTLY_KEY,
+  TR_SETTING_SKIP_CHINESE_KEY,
+  TR_SETTING_KEYBOARD_CONTROL
+} from '@/utils/constant'
 
 export default {
   computed: {
@@ -28,8 +33,15 @@ export default {
     },
 
     resultPanelVisible() {
-      const { panelVisible, selection, translateLoaded } = this
-      return translateLoaded && panelVisible && selection
+      const { panelVisible, selection, translateLoaded, hasAltControl, hasAltPressed } = this
+
+      let condition = translateLoaded && panelVisible && selection
+
+      if (hasAltControl) {
+        condition = condition && hasAltPressed
+      }
+
+      return condition
     }
   },
 
@@ -47,15 +59,38 @@ export default {
         isTop: true
       },
 
-      translationResult: Object.create(null)
+      translationResult: Object.create(null),
+
+      hasAltControl: false,
+      hasAltPressed: false
+    }
+  },
+
+  async mounted() {
+    this.hasAltControl = await this.$storage.get(TR_SETTING_KEYBOARD_CONTROL, false)
+
+    if (this.hasAltControl) {
+      document.addEventListener('keydown', this.onAltKeyDown)
     }
   },
 
   methods: {
+    /**
+     * ! 按键控制开启翻译
+     */
+    onAltKeyDown(e) {
+      console.log('​onAltKeyDown -> e', e)
+      if (this.selection && e.altKey) {
+        this.hasAltPressed = true
+        this.panelVisible = true
+      }
+    },
+
     hidePanel() {
       this.selection = ''
       this.translateLoaded = false
       this.panelVisible = false
+      this.hasAltPressed = false
     },
 
     async showPanel(text) {
@@ -80,6 +115,10 @@ export default {
       })
     },
 
+    /**
+     * 监听 MouseUp 事件来怕段划词完成，触发情况有两种：划词、双击
+     * ! 注意这里是 async
+     */
     async onMouseUp(e) {
       const inBlackList = await _inBlackList()
       const skipChinese = await this.$storage.get(TR_SETTING_SKIP_CHINESE_KEY, false)
