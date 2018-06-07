@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Vocabulary from '@/utils/vocabulary'
 import Storage from '@/utils/storage'
-import { TR_SETTING_SHANBAY } from '@/utils/constant'
+import { TR_SETTING_SHANBAY, TR_SETTING_YOUDAO } from '@/utils/constant'
 import { toast } from 'react-toastify'
 
 const speak = (word, type) => {
@@ -22,6 +22,16 @@ const delWord = async word => {
       }
     })
   }
+
+  if (await Storage.get(TR_SETTING_YOUDAO, false)) {
+    chrome.runtime.sendMessage({ name: 'delInYoudao', word: word.t }, res => {
+      if (!res) {
+        toast('❌ Del in Youdao failed', { closeButton: false })
+      } else {
+        toast('✅ Success', { closeButton: false })
+      }
+    })
+  }
 }
 
 /**
@@ -36,9 +46,19 @@ const setStage = async (word, flag = false) => {
 
 const addToShanbay = word => {
   chrome.runtime.sendMessage({ name: 'addToShanbay', word }, res => {
-    if (res.status_code !== 0) {
+    if (!res.status_code !== 0) {
       toast('❌ Sync shanbay failed, plz try again later', { closeButton: false })
       console.warn('添加扇贝失败，请稍后重试')
+    } else {
+      toast('✅ Sync sucessfully', { closeButton: false })
+    }
+  })
+}
+
+const addToYoudao = word => {
+  chrome.runtime.sendMessage({ name: 'addToYoudao', word }, res => {
+    if (!res) {
+      toast('❌ Sync Youdao failed, plz try again later', { closeButton: false })
     } else {
       toast('✅ Sync sucessfully', { closeButton: false })
     }
@@ -102,7 +122,7 @@ let WordCard = ({ word }) => {
       </a>
 
       <div
-        className="word_shanbay __tooltip __right"
+        className="word_shanbay __tooltip __left"
         tooltip="添加至扇贝单词"
         onMouseUp={e => {
           e.stopPropagation()
@@ -110,6 +130,17 @@ let WordCard = ({ word }) => {
         }}
       >
         <i className="__icon __icon-shanbay" />
+      </div>
+
+      <div
+        className="word_youdao __tooltip __left"
+        tooltip="添加至有道单词"
+        onMouseUp={e => {
+          e.stopPropagation()
+          addToYoudao(word.t)
+        }}
+      >
+        <i className="__icon __icon-youdao" />
       </div>
 
       <div className={`word_status word_status--${word.s}`}>

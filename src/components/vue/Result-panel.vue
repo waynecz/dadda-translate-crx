@@ -134,7 +134,7 @@ import WordModel from '@/model/word'
 import TranslationModel from '@/model/translation'
 import selectionMixin from '@/components/vue/Selection-mixin'
 import { _removeTag, _abridgePOS, _uuid } from '@/utils'
-import { TR_SETTING_AUTO_SPEAK, TR_SETTING_FONT_FAMILY, TR_SETTING_SHANBAY } from '@/utils/constant'
+import { TR_SETTING_AUTO_SPEAK, TR_SETTING_FONT_FAMILY, TR_SETTING_SHANBAY, TR_SETTING_YOUDAO } from '@/utils/constant'
 import { SOUGOU_SPOKEN_URL, CGDICT_HOST } from '@/api/host'
 
 export default {
@@ -430,12 +430,22 @@ export default {
       this.inCollection = true
 
       const shouldAddToShanbay = await $storage.get(TR_SETTING_SHANBAY, false)
+      const shouldAddToYoudao = await $storage.get(TR_SETTING_YOUDAO, false)
 
       if (shouldAddToShanbay) {
         chrome.runtime.sendMessage({ name: 'addToShanbay', word }, res => {
           if (res.status_code !== 0) {
             this.error = '扇贝词库同步失败，请稍后重试'
             console.warn('添加扇贝失败，请稍后重试')
+          }
+        })
+      }
+
+      if (shouldAddToYoudao) {
+        chrome.runtime.sendMessage({ name: 'addToYoudao', word }, res => {
+          if (!res) {
+            this.error = '有道词库同步失败，请稍后重试'
+            console.warn('添加有道失败，请稍后重试')
           }
         })
       }

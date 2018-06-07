@@ -24,6 +24,8 @@ export const TR_SETTING_FONT_FAMILY = '__TR_FONT_FAMILY__'
 
 // 同步扇贝单词
 export const TR_SETTING_SHANBAY = '__TR_SHANBAY__'
+// 同步扇贝单词
+export const TR_SETTING_YOUDAO = '__TR_YOUDAO__'
 
 // 是否显示英英释义
 export const TR_SETTING_ENGLISH_MEANING = '__TR_ENGLISH_MEANING__'

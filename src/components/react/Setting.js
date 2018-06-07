@@ -11,6 +11,7 @@ import {
   TR_SETTING_HAS_TOAST_KEY,
   TR_SETTING_SKIP_CHINESE_KEY,
   TR_SETTING_AUTO_SPEAK,
+  TR_SETTING_YOUDAO,
   TR_SETTING_SHANBAY,
   TR_SETTING_ENGLISH_MEANING,
   TR_SETTING_KEYBOARD_CONTROL
@@ -30,6 +31,22 @@ class Setting extends Component {
             该功能需要{' '}
             <a target="_blank" href="https://www.shanbay.com/web/account/login">
               登录 Web 版扇贝单词
+            </a>
+          </small>
+        ),
+        isNew: true
+      },
+      {
+        key: TR_SETTING_YOUDAO,
+        label: '与有道单词同步',
+        tip: (
+          <small className="setting_tip">
+            该功能需要{' '}
+            <a
+              target="_blank"
+              href="http://account.youdao.com/login?service=dict&back_url=http://dict.youdao.com/wordbook/wordlist%3Fkeyfrom%3Dnull"
+            >
+              登录 Web 版有道
             </a>
           </small>
         ),

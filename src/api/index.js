@@ -1,4 +1,4 @@
-import { google, sougou, shanbay } from './client'
+import { google, sougou, shanbay, cdn, youdao } from './client'
 import { _sougouUuid } from '@/utils'
 
 export default {
@@ -44,6 +44,8 @@ export default {
     return sougou.post('/reventondc/translate', data)
   },
 
+  // ------------------------------ 扇 贝 ---------------------------------------------
+
   shanbayTranslate(word) {
     return shanbay(`/bdc/search/?word=${word}`)
   },
@@ -59,5 +61,32 @@ export default {
     return shanbay.put(`/bdc/learning/${learningId}`, {
       retention: 1
     })
+  },
+
+  // ------------------------------ 有 道 ---------------------------------------------
+
+  addToYoudao(word) {
+    return youdao('/wordbook/ajax', {
+      params: {
+        q: word,
+        action: 'addword',
+        date: encodeURI(new Date().toString()),
+        le: 'eng'
+      }
+    })
+  },
+
+  delInYoudao(word) {
+    return youdao(`/wordbook/ajax`, {
+      params: {
+        q: word,
+        action: 'delword',
+        date: encodeURI(new Date().toString())
+      }
+    })
+  },
+
+  getUpdateInfo() {
+    return cdn('/dadda-update-info.json')
   }
 }

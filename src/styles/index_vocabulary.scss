@@ -199,13 +199,23 @@ body {
     }
   }
 
-  @include e(shanbay) {
+  @include share-rule(dict) {
     display: none;
     position: absolute !important;
-    left: 10px;
-    bottom: 10px;
+    top: 10px;
     cursor: pointer;
+  }
+
+  @include e(shanbay) {
+    @include extend-rule(dict);
+    right: 70px;
     color: rgb(29, 168, 76);
+  }
+
+  @include e(youdao) {
+    @include extend-rule(dict);
+    right: 40px;
+    color: rgb(224, 50, 50);
   }
 
   @include pseudo(hover) {
@@ -221,7 +231,7 @@ body {
       pointer-events: none;
     }
 
-    @include e(shanbay) {
+    @include e((shanbay, youdao)) {
       display: block;
     }
   }
@@ -233,6 +243,7 @@ body {
 
   @include e(ref) {
     position: absolute !important;
+    z-index: 2;
     top: 10px;
     right: 10px;
     font-size: 14px;

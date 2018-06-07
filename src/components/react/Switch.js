@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Storage from '@/utils/storage'
-import { TR_SETTING_SHANBAY } from '@/utils/constant'
+import { TR_SETTING_SHANBAY, TR_SETTING_YOUDAO } from '@/utils/constant'
 
 export default class Switch extends Component {
   constructor(props) {
@@ -27,6 +27,17 @@ export default class Switch extends Component {
       chrome.cookies.get({ url: 'http://www.shanbay.com', name: 'auth_token' }, async cookie => {
         if (!cookie) {
           chrome.tabs.create({ url: 'https://www.shanbay.com/web/account/login' })
+        }
+      })
+    }
+
+    if (name === TR_SETTING_YOUDAO && !status) {
+      chrome.cookies.get({ url: 'http://dict.youdao.com', name: 'DICT_SESS' }, async cookie => {
+        if (!cookie) {
+          chrome.tabs.create({
+            url:
+              'http://account.youdao.com/login?service=dict&back_url=http://dict.youdao.com/wordbook/wordlist%3Fkeyfrom%3Dnull'
+          })
         }
       })
     }

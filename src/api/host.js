@@ -1,7 +1,7 @@
 export const GOOGLE_HOST = 'https://translate.google.cn'
-
 export const SOUGOU_HOST = 'https://fanyi.sogou.com'
-
+export const CDN_HOST = 'https://cdn.grisoso.com'
+export const YOUDAO_HOST = 'http://dict.youdao.com'
 export const SHANBAY_HOST = 'http://www.shanbay.com/api/v1'
 
 // dictionary.com 查询 HOST

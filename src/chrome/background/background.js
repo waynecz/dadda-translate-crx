@@ -3,6 +3,7 @@ import api from '@/api'
 import Vocabulary from '@/utils/vocabulary'
 import Storage from '@/utils/storage'
 import shanbay from '@/utils/shanbay.js'
+import youdao from '@/utils/youdao.js'
 
 import Toast from '@/chrome/toast'
 import setNewAlarm from '@/chrome/alarm'
@@ -19,6 +20,7 @@ import {
   TR_SETTING_FONT_FAMILY,
   TR_STORAGE_KEY,
   TR_SETTING_SHANBAY,
+  TR_SETTING_YOUDAO,
   TR_SETTING_ENGLISH_MEANING,
   TR_SETTING_KEYBOARD_CONTROL
 } from '@/utils/constant'
@@ -47,22 +49,23 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_IS_DIRECTLY_KEY, false)
     Storage.set(TR_SETTING_SKIP_CHINESE_KEY, true)
     Storage.set(TR_SETTING_SHANBAY, false)
+    Storage.set(TR_SETTING_YOUDAO, false)
     Storage.set(TR_SETTING_AUTO_SPEAK, false)
     Storage.set(TR_SETTING_ENGLISH_MEANING, true)
     Storage.set(TR_SETTING_KEYBOARD_CONTROL, false)
     Storage.set(TR_SETTING_FONT_FAMILY, 'song')
+  } else {
+    const { version, breif } = await api.getUpdateInfo()
+    chrome.notifications.clear('updateInfo')
+    chrome.notifications.create('updateInfo', {
+      iconUrl: 'http://p5grwrmf4.bkt.clouddn.com/dadda-ico.png',
+      type: 'basic',
+      title: `${version} 更新`,
+      message: breif,
+      priority: 2,
+      eventTime: Date.now() + 100000
+    })
   }
-})
-
-chrome.notifications.clear('updateInfo')
-
-chrome.notifications.create('updateInfo', {
-  iconUrl: 'http://p5grwrmf4.bkt.clouddn.com/dadda-ico.png',
-  type: 'basic',
-  title: 'v1.1.0 更新',
-  message: '扇贝单词同步 / 快捷键控制 / 简单的翻译框... 点击查看更多更新内容',
-  priority: 2,
-  eventTime: Date.now() + 100000
 })
 
 // 兼容 1.0.0 版本的在 Chrome 云端同步的数据
@@ -121,6 +124,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
     case 'delInShanbay': {
       const { word } = request
       shanbay.delInShanbayVocabulary(word).then(res => {
+        sendRes(res)
+      })
+      return true
+    }
+
+    case 'addToYoudao': {
+      const { word } = request
+      youdao.addToVocabulary(word).then(res => {
+        sendRes(res)
+      })
+      return true
+    }
+
+    case 'delInYoudao': {
+      const { word } = request
+      youdao.delInVocabulary(word).then(res => {
         sendRes(res)
       })
       return true
