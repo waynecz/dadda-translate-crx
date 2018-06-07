@@ -12,7 +12,7 @@
 ![Chrome 60+](https://img.shields.io/badge/chrome-60%2B-blue.svg?style=for-the-badge)
 ![Webpack 4.0+](https://img.shields.io/badge/webpack-4-brightgreen.svg?style=for-the-badge)
 
-😍 漂亮的划词翻译插件 / 让你在 Chrome 上背单词（可同步至扇贝单词）
+😍 漂亮的划词翻译插件 / 让你在 Chrome 上背单词（可同步至扇贝、有道单词）
 
 <br>
 
@@ -52,7 +52,7 @@
 
 ## 使用须知 `!important`
 
-- 启用「扇贝单词同步」功能后收藏词汇将被同步到扇贝单词，但是必须先登录 [网页版扇贝](https://www.shanbay.com/web/account/login)，[有道]('http://account.youdao.com/login?service=dict&back_url=http://dict.youdao.com/wordbook/wordlist%3Fkeyfrom%3Dnull')亦然
+- 启用「扇贝单词同步」功能后收藏词汇将被同步到扇贝单词，但是必须先登录 [网页版扇贝](https://www.shanbay.com/web/account/login)，[有道](http://account.youdao.com/login?service=dict&back_url=http://dict.youdao.com/wordbook/wordlist%3Fkeyfrom%3Dnull)亦然
 - 单词被收入生词簿后有五个阶段，分别对应 <b color="red">红</b> / <b color="orange">橘</b> / <b color="yellow">黄</b> / <b color="blue">蓝</b> / <b color="limegreen">绿</b>
 - 每个阶段的吐司间隔分别为 5 分钟、30 分钟、1 小时、6 小时、12 小时
 - 在每次吐司弹词后，点击吐司主体或者点击 close 按钮将被视为把单词推入下一个阶段
