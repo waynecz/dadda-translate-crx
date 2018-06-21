@@ -33,6 +33,9 @@ export const TR_SETTING_ENGLISH_MEANING = '__TR_ENGLISH_MEANING__'
 // 按键后显示翻译
 export const TR_SETTING_KEYBOARD_CONTROL = '__TR_ENGLISH_KEYBOARD_CONTROL__'
 
+// 是否批量关闭吐司弹窗
+export const TR_SETTING_CLOSE_ALL_TOAST_KEY = '__TR_SETTING_CLOSE_ALL_TOAST_KEY__'
+
 /**
  * @summary 词性 (part of speech) 对应中文
  */
