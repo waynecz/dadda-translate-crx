@@ -107,7 +107,15 @@ export default {
       this.translateLoaded = false
 
       // 发送翻译请求
+      this.translateText(text)
+    },
+
+    async translateText(text) {
+      const { $root, $root: { count, translateDirectly, inExtension }, $storage } = this
       chrome.runtime.sendMessage({ name: 'translate', text, inExtension }, res => {
+        if (!res.isHasOxford && /^[A-Z][a-zA-Z]*$/.test(text)) {
+          return this.translateText(text.toLowerCase())
+        }
         this.translationResult = res
         this.translateLoaded = true
         this.$root.count = ++$root.count

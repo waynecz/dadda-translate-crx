@@ -55,7 +55,7 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_ENGLISH_MEANING, true)
     Storage.set(TR_SETTING_KEYBOARD_CONTROL, false)
     Storage.set(TR_SETTING_FONT_FAMILY, 'song')
-    Storage.set(TR_SETTING_CLOSE_ALL_TOAST_KEY, false)
+    Storage.set(TR_SETTING_CLOSE_ALL_TOAST_KEY, true)
   } else {
     const { version, breif } = await api.getUpdateInfo()
     chrome.notifications.clear('updateInfo')
