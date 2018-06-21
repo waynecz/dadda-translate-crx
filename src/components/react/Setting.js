@@ -14,7 +14,8 @@ import {
   TR_SETTING_YOUDAO,
   TR_SETTING_SHANBAY,
   TR_SETTING_ENGLISH_MEANING,
-  TR_SETTING_KEYBOARD_CONTROL
+  TR_SETTING_KEYBOARD_CONTROL,
+  TR_SETTING_CLOSE_ALL_TOAST_KEY
 } from '@/utils/constant'
 
 @withView
@@ -86,6 +87,11 @@ class Setting extends Component {
         key: TR_SETTING_ENGLISH_MEANING,
         label: '显示英文释义(开发中)',
         tip: <small className="setting_tip">关闭后将不再显示英文释义</small>
+      },
+      {
+        key: TR_SETTING_CLOSE_ALL_TOAST_KEY,
+        label: '批量关闭吐司',
+        tip: <small className="setting_tip">点一下,关闭所有吐司弹窗</small>
       }
     ]
   }

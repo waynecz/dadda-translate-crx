@@ -22,7 +22,8 @@ import {
   TR_SETTING_SHANBAY,
   TR_SETTING_YOUDAO,
   TR_SETTING_ENGLISH_MEANING,
-  TR_SETTING_KEYBOARD_CONTROL
+  TR_SETTING_KEYBOARD_CONTROL,
+  TR_SETTING_CLOSE_ALL_TOAST_KEY
 } from '@/utils/constant'
 
 import HotReload from './hot-reload'
@@ -54,6 +55,7 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_ENGLISH_MEANING, true)
     Storage.set(TR_SETTING_KEYBOARD_CONTROL, false)
     Storage.set(TR_SETTING_FONT_FAMILY, 'song')
+    Storage.set(TR_SETTING_CLOSE_ALL_TOAST_KEY, false)
   } else {
     const { version, breif } = await api.getUpdateInfo()
     chrome.notifications.clear('updateInfo')
@@ -175,6 +177,27 @@ chrome.notifications.onClosed.addListener(async (notiId, byUser) => {
   if (_hasTRId(notiId) && byUser) {
     const word = _removeTRId(notiId)
     moveWord2NextStage(word)
+  }
+})
+
+/**
+ * @summary 点击关闭所有吐司,将单词推入下一步
+ */
+chrome.notifications.onClosed.addListener(async (notiId, byUser) => {
+  const isCloseAllToast = await Storage.get(TR_SETTING_CLOSE_ALL_TOAST_KEY)
+  if (_hasTRId(notiId) && byUser && isCloseAllToast) {
+    chrome.notifications.getAll(async (notifications) => {
+      for (let key in notifications) {
+        await new Promise(resolve => {
+          setTimeout(resolve, 50)
+        })
+        if (_hasTRId(key)) {
+          const word = _removeTRId(key)
+          moveWord2NextStage(word)
+          chrome.notifications.clear(key)
+        }
+      }
+    })
   }
 })
 
