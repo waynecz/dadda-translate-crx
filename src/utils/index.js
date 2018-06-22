@@ -11,7 +11,9 @@ export const _stripChinese = content => {
 }
 
 export const _isAllChinese = content => {
-  return /^[\u4e00-\u9fa5？，。·！￥……（）+｛｝【】、|《》；：“”‘’『』「」﹃﹄〔〕—～﹏]+$/gm.test(content.trim())
+  return /^[\u4e00-\u9fa5？，。·！￥……（）+｛｝【】、|《》；：“”‘’『』「」﹃﹄〔〕—～﹏]+$/gm.test(
+    content.trim()
+  )
 }
 
 export const _isAllNumber = content => {

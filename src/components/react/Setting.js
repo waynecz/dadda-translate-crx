@@ -4,8 +4,6 @@ import withView from './@View'
 import Switch from './Switch'
 import mapState from '@/utils/mapState'
 
-import WordCard from './Word-Card'
-
 import {
   TR_SETTING_IS_DIRECTLY_KEY,
   TR_SETTING_HAS_TOAST_KEY,
@@ -34,8 +32,7 @@ class Setting extends Component {
               登录 Web 版扇贝单词
             </a>
           </small>
-        ),
-        isNew: true
+        )
       },
       {
         key: TR_SETTING_YOUDAO,
@@ -50,8 +47,7 @@ class Setting extends Component {
               登录 Web 版有道
             </a>
           </small>
-        ),
-        isNew: true
+        )
       },
       {
         key: TR_SETTING_KEYBOARD_CONTROL,
@@ -59,6 +55,15 @@ class Setting extends Component {
         tip: (
           <small className="setting_tip">
             开启后需要摁一下 <kbd>alt</kbd> 才会显示翻译
+          </small>
+        )
+      },
+      {
+        key: TR_SETTING_CLOSE_ALL_TOAST_KEY,
+        label: '批量关闭吐司',
+        tip: (
+          <small className="setting_tip">
+            吐司过多时，关闭一个既关闭所有并让<br />所有单词推入下一阶段
           </small>
         ),
         isNew: true
@@ -87,16 +92,9 @@ class Setting extends Component {
         key: TR_SETTING_ENGLISH_MEANING,
         label: '显示英文释义(开发中)',
         tip: <small className="setting_tip">关闭后将不再显示英文释义</small>
-      },
-      {
-        key: TR_SETTING_CLOSE_ALL_TOAST_KEY,
-        label: '批量关闭吐司',
-        tip: <small className="setting_tip">点一下,关闭所有吐司弹窗</small>
       }
     ]
   }
-
-  change = key => {}
 
   render() {
     const { settings } = this
