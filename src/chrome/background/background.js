@@ -55,7 +55,7 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_ENGLISH_MEANING, true)
     Storage.set(TR_SETTING_KEYBOARD_CONTROL, false)
     Storage.set(TR_SETTING_FONT_FAMILY, 'song')
-    Storage.set(TR_SETTING_CLOSE_ALL_TOAST_KEY, true)
+    Storage.set(TR_SETTING_CLOSE_ALL_TOAST_KEY, false)
   } else {
     const { version, breif } = await api.getUpdateInfo()
     chrome.notifications.clear('updateInfo')
@@ -186,7 +186,7 @@ chrome.notifications.onClosed.addListener(async (notiId, byUser) => {
 chrome.notifications.onClosed.addListener(async (notiId, byUser) => {
   const isCloseAllToast = await Storage.get(TR_SETTING_CLOSE_ALL_TOAST_KEY)
   if (_hasTRId(notiId) && byUser && isCloseAllToast) {
-    chrome.notifications.getAll(async (notifications) => {
+    chrome.notifications.getAll(async notifications => {
       for (let key in notifications) {
         await new Promise(resolve => {
           setTimeout(resolve, 50)

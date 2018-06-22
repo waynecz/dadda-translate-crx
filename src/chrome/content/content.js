@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vocabulary from '@/utils/vocabulary'
 import Storage from '@/utils/storage'
-import { _removeTag } from '@/utils'
+import { TR_SETTING_BLACK_LIST_KEY } from '@/utils/constant'
+import { _removeTag, _inBlackList } from '@/utils'
 
 import '@/styles/index_translator.scss'
 
@@ -48,6 +49,9 @@ const initTranslator = _ => {
   Vue.config.productionTip = false
 }
 
-document.addEventListener('DOMContentLoaded', initTranslator)
+document.addEventListener('DOMContentLoaded', async _ => {
+  if (await _inBlackList()) return
+  initTranslator()
+})
 
 export default initTranslator

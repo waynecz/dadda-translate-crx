@@ -87,6 +87,6 @@ export default {
   },
 
   getUpdateInfo() {
-    return cdn('/dadda-update-info.json')
+    return cdn(`/dadda-update-info.json?t=${Date.now()}`)
   }
 }
