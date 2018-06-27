@@ -46,8 +46,9 @@ const setStage = async (word, flag = false) => {
 
 const addToShanbay = word => {
   chrome.runtime.sendMessage({ name: 'addToShanbay', word }, res => {
-    if (!res.status_code !== 0) {
-      toast('❌ Sync shanbay failed, plz try again later', { closeButton: false })
+    if (res.status_code !== 0) {
+      debugger
+      toast('❌ Sync shanbay failed', { closeButton: false })
       console.warn('添加扇贝失败，请稍后重试')
     } else {
       toast('✅ Sync sucessfully', { closeButton: false })

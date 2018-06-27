@@ -9,7 +9,7 @@ import Toast from '@/chrome/toast'
 import setNewAlarm from '@/chrome/alarm'
 
 import { _removeTRId, _hasTRId, _wrapTRId, _sleep } from '@/utils'
-import { SOUGOU_SPOKEN_URL, DICTIONARY_HOST } from '@/api/host'
+import { DICTIONARY_HOST } from '@/api/host'
 import {
   DELAY_MINS_IN_EVERY_STAGE,
   TR_SETTING_HAS_TOAST_KEY,
@@ -207,6 +207,18 @@ chrome.notifications.onClosed.addListener(async (notiId, byUser) => {
 chrome.notifications.onButtonClicked.addListener(async (notiId, btnId) => {
   if (_hasTRId(notiId) && btnId === 0) {
     const word = _removeTRId(notiId)
+    if (await Storage.get(TR_SETTING_SHANBAY)) {
+      shanbay.delInShanbayVocabulary(word).then(res => {
+        sendRes(res)
+      })
+    }
+
+    if (await Storage.get(TR_SETTING_YOUDAO)) {
+      youdao.delInVocabulary(word).then(res => {
+        sendRes(res)
+      })
+    }
+
     Vocabulary.remove(word)
   }
 })
@@ -220,7 +232,7 @@ chrome.notifications.onClicked.addListener(async notiId => {
   }
   if (_hasTRId(notiId)) {
     const word = _removeTRId(notiId)
-    chrome.tabs.create({ url: `${DICTIONARY_HOST}${word}` })
+    chrome.tabs.create({ url: `${DICTIONARY_HOST}${encodeURI(word)}` })
     moveWord2NextStage(word)
   }
 })
