@@ -100,6 +100,10 @@
 
 - [划词翻译](https://github.com/Selection-Translator/crx-selection-translate)@[mingkaili](https://github.com/lmk123)
 - [fonts.css](https://github.com/zenozeng/fonts.css)@[zenozend](https://github.com/zenozeng)
+- @[Aaron-Bird](https://github.com/Aaron-Bird)
+- @[ciknight](https://github.com/ciknight)
+- @[sinchang](https://github.com/sinchang)
+- @[MisLink](https://github.com/MisLink)
 
 <br>
 
