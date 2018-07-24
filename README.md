@@ -29,6 +29,7 @@
 ## 截图
 
 ![presentation](https://raw.githack.com/waynecz/dadda-translate-crx/master/src/assets/presentation.gif)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwaynecz%2Fdadda-translate-crx.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwaynecz%2Fdadda-translate-crx?ref=badge_shield)
 
 <br>
 
@@ -111,3 +112,7 @@
 ## 许可
 
 MIT
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwaynecz%2Fdadda-translate-crx.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwaynecz%2Fdadda-translate-crx?ref=badge_large)
