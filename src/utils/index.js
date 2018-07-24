@@ -99,7 +99,7 @@ export const _calcPositionAsDialog = _ => {
 /**
  * @summary 移除搜狗翻译返回的字段有 Tag 包裹
  */
-export const _removeTag = str => str.replace(/<.*>(.*)<.*>/g, '$1')
+export const _removeTag = str => str.replace(/<[^>]+>/g, '')
 
 /**
  * @summary 词性简写

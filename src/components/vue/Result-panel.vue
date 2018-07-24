@@ -88,12 +88,12 @@
     <div class="__result_simple" v-if="inDict">
       <div class="__result_class" v-for="(translation, i) in usualTranslations" :key="i">
         <div class="__result_type">{{abridge(translation.pos).abbr}}</div>
-        <div class="__result_item">{{translation.values.join(' | ')}}</div>
+        <div class="__result_item">{{translation.values.join(' | ') | removeTag}}</div>
       </div>
     </div>
     <div class="__result_simple" v-else>
       <div class="__result_item">
-        <div class="__result_chinese __result_chinese--simple">{{usualTranslations}}</div>
+        <div class="__result_chinese __result_chinese--simple">{{usualTranslations | removeTag}}</div>
       </div>
     </div>
 
@@ -134,7 +134,12 @@ import WordModel from '@/model/word'
 import TranslationModel from '@/model/translation'
 import selectionMixin from '@/components/vue/Selection-mixin'
 import { _removeTag, _abridgePOS, _uuid } from '@/utils'
-import { TR_SETTING_AUTO_SPEAK, TR_SETTING_FONT_FAMILY, TR_SETTING_SHANBAY, TR_SETTING_YOUDAO } from '@/utils/constant'
+import {
+  TR_SETTING_AUTO_SPEAK,
+  TR_SETTING_FONT_FAMILY,
+  TR_SETTING_SHANBAY,
+  TR_SETTING_YOUDAO
+} from '@/utils/constant'
 import { SOUGOU_SPOKEN_URL, CGDICT_HOST } from '@/api/host'
 
 export default {
