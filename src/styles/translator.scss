@@ -1,4 +1,11 @@
 @include b(transltor) {
+  width: unset;
+  height: unset;
+  margin: unset;
+  padding: unset;
+  border: unset;
+  outline: unset;
+
   @include when('dialog-wrap') {
     position: fixed;
     top: 0;
@@ -17,6 +24,9 @@
     height: 36px;
     border-radius: 50%;
     background-color: #fff;
+    margin: unset;
+    padding: unset;
+    border: unset;
     content: url('chrome-extension://__MSG_@@extension_id__/assets/logo.svg');
     box-shadow: 0 12px 20px -8px mix($primary, transparent, 80);
     cursor: pointer;

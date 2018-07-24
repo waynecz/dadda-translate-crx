@@ -6,7 +6,7 @@
       {
         "modules": false,
         "loose": true,
-        "useBuildIns": true,
+        "useBuiltIns": true,
         "targets": {
           "browsers": ["Chrome >= 61"]
         }
