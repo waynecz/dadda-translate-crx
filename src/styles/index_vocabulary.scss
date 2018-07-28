@@ -139,6 +139,7 @@ body {
     border-radius: 100px !important;
     border: 2px #fff solid !important;
     box-shadow: 0 0 0 2px #f4f4f4;
+    outline: none;
     @include font-old;
 
     @include placeholder {
