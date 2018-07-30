@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import withView from './@View'
 import Switch from './Switch'
 import mapState from '@/utils/mapState'
+import VocabularyMachine from '@/utils/vocabulary'
+import exportFile from '@/utils/exportFile'
 
 import {
   TR_SETTING_IS_DIRECTLY_KEY,
@@ -13,7 +15,8 @@ import {
   TR_SETTING_SHANBAY,
   TR_SETTING_ENGLISH_MEANING,
   TR_SETTING_KEYBOARD_CONTROL,
-  TR_SETTING_CLOSE_ALL_TOAST_KEY
+  TR_SETTING_CLOSE_ALL_TOAST_KEY,
+  TR_SETTING_EXPORT_ALL_WORDS
 } from '@/utils/constant'
 
 @withView
@@ -92,6 +95,18 @@ class Setting extends Component {
         key: TR_SETTING_ENGLISH_MEANING,
         label: '显示英文释义(开发中)',
         tip: <small className="setting_tip">关闭后将不再显示英文释义</small>
+      },
+      {
+        key: TR_SETTING_EXPORT_ALL_WORDS,
+        label: '导出单词内容(Beta)',
+        tip: <small className="setting_tip">点击导出单词内容为文件 <kbd>.csv</kbd><br />仅导出单词和例句</small>,
+        disabled: true,
+        isNew: true,
+        type: 'invisible',
+        click: async function () {
+          const vocabulary = await VocabularyMachine.get()
+          exportFile(vocabulary)
+        }
       }
     ]
   }
@@ -100,13 +115,13 @@ class Setting extends Component {
     const { settings } = this
 
     return settings.map(item => (
-      <div className="setting_card" key={item.key}>
+      <div className="setting_card" key={item.key} onClick={item.click}>
         <i className="__icon __icon-setting" />
         <span className="setting_label">
           {item.label}
           {item.tip ? item.tip : null}
         </span>
-        <Switch change={this.change} name={item.key} />
+        <Switch change={this.change} name={item.key} disabled={item.disabled} plain={item.plain} type={item.type} />
         {item.isNew ? <span className="setting_new" /> : null}
       </div>
     ))
