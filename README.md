@@ -8,7 +8,7 @@
 
 <br>
 
-![GitHub release](https://img.shields.io/badge/release-v1.1.6-orange.svg?style=for-the-badge)
+![GitHub release](https://img.shields.io/badge/release-v1.1.7-orange.svg?style=for-the-badge)
 ![Chrome 60+](https://img.shields.io/badge/chrome-60%2B-blue.svg?style=for-the-badge)
 ![Webpack 4.0+](https://img.shields.io/badge/webpack-4-brightgreen.svg?style=for-the-badge)
 
@@ -68,8 +68,8 @@
 ## 可能还要做的
 
 - [ ] 更改为 core + plugin 模式，以适配多种翻译引擎
+- [ ] 设置项添加多种模式（目前仅有开关）
 - [ ] 制作 Anki 格式的单词卡
-- [ ] 词根词缀内联
 - [ ] PDF 支持
 
 <br>
@@ -105,6 +105,8 @@
 - @[ciknight](https://github.com/ciknight)
 - @[sinchang](https://github.com/sinchang)
 - @[MisLink](https://github.com/MisLink)
+- @[Huiyi.FYJ](https://github.com/huiyifyj)
+- @[M.cat](https://github.com/Colory)
 
 <br>
 

@@ -53,6 +53,18 @@ class Setting extends Component {
         )
       },
       {
+        key: TR_SETTING_EXPORT_ALL_WORDS,
+        label: '导出单词内容(Beta)',
+        tip: <small className="setting_tip">点击导出单词内容为文件 <kbd>.csv</kbd><br />仅导出单词和例句</small>,
+        disabled: true,
+        isNew: true,
+        type: 'invisible',
+        click: async function () {
+          const vocabulary = await VocabularyMachine.get()
+          exportFile(vocabulary)
+        }
+      },
+      {
         key: TR_SETTING_KEYBOARD_CONTROL,
         label: '开启 ALT 键控制',
         tip: (
@@ -68,13 +80,12 @@ class Setting extends Component {
           <small className="setting_tip">
             吐司过多时，关闭一个既关闭所有并让<br />所有单词推入下一阶段
           </small>
-        ),
-        isNew: true
+        )
       },
       {
         key: TR_SETTING_IS_DIRECTLY_KEY,
         label: '是否直接翻译',
-        tip: <small className="setting_tip">开启后划词后将直接弹出翻译</small>
+        tip: <small className="setting_tip">开启后划词后将直接弹出翻译不显示悬浮窗<br/>如果Alt控制开启将由Alt控制</small>
       },
       {
         key: TR_SETTING_AUTO_SPEAK,
@@ -90,24 +101,12 @@ class Setting extends Component {
         key: TR_SETTING_HAS_TOAST_KEY,
         label: '开启吐司弹词',
         tip: <small className="setting_tip">关闭后将不再进行弹词记忆</small>
-      },
-      {
-        key: TR_SETTING_ENGLISH_MEANING,
-        label: '显示英文释义(开发中)',
-        tip: <small className="setting_tip">关闭后将不再显示英文释义</small>
-      },
-      {
-        key: TR_SETTING_EXPORT_ALL_WORDS,
-        label: '导出单词内容(Beta)',
-        tip: <small className="setting_tip">点击导出单词内容为文件 <kbd>.csv</kbd><br />仅导出单词和例句</small>,
-        disabled: true,
-        isNew: true,
-        type: 'invisible',
-        click: async function () {
-          const vocabulary = await VocabularyMachine.get()
-          exportFile(vocabulary)
-        }
       }
+      // {
+      //   key: TR_SETTING_ENGLISH_MEANING,
+      //   label: '显示英文释义(开发中)',
+      //   tip: <small className="setting_tip">关闭后将不再显示英文释义</small>
+      // }
     ]
   }
 

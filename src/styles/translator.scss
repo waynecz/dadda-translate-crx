@@ -1,4 +1,6 @@
 @include b(transltor) {
+  position: relative;
+  z-index: 10000;
   width: unset;
   height: unset;
   margin: unset;

@@ -10,7 +10,7 @@
     </div>
 
     <div class="popup_translate">
-      <textarea placeholder="在此输入你想要翻译的文字后回车" v-model="text" class="popup_input" @keydown="translate"/>
+      <textarea placeholder="在此输入你想要翻译的文字" v-model="text" class="popup_input" @input="translate"/>
       <div v-text="result" class="popup_result"/>
     </div>
 
@@ -66,7 +66,9 @@ export default {
       disabledInThisSite: false,
 
       text: '',
-      result: ''
+      result: '',
+
+      translateTimer: null
     }
   },
 
@@ -114,13 +116,13 @@ export default {
     },
 
     translate(e) {
-      if (e.keyCode === 13) {
-        e.preventDefault()
+      if (this.translateTimer) clearTimeout(this.translateTimer)
+      this.translateTimer = setTimeout(_ => {
         const { text } = this
         chrome.runtime.sendMessage({ name: 'translate', text }, res => {
           this.result = res.translate.dit
         })
-      }
+      }, 200)
     }
   }
 }

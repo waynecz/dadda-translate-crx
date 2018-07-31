@@ -28,7 +28,7 @@ export default {
       to: 'zh-CHS',
       client: 'pc',
       fr: 'browser_pc',
-      text,
+      text: encodeURIComponent(text),
       useDetect: 'on',
       useDetectResult: 'on',
       needQc: 1,
