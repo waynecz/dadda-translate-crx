@@ -68,10 +68,7 @@
 
 ## 可能还要做的
 
-- [ ] 更改为 core + plugin 模式，以适配多种翻译引擎
-- [ ] 设置项添加多种模式（目前仅有开关）
-- [ ] 制作 Anki 格式的单词卡
-- [ ] PDF 支持
+- [ ] [2.0 开发计划](https://github.com/waynecz/dadda-translate-crx/issues/94)
 
 <br>
 
