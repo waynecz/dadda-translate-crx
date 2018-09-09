@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       selection: '',
-      panelVisible: false,
+      panelVisible: true,
       translateLoaded: false,
       position: {
         panelX: 0,
@@ -81,14 +81,12 @@ export default {
     onAltKeyDown(e) {
       if (this.selection && e.altKey) {
         this.hasAltPressed = true
-        this.panelVisible = true
       }
     },
 
     hidePanel() {
       this.selection = ''
       this.translateLoaded = false
-      this.panelVisible = false
       this.hasAltPressed = false
     },
 
@@ -96,13 +94,8 @@ export default {
       const { $root, $root: { count, translateDirectly, inExtension }, $storage } = this
       // 如果设置了直接翻译则直接显示结果面板
       const isDirectly = await $storage.get(TR_SETTING_IS_DIRECTLY_KEY)
-
-      if (inExtension) {
-        this.panelVisible = true
-      } else {
-        this.panelVisible = isDirectly
-      }
-
+      const keyboardCtrl = await $storage.get(TR_SETTING_KEYBOARD_CONTROL)
+      this.panelVisible = isDirectly || keyboardCtrl
       this.translationResult = null
       this.translateLoaded = false
 
