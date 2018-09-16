@@ -37,10 +37,6 @@ export default {
 
       let condition = translateLoaded && panelVisible && selection
 
-      if (hasAltControl) {
-        condition = condition && hasAltPressed
-      }
-
       return condition
     }
   },
