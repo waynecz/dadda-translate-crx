@@ -95,7 +95,11 @@ export default {
       // 如果设置了直接翻译则直接显示结果面板
       const isDirectly = await $storage.get(TR_SETTING_IS_DIRECTLY_KEY)
       const keyboardCtrl = await $storage.get(TR_SETTING_KEYBOARD_CONTROL)
-      this.panelVisible = isDirectly || keyboardCtrl
+      if (inExtension) {
+        this.panelVisible = true
+      } else {
+        this.panelVisible = isDirectly || keyboardCtrl
+      }
       this.translationResult = null
       this.translateLoaded = false
 
