@@ -10,7 +10,7 @@
     </div>
 
     <div class="popup_translate">
-      <textarea placeholder="在此输入你想要翻译的文字" v-model="text" class="popup_input" @input="translate"/>
+      <textarea id="input" placeholder="在此输入你想要翻译的文字" v-model="text" class="popup_input" @input="translate"/>
       <div v-text="result" class="popup_result"/>
     </div>
 
@@ -70,6 +70,10 @@ export default {
 
       translateTimer: null
     }
+  },
+
+  mounted() {
+    document.getElementById('input').focus()
   },
 
   watch: {
