@@ -9,7 +9,7 @@
 <br>
 
 
-![GitHub release](https://img.shields.io/badge/release-v1.1.7-orange.svg?style=for-the-badge)
+![GitHub release](https://img.shields.io/badge/release-v1.1.8-orange.svg?style=for-the-badge)
 ![Chrome 60+](https://img.shields.io/badge/chrome-60%2B-blue.svg?style=for-the-badge)
 ![Webpack 4.0+](https://img.shields.io/badge/webpack-4-brightgreen.svg?style=for-the-badge)
 
@@ -97,14 +97,25 @@
 
 ## 感谢
 
-- [划词翻译](https://github.com/Selection-Translator/crx-selection-translate)@[mingkaili](https://github.com/lmk123)
-- [fonts.css](https://github.com/zenozeng/fonts.css)@[zenozend](https://github.com/zenozeng)
-- @[Aaron-Bird](https://github.com/Aaron-Bird)
-- @[ciknight](https://github.com/ciknight)
-- @[sinchang](https://github.com/sinchang)
-- @[MisLink](https://github.com/MisLink)
-- @[Huiyi.FYJ](https://github.com/huiyifyj)
-- @[M.cat](https://github.com/Colory)
+- [划词翻译](https://github.com/Selection-Translator/crx-selection-translate)@[mingkaili](https://github.com/lmk123)|
+- [fonts.css](https://github.com/zenozeng/fonts.css)@[zenozend](https://github.com/zenozeng) 
+
+[@Aaron-Bird](https://github.com/Aaron-Bird) 
+|
+[@ciknight](https://github.com/ciknight) 
+|
+[@sinchang](https://github.com/sinchang)
+|
+[@MisLink](https://github.com/MisLink) 
+|
+[@Huiyi.FYJ](https://github.com/huiyifyj) 
+| 
+[@M.cat](https://github.com/Colory) 
+| 
+[@aermin](https://github.com/aermin) 
+| 
+[@Ru Fan](https://github.com/ru1996) 
+
 
 <br>
 
