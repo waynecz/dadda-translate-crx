@@ -36,6 +36,10 @@ export default {
       const { panelVisible, selection, translateLoaded, hasAltControl, hasAltPressed } = this
 
       let condition = translateLoaded && panelVisible && selection
+      
+      if (hasAltControl) {
+        condition = condition && hasAltPressed
+      }
 
       return condition
     }
@@ -63,7 +67,7 @@ export default {
   },
 
   async mounted() {
-    this.hasAltControl = await this.$storage.get(TR_SETTING_KEYBOARD_CONTROL, false)
+    this.hasAltControl = (await this.$storage.get(TR_SETTING_KEYBOARD_CONTROL, false)) && !this.$root.inExtension
 
     if (this.hasAltControl) {
       document.addEventListener('keydown', this.onAltKeyDown)
