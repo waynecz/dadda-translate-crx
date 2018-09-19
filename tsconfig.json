@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "module": "commonjs",
+    "target": "esnext",
+    "jsx": "react",
+    "lib": ["es2017", "dom"],
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "paths": {
+      "@assets": ["src/assets"],
+      "@assets/*": ["src/assets/*"],
+      "@components/*": ["src/components/*"],
+      "@basic/*": ["src/components/basic/*"],
+      "@views/*": ["src/components/views/*"],
+      "@tools/*": ["src/tools/*"],
+      "@configs": ["src/configs"],
+      "@configs/*": ["src/configs/*"],
+      "@i18n": ["src/i18n"],
+      "@i18n/*": ["src/i18n/*"],
+      "@stores": ["src/stores"],
+      "@stores/*": ["src/stores/*"],
+      "@models": ["src/models"],
+      "@models/*": ["src/models/*"],
+      "@styles": ["src/styles"],
+      "@styles/*": ["src/styles/*"]
+    }
+  },
+  "include": ["./src/**/*"]
+}

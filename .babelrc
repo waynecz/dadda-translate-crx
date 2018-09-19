@@ -1,0 +1,17 @@
+{
+  "presets": [
+    "@babel/preset-react",
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "loose": true,
+        "useBuiltIns": "entry",
+        "targets": {
+          "browsers": ["Chrome >= 61"]
+        }
+      }
+    ]
+  ],
+  "plugins": []
+}

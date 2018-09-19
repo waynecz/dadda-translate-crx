@@ -1,0 +1,65 @@
+{
+  "name": "dadda-translate-crx",
+  "version": "2.0.0",
+  "description": "Translate and remember",
+  "scripts": {
+    "lint:ts": "tslint './src/**/*.ts*' --format --force",
+    "dev": "node_modules/.bin/webpack --config _webpack/development.js",
+    "build": "rm -rf ./dist && node_modules/.bin/webpack -p --config _webpack/production.js"
+  },
+  "keywords": [
+    "translate",
+    "chrome-extension",
+    "learning-english"
+  ],
+  "author": "Waynecz <451578533@qq.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/waynecz/dadda-translate-crx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/waynecz/dadda-translate-crx/issues"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "classnames": "^2.2.6",
+    "i18next": "^11.9.0",
+    "i18next-browser-languagedetector": "^2.2.3",
+    "lodash-es": "^4.17.11",
+    "react": "^16.5.1",
+    "react-dom": "^16.5.1",
+    "react-toastify": "^4.3.1",
+    "url-parse": "^1.4.3",
+    "webextension-polyfill": "^0.3.1",
+    "webpack-chrome-extension-reloader": "^0.8.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@types/react": "^16.4.14",
+    "@types/react-dom": "^16.0.7",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.0",
+    "copy-webpack-plugin": "^4.5.2",
+    "css-loader": "^0.28.10",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-config-standard": "^8.0.1",
+    "tslint-loader": "^3.6.0",
+    "tslint-plugin-prettier": "^2.0.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.0.3",
+    "url-loader": "^1.0.1",
+    "uglifyjs-webpack-plugin": "^2.0.0",
+    "webpack": "^4.19.0",
+    "webpack-cli": "^3.1.0",
+    "webpack-merge": "^4.1.4"
+  }
+}
