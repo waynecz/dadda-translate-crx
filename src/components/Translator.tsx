@@ -7,7 +7,7 @@ import * as React from 'react'
 export default class ContentInjector extends React.Component {
   render () {
     return (
-      <div>232</div>
+      <div>3d132</div>
     )
   }
 }

@@ -1,3 +1,6 @@
 import HotReload from '../hot-reload-extension'
 
-HotReload()
+// tslint:disable-next-line
+if (!PRODUCTION) {
+  HotReload()
+}

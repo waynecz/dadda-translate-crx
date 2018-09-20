@@ -1,8 +1,11 @@
 // 设置闹钟和 notication 等用到的 ID 前缀
+export const TR_LOG_PREFIX: string = '[达达]: '
+
+// 设置闹钟和 notication 等用到的 ID 前缀
 export const TR_ID_PREFIX: string = '__TR__'
 
 // 生词存储键名
-export const TR_STORAGE_KEY: string = '__TR_VOCABULARY__'
+export const TR_VOCABULARY_STORE_KEY: string = '__TR_VOCABULARY__'
 
 // 是否启用划词直接翻译（不需要点击翻译按钮
 export const TR_SETTING_IS_DIRECTLY_KEY: string = '__TR_BUTTON__'
