@@ -8,5 +8,3 @@ export interface IWord {
 }
 
 export type TVocabulary = IWord[]
-
-export type TSage = 1 | 2 | 3 | 4 | 5
