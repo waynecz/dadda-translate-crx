@@ -1,4 +1,4 @@
-// *  词性 (part of speech) 对应中文
+// part of speech
 export const POS_MAP: object = {
   'n.': '名词',
   'v.': '动词',
@@ -23,7 +23,7 @@ export const POS_MAP: object = {
   default: '缺省'
 }
 
-// * 吐司提醒时间间隔
+// notification's intervals of word in every stage
 export const DELAY_MINS_IN_EVERY_STAGE: object = {
   1: 5,
   2: 30,

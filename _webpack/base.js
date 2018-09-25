@@ -12,10 +12,10 @@ module.exports = {
   context: resolve('src'),
 
   entry: {
-    background: './@Browser/Background',
-    content: './@Browser/Content',
-    // vocabulary: './@Browser/NewVocabularyBook',
-    // popup: './@Browser/Popup'
+    background: './@BrowserEntries/Background',
+    content: './@BrowserEntries/Content',
+    // vocabulary: './@BrowserEntries/NewVocabularyBook',
+    // popup: './@BrowserEntries/Popup'
   },
 
   output: {
@@ -66,14 +66,14 @@ module.exports = {
     // new HtmlWebpackPlugin({
     //   filename: resolve('dist/Popup.html'),
     //   chunks: ['popup'],
-    //   template: '@Browser/Popup.html',
+    //   template: '@BrowserEntries/Popup.html',
     //   inject: false
     // }),
 
     // new HtmlWebpackPlugin({
     //   filename: resolve('dist/NewVocabularyBook.html'),
     //   chunks: ['vocabulary'],
-    //   template: '@Browser/NewVocabularyBook.html',
+    //   template: '@BrowserEntries/NewVocabularyBook.html',
     //   inject: false
     // }),
 

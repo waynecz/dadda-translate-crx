@@ -4,8 +4,8 @@
   "description": "Translate and remember",
   "scripts": {
     "lint:ts": "tslint './src/**/*.ts*' --format --force",
-    "dev": "node_modules/.bin/webpack --config _webpack/development.js",
-    "build": "rm -rf ./dist && node_modules/.bin/webpack -p --config _webpack/production.js"
+    "dev": "npx webpack --config _webpack/development.js",
+    "build": "rm -rf ./dist && npx webpack -p --config _webpack/production.js"
   },
   "keywords": [
     "translate",
@@ -30,6 +30,7 @@
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
     "react-toastify": "^4.3.1",
+    "translation.js": "^0.7.5",
     "url-parse": "^1.4.3",
     "webextension-polyfill": "^0.3.1",
     "webpack-chrome-extension-reloader": "^0.8.3"

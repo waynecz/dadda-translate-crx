@@ -19,12 +19,12 @@
     "clipboardWrite",
     "clipboardRead",
     "activeTab",
-    "webRequest",
     "storage",
     "tabs",
     "cookies",
     "notifications",
     "alarms",
+    "webRequest",
     "webRequestBlocking"
   ],
   "browser_action": {

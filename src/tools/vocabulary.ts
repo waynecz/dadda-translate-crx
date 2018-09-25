@@ -2,7 +2,7 @@ import { IWord, TVocabulary } from './../models/dadda'
 import { TR_VOCABULARY_STORE_KEY } from '@configs/Storage-keys'
 import storage from '@tools/storage'
 import * as browser from 'webextension-polyfill'
-import { DELAY_MINS_IN_EVERY_STAGE } from '@configs'
+import { DELAY_MINS_IN_EVERY_STAGE } from '@configs/dadda'
 import logger from '@tools/logger'
 
 class Vocabulary {
@@ -22,6 +22,7 @@ class Vocabulary {
     )
   }
 
+  // add word or phrase to vocabulary
   async add(word: IWord, stage: number = 1): Promise<void> {
     const currentVocabulary = await this.get()
     const newVocabulary = [word, ...currentVocabulary]
@@ -36,6 +37,7 @@ class Vocabulary {
     browser.runtime.sendMessage({ name: 'setAlarm', alarmConfig })
   }
 
+  // remove
   async remove(text: string): Promise<void> {
     const currentVocabulary = await this.get()
 
@@ -52,6 +54,7 @@ class Vocabulary {
     browser.runtime.sendMessage({ name: 'clearAlarm', text })
   }
 
+  // set the stage of word
   async setStage(text: string, stage: number, vocabulary?: TVocabulary): Promise<void> {
     vocabulary = vocabulary || (await this.get())
 
@@ -69,6 +72,7 @@ class Vocabulary {
     await this.save(vocabulary)
   }
 
+  // move word to next stage
   async forward(text: string): Promise<void> {
     const vocabulary = await this.get()
 
@@ -86,6 +90,7 @@ class Vocabulary {
     await this.setStage(text, nextStage)
   }
 
+  // move word to previous stage
   async back(text: string): Promise<void> {
     const vocabulary = await this.get()
 

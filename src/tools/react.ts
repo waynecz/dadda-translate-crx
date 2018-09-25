@@ -1,1 +1,1 @@
-export const _getDisplayName = (component) => component.displayName || component.name || 'Component'
+export const getDisplayName = (component) => component.displayName || component.name || 'Component'
