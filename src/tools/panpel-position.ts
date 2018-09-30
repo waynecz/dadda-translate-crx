@@ -17,7 +17,7 @@ export const getPanpelPosition = (event: MouseEvent) => {
 
   // when the mouse in the area below the 60% height of window,
   // show result panel above the mouse,
-  // otherwise beneath it.
+  // otherwise down beneath it.
   if (mousePositionY > innerHeight * 0.6) {
     showPanelBeneathTheMouse = false
     panelY = innerHeight - mousePositionY + 30

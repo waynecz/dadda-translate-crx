@@ -1,30 +1,47 @@
 import { IWord, TVocabulary } from './../models/dadda'
-import { TR_VOCABULARY_STORE_KEY } from '@configs/Storage-keys'
-import storage from '@tools/storage'
+import { TR_VOCABULARY_STORE_KEY } from '@configs/storage-keys'
+import Storage from '@tools/storage'
 import * as browser from 'webextension-polyfill'
 import { DELAY_MINS_IN_EVERY_STAGE } from '@configs/dadda'
 import logger from '@tools/logger'
 
-class Vocabulary {
-  get(): Promise<TVocabulary> {
-    return storage.get(TR_VOCABULARY_STORE_KEY, [] as TVocabulary)
+class vocabulary {
+  getAll(): Promise<TVocabulary> {
+    return Storage.get(TR_VOCABULARY_STORE_KEY, [] as TVocabulary)
   }
 
   save(vocabulary: TVocabulary): Promise<void> {
-    return storage.set(TR_VOCABULARY_STORE_KEY, vocabulary)
+    if (!)
+    return Storage.set(TR_VOCABULARY_STORE_KEY, vocabulary)
   }
 
   // decide if the word is already in vocabulary
-  async has(text: string, vocabulary?: TVocabulary): Promise<boolean> {
-    const currentVocabulary = vocabulary || (await this.get())
+  async has(wordTxt: string, vocabulary?: TVocabulary): Promise<boolean> {
+    if (!wordTxt) {
+      logger(`param: wordTxt required!`)
+      return null 
+    }
+    const currentVocabulary = vocabulary || (await this.getAll())
     return currentVocabulary.some(
-      word => word.text.toLowerCase() === text.toLowerCase()
+      word => word.text.toLowerCase() === wordTxt.toLowerCase()
+    )
+  }
+
+  async get(wordTxt: string, vocabulary?: TVocabulary): Promise<IWord> {
+    if (!wordTxt) {
+      logger(`param: wordTxt required`)
+      return null 
+    }
+    const currentVocabulary = vocabulary || (await this.getAll())
+
+    return currentVocabulary.find(
+      word => word.text.toLowerCase() === wordTxt.toLowerCase()
     )
   }
 
   // add word or phrase to vocabulary
   async add(word: IWord, stage: number = 1): Promise<void> {
-    const currentVocabulary = await this.get()
+    const currentVocabulary = await this.getAll()
     const newVocabulary = [word, ...currentVocabulary]
 
     await this.save(newVocabulary)
@@ -34,49 +51,49 @@ class Vocabulary {
       text: word.text
     }
 
-    browser.runtime.sendMessage({ name: 'setAlarm', alarmConfig })
+    browser.runtime.sendMessage({ name: 'add_alarm', alarmConfig })
   }
 
   // remove
-  async remove(text: string): Promise<void> {
-    const currentVocabulary = await this.get()
+  async remove(wordTxt: string): Promise<void> {
+    const currentVocabulary = await this.getAll()
 
-    const index = currentVocabulary.findIndex(word => word.text === text)
+    const index = currentVocabulary.findIndex(word => word.text === wordTxt)
 
     if (index === -1) {
-      return logger(`"${text}" is not in vocabulary!`)
+      return logger(`"${wordTxt}" is not in vocabulary!`)
     }
 
     currentVocabulary.splice(index, 1)
 
     await this.save(currentVocabulary)
 
-    browser.runtime.sendMessage({ name: 'clearAlarm', text })
+    browser.runtime.sendMessage({ name: 'remove_alarm', wordTxt })
   }
 
   // set the stage of word
-  async setStage(text: string, stage: number, vocabulary?: TVocabulary): Promise<void> {
-    vocabulary = vocabulary || (await this.get())
+  async setStage(wordTxt: string, stage: number, vocabulary?: TVocabulary): Promise<void> {
+    vocabulary = vocabulary || (await this.getAll())
 
-    const word = vocabulary.find(word => word.text === text)
+    const word = vocabulary.find(word => word.text === wordTxt)
 
     word.stage = stage
 
     const alarmConfig = {
-      delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[stage],
-      text
+      delayInMinutes: DELAY_MINS_IN_EVERY_STAGE[stage] as number,
+      wordTxt
     }
 
-    browser.runtime.sendMessage({ name: 'setAlarm', alarmConfig })
+    browser.runtime.sendMessage({ name: 'add_alarm', alarmConfig })
 
     await this.save(vocabulary)
   }
 
   // move word to next stage
-  async forward(text: string): Promise<void> {
-    const vocabulary = await this.get()
+  async forward(wordTxt: string): Promise<void> {
+    const vocabulary = await this.getAll()
 
-    const word = vocabulary.find(word => word.text === text)
+    const word = vocabulary.find(word => word.text === wordTxt)
 
     const currentStage = word.stage
     let nextStage: number
@@ -87,14 +104,14 @@ class Vocabulary {
       nextStage = 5
     }
 
-    await this.setStage(text, nextStage)
+    await this.setStage(wordTxt, nextStage)
   }
 
   // move word to previous stage
-  async back(text: string): Promise<void> {
-    const vocabulary = await this.get()
+  async back(wordTxt: string): Promise<void> {
+    const vocabulary = await this.getAll()
 
-    const word = vocabulary.find(word => word.text === text)
+    const word = vocabulary.find(word => word.text === wordTxt)
 
     const currentStage = word.stage
     let nextStage: number
@@ -105,8 +122,11 @@ class Vocabulary {
       nextStage = 1
     }
 
-    await this.setStage(text, nextStage)
+    await this.setStage(wordTxt, nextStage)
   }
 }
 
-export default new Vocabulary()
+const Vocabulary = new vocabulary()
+
+export default Vocabulary
+

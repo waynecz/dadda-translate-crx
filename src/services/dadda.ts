@@ -1,15 +1,19 @@
-import request from '@tools/request'
+import request from 'axios'
 import { CDN_HOST } from '@configs/hosts'
-import { AxiosInstance } from 'axios'
+import { AxiosInstance, AxiosPromise } from 'axios'
+import { IVersionInfo } from '@models/dadda';
 
 const httpClient: AxiosInstance = request.create({
   baseURL: CDN_HOST
 })
 
-class Dadda {
-  getUpdateinfo() {
-    return httpClient(`/dadda-update-info.json?t=${Date.now()}`)
+class dadda {
+  getUpdateinfo(): AxiosPromise<IVersionInfo> {
+    return httpClient.get(`/dadda-update-info.json?t=${Date.now()}`)
   }
 }
 
-export default new Dadda()
+const DaddaService = new dadda()
+
+export default DaddaService
+

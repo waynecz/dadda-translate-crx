@@ -1,4 +1,4 @@
-import request from '@tools/request'
+import request from 'axios'
 import * as browser from 'webextension-polyfill'
 import { SHANBAY_HOST } from '@configs/hosts'
 import { AxiosInstance, AxiosPromise } from 'axios'
@@ -10,8 +10,8 @@ const httpClient: AxiosInstance = request.create({
 })
 
 const shanbayAPI = {
-  translate(text): AxiosPromise {
-    return httpClient(`/api/v1/bdc/search/?word=${text}`)
+  translate(wordTxt): AxiosPromise {
+    return httpClient(`/api/v1/bdc/search/?word=${wordTxt}`)
   },
 
   add(id): AxiosPromise {
@@ -50,21 +50,24 @@ function shanbayAuth(target, key: string, descriptor) {
   
 }
 
-class ShanbayVocabulary {
+class shanbayVocabulary {
   @shanbayAuth
-  public async add(word) {
-    const { data } = await shanbayAPI.translate(word)
+  public async add(wordTxt) {
+    const { data } = await shanbayAPI.translate(wordTxt)
 
     return shanbayAPI.add(data.id)
   }
 
   @shanbayAuth
-  public async delete(word) {
-    const { data } = await shanbayAPI.translate(word)
+  public async delete(wordTxt) {
+    const { data } = await shanbayAPI.translate(wordTxt)
     if (data.learning_id) {
       return shanbayAPI.delelte(data.learning_id)
     }
   }
 }
 
-export default new ShanbayVocabulary()
+const ShanbayVocabularyService = new shanbayVocabulary()
+
+export default ShanbayVocabularyService
+

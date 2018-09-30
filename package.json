@@ -12,6 +12,9 @@
     "chrome-extension",
     "learning-english"
   ],
+  "engine-strict": {
+    "npm": ">=5.2.0"
+  },
   "author": "Waynecz <451578533@qq.com>",
   "license": "MIT",
   "repository": {
@@ -30,6 +33,7 @@
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
     "react-toastify": "^4.3.1",
+    "reworm": "^1.0.4",
     "translation.js": "^0.7.5",
     "url-parse": "^1.4.3",
     "webextension-polyfill": "^0.3.1",

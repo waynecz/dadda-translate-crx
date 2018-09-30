@@ -1,10 +1,10 @@
 import { TR_SETTING_BLACK_LIST_KEY, TR_ID_PREFIX } from '@configs/storage-keys'
-import storage from '@tools/storage';
+import Storage from '@tools/storage';
 
 export const isInBlackList = async (host: string): Promise<boolean> => {
   host = host || new URL(location.href).host
 
-  const blackList = await storage.get(TR_SETTING_BLACK_LIST_KEY, {})
+  const blackList = await Storage.get(TR_SETTING_BLACK_LIST_KEY, {})
 
   return (blackList[host] as boolean) || false
 }

@@ -26,10 +26,10 @@ export const TR_SETTING_AUTO_SPEAK: string = '__TR_SKIP_AUTO_SPEAK__'
 export const TR_SETTING_FONT_FAMILY: string = '__TR_FONT_FAMILY__'
 
 // 同步扇贝单词
-export const TR_SETTING_SHANBAY: string = '__TR_SHANBAY__'
+export const TR_SETTING_SHANBAY_SYNC: string = '__TR_SHANBAY__'
 
 // 同步扇贝单词
-export const TR_SETTING_YOUDAO: string = '__TR_YOUDAO__'
+export const TR_SETTING_YOUDAO_SYNC: string = '__TR_YOUDAO__'
 
 // 是否显示英英释义
 export const TR_SETTING_ENGLISH_MEANING: string = '__TR_ENGLISH_MEANING__'
@@ -39,3 +39,7 @@ export const TR_SETTING_KEYBOARD_CONTROL: string = '__TR_ENGLISH_KEYBOARD_CONTRO
 
 // 是否批量关闭吐司弹窗 for windows + chrome users
 export const TR_SETTING_CLOSE_ALL_TOAST_KEY: string = '__TR_SETTING_CLOSE_ALL_TOAST_KEY__'
+
+export const TR_SETTING_TARGET_LANG_KEY: string = '__TR_SETTING_TARGET_LANG_KEY__'
+export const TR_SETTING_SOURCE_LANG_KEY: string = '__TR_SETTING_SOURCE_LANG_KEY__'
+export const TR_SETTING_ENGINE_KEY: string = '__TR_SETTING_ENGINE_KEY__'

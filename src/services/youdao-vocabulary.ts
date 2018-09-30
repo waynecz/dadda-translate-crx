@@ -1,4 +1,4 @@
-import request from '@tools/request'
+import request from 'axios'
 import * as browser from 'webextension-polyfill'
 import { YOUDAO_HOST } from '@configs/hosts'
 import { AxiosInstance, AxiosPromise } from 'axios'
@@ -11,10 +11,10 @@ const httpClient: AxiosInstance = request.create({
 })
 
 const youdaoAPI = {
-  add(word) {
+  add(wordTxt: string) {
     return httpClient('/wordbook/ajax', {
       params: {
-        q: word,
+        q: wordTxt,
         action: 'addword',
         date: encodeURI(new Date().toString()),
         le: 'eng'
@@ -22,10 +22,10 @@ const youdaoAPI = {
     })
   },
 
-  delelte(word): AxiosPromise {
+  delelte(wordTxt: string): AxiosPromise {
     return httpClient.put('/wordbook/ajax', {
       params: {
-        q: word,
+        q: wordTxt,
         action: 'delword',
         date: encodeURI(new Date().toString())
       }
@@ -54,16 +54,18 @@ function youdaoAuth(target, key: string, descriptor) {
   return descriptor
 }
 
-class YoudaoVocabulary {
+class youdaoVocabulary {
   @youdaoAuth
-  public async add(word) {
-    return youdaoAPI.add(word)
+  public async add(wordTxt) {
+    return youdaoAPI.add(wordTxt)
   }
 
   @youdaoAuth
-  public async delete(word) {
-    return youdaoAPI.delelte(word)
+  public async delete(wordTxt) {
+    return youdaoAPI.delelte(wordTxt)
   }
 }
 
-export default new YoudaoVocabulary()
+const YoudaoVocabularyService = new youdaoVocabulary()
+
+export default YoudaoVocabularyService

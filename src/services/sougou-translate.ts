@@ -1,4 +1,4 @@
-import request from '@tools/request'
+import request from 'axios'
 import { SOUGOU_HOST } from '@configs/hosts'
 import { AxiosInstance } from 'axios'
 
@@ -19,7 +19,7 @@ const httpClient: AxiosInstance = request.create({
   baseURL: SOUGOU_HOST
 })
 
-class Sougou {
+class sougou {
   tranalte(text: string) {
     const payload = {
       from: 'auto',
@@ -39,4 +39,7 @@ class Sougou {
   }
 }
 
-export default new Sougou()
+const SougouServices = new sougou()
+
+export default SougouServices
+

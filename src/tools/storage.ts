@@ -1,9 +1,9 @@
 import { TR_VOCABULARY_STORE_KEY } from '@configs/storage-keys'
 import IStorage from '@models/browser'
 import * as browser from 'webextension-polyfill'
-import logger from '@tools/logger';
+import logger from '@tools/logger'
 
-class Storage implements IStorage {
+class storage implements IStorage {
   readonly position: 'local'
 
   async set(key: string, value): Promise<void> {
@@ -30,4 +30,6 @@ class Storage implements IStorage {
   }
 }
 
-export default new Storage()
+const Storage = new storage()
+
+export default Storage

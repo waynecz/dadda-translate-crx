@@ -57,3 +57,11 @@ export const uuid = (): string => {
 
   return document.getElementById(nonstr) ? uuid() : nonstr
 }
+
+export const sleep = <T>(duration: number): Promise<T> => {
+  return new Promise(resolve => {
+    setTimeout(_ => {
+      resolve()
+    }, duration)
+  })
+}
