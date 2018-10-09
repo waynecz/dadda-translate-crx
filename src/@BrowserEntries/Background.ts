@@ -20,18 +20,12 @@ import Storage from '@tools/storage'
 import Alarm from '@tools/alarm'
 import { IAlarmConfig, IOLVocaMessage } from '@models/dadda'
 import DaddaService from '@services/dadda'
-import ShanbayVocabularyService from '@services/shanbay-vocabulary'
-import YoudaoVocabularyService from '@services/youdao-vocabulary'
+import OLVocabularyServices from '@services/online-vocabulary';
 import { hasPrefix, removePrefix } from '@tools/dadda'
+import { sleep } from '@tools/utils'
 import Vocabulary from '@tools/vocabulary'
 import Toast from '@tools/toast'
-import { sleep } from '@tools/utils'
 import { DICTIONARY_HOST } from '@configs/hosts'
-
-const OLVocaMap = {
-  shanbay: ShanbayVocabularyService,
-  youdao: YoudaoVocabularyService
-}
 
 // tslint:disable-next-line
 if (!PRODUCTION) {
@@ -93,7 +87,7 @@ browser.runtime.onMessage.addListener(
       case 'sync_with_online_voca': {
         const { wordTxt, whichVoca, operation }: IOLVocaMessage = request
 
-        OLVocaMap[whichVoca][operation](wordTxt).then(res => {
+        OLVocabularyServices[whichVoca][operation](wordTxt).then(res => {
           sendRes(res)
         })
 

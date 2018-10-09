@@ -1,10 +1,10 @@
 import { TR_VOCABULARY_STORE_KEY } from '@configs/storage-keys'
-import IStorage from '@models/browser'
+import {EStoragePosition} from '@models/browser'
 import * as browser from 'webextension-polyfill'
 import logger from '@tools/logger'
 
-class storage implements IStorage {
-  readonly position: 'local'
+class storage {
+  readonly position: EStoragePosition.local
 
   async set(key: string, value): Promise<void> {
     await browser.storage[this.position].set({ [key]: value })

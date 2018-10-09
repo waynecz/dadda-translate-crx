@@ -1,3 +1,4 @@
-export default interface IStorage {
-  readonly position: 'local' | 'sync'
+export enum EStoragePosition {
+  local = 'local',
+  sync = 'sync'
 }

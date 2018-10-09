@@ -17,14 +17,22 @@ export interface IWord {
   stage: number
 }
 
+type OLVocabulary = 'shanbay' | 'youdao'
+
 // OL just mean `online`, Im sorry about this a little bit lazy
 export interface IOLVocaMessage {
   wordTxt: string
-  whichVoca: string
-  operation: TOLVocaOperation
+  whichVoca: OLVocabulary
+  operation: 'add' | 'delete'
 }
 
 export type TVocabulary = IWord[]
 
-// online vocabulary operations
-export type TOLVocaOperation = 'add' | 'delete'
+export interface ISougouTranslateResult {
+  dictionary
+}
+
+// standard ouput translate result schema
+export interface IStdTranslateResult {
+  english: []
+}

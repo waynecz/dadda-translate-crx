@@ -27,6 +27,7 @@
       "@models/*": ["src/models/*"],
       "@services": ["src/services"],
       "@services/*": ["src/services/*"],
+      "@translator": ["src/translator"],
       "@styles": ["src/styles"],
       "@styles/*": ["src/styles/*"]
     }

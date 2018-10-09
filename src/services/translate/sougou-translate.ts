@@ -1,6 +1,8 @@
 import request from 'axios'
 import { SOUGOU_HOST } from '@configs/hosts'
 import { AxiosInstance } from 'axios'
+import { StringOrTranslateOptions } from 'translation.js/declaration/api/types';
+import { ISougouTranslateResult } from '@models/dadda';
 
 const uuid = (): string => {
   let t
@@ -20,13 +22,13 @@ const httpClient: AxiosInstance = request.create({
 })
 
 class sougou {
-  tranalte(text: string) {
+  async translate(options: StringOrTranslateOptions) {
     const payload = {
       from: 'auto',
       to: 'zh-CHS',
       client: 'pc',
       fr: 'browser_pc',
-      text: encodeURIComponent(text),
+      text: encodeURIComponent(options as string),
       useDetect: 'on',
       useDetectResult: 'on',
       needQc: 1,
@@ -35,7 +37,9 @@ class sougou {
       isReturnSugg: 'on'
     }
 
-    return httpClient.post('/reventondc/translate', payload)
+    const { data } = await httpClient.post('/reventondc/translate', payload)
+
+    return data as ISougouTranslateResult
   }
 }
 
