@@ -11,7 +11,7 @@ class vocabulary {
   }
 
   save(vocabulary: TVocabulary): Promise<void> {
-    if (!)
+    if (!vocabulary) return
     return Storage.set(TR_VOCABULARY_STORE_KEY, vocabulary)
   }
 

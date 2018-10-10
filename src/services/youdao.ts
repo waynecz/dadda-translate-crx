@@ -1,10 +1,9 @@
 import request from 'axios'
 import * as browser from 'webextension-polyfill'
-import { YOUDAO_HOST } from '@configs/hosts'
+import { YOUDAO_HOST, YOUDAo_LOGIN_URL } from '@configs/hosts'
+import { youdao } from 'translation.js'
+import { ITranslateDTO } from '@models/dadda'
 import { AxiosInstance, AxiosPromise } from 'axios'
-
-const youdaoLoginURL =
-  'http://account.youdao.com/login?service=dict&back_url=http://dict.youdao.com/wordbook/wordlist%3Fkeyfrom%3Dnull'
 
 const httpClient: AxiosInstance = request.create({
   baseURL: YOUDAO_HOST
@@ -46,7 +45,7 @@ function youdaoAuth(target, key: string, descriptor) {
       return originalMethod()
     } else {
       return browser.tabs.create({
-        url: youdaoLoginURL
+        url: YOUDAo_LOGIN_URL
       })
     }
   }
@@ -54,7 +53,11 @@ function youdaoAuth(target, key: string, descriptor) {
   return descriptor
 }
 
-class youdaoVocabulary {
+class Youdao {
+  translate(options: ITranslateDTO) {
+    return youdao.translate(options)
+  }
+
   @youdaoAuth
   public async add(wordTxt) {
     return youdaoAPI.add(wordTxt)
@@ -66,6 +69,6 @@ class youdaoVocabulary {
   }
 }
 
-const YoudaoVocabularyService = new youdaoVocabulary()
+const YoudaoService = new Youdao()
 
-export default YoudaoVocabularyService
+export default YoudaoService

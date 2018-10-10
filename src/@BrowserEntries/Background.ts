@@ -18,14 +18,25 @@ import {
 } from '@configs/storage-keys'
 import Storage from '@tools/storage'
 import Alarm from '@tools/alarm'
-import { IAlarmConfig, IOLVocaMessage } from '@models/dadda'
+import {
+  IAlarmConfig,
+  IOLVocabularyDTO,
+  ITranslatorAcceptableDTO
+} from '@models/dadda'
 import DaddaService from '@services/dadda'
-import OLVocabularyServices from '@services/online-vocabulary';
 import { hasPrefix, removePrefix } from '@tools/dadda'
 import { sleep } from '@tools/utils'
 import Vocabulary from '@tools/vocabulary'
 import Toast from '@tools/toast'
 import { DICTIONARY_HOST } from '@configs/hosts'
+import YoudaoService from '@services/youdao'
+import ShanbayService from '@services/shanbay'
+import Translator from '@translator'
+
+const OLVocabularyServices = {
+  youdao: YoudaoService,
+  shanbay: ShanbayService
+}
 
 // tslint:disable-next-line
 if (!PRODUCTION) {
@@ -60,6 +71,7 @@ browser.runtime.onInstalled.addListener(async reason => {
       title: `${version} 更新`,
       message: brief,
       priority: 2,
+      requireInteraction: true,
       eventTime: Date.now() + 100000
     })
   }
@@ -70,6 +82,10 @@ browser.runtime.onMessage.addListener(
     const { name: type } = request
     switch (type) {
       case 'translate': {
+        const { engine, text, from, to }: ITranslatorAcceptableDTO = request
+        Translator({ engine, text, from, to }).then(translateResult =>
+          sendRes(translateResult)
+        )
         return true
       }
 
@@ -85,9 +101,9 @@ browser.runtime.onMessage.addListener(
       }
 
       case 'sync_with_online_voca': {
-        const { wordTxt, whichVoca, operation }: IOLVocaMessage = request
+        const { wordTxt, vocabulary, operation }: IOLVocabularyDTO = request
 
-        OLVocabularyServices[whichVoca][operation](wordTxt).then(res => {
+        OLVocabularyServices[vocabulary][operation](wordTxt).then(res => {
           sendRes(res)
         })
 
@@ -150,11 +166,11 @@ browser.notifications.onButtonClicked.addListener(
     if (hasPrefix(notificationID) && buttonID === 0) {
       const wordTxt = removePrefix(notificationID)
       if (await Storage.get(TR_SETTING_SHANBAY_SYNC)) {
-        ShanbayVocabularyService.delete(wordTxt)
+        ShanbayService.delete(wordTxt)
       }
 
       if (await Storage.get(TR_SETTING_YOUDAO_SYNC)) {
-        YoudaoVocabularyService.delete(wordTxt)
+        YoudaoService.delete(wordTxt)
       }
 
       Vocabulary.remove(wordTxt)

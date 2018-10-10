@@ -1,3 +1,5 @@
+import { Omit } from '@tools/typescript'
+
 export interface IVersionInfo {
   version: string
   brief: string
@@ -17,22 +19,35 @@ export interface IWord {
   stage: number
 }
 
-type OLVocabulary = 'shanbay' | 'youdao'
+type OLVocabularies = 'shanbay' | 'youdao'
 
-// OL just mean `online`, Im sorry about this a little bit lazy
-export interface IOLVocaMessage {
+// OL means `online`
+export interface IOLVocabularyDTO {
   wordTxt: string
-  whichVoca: OLVocabulary
+  vocabulary: OLVocabularies
   operation: 'add' | 'delete'
 }
 
 export type TVocabulary = IWord[]
 
-export interface ISougouTranslateResult {
-  dictionary
-}
-
 // standard ouput translate result schema
 export interface IStdTranslateResult {
   english: []
+}
+
+// extension translate data transform object
+export interface ITranslatorAcceptableDTO {
+  engine: EEngines
+  text: string
+  from: string
+  to: string
+}
+
+export interface ITranslateDTO
+  extends Omit<ITranslatorAcceptableDTO, 'engine'> {}
+
+export enum EEngines {
+  sougou = 'sougou',
+  google = 'google',
+  youdao = 'youdao'
 }

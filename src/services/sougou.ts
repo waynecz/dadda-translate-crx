@@ -1,8 +1,8 @@
 import request from 'axios'
 import { SOUGOU_HOST } from '@configs/hosts'
 import { AxiosInstance } from 'axios'
-import { StringOrTranslateOptions } from 'translation.js/declaration/api/types';
-import { ISougouTranslateResult } from '@models/dadda';
+import { ITranslateDTO } from '@models/dadda';
+import { ISougouTranslateResult } from '@models/sougou';
 
 const uuid = (): string => {
   let t
@@ -21,14 +21,14 @@ const httpClient: AxiosInstance = request.create({
   baseURL: SOUGOU_HOST
 })
 
-class sougou {
-  async translate(options: StringOrTranslateOptions) {
+class Sougou {
+  async translate(options: ITranslateDTO) {
     const payload = {
       from: 'auto',
       to: 'zh-CHS',
       client: 'pc',
       fr: 'browser_pc',
-      text: encodeURIComponent(options as string),
+      text: encodeURIComponent(options.text),
       useDetect: 'on',
       useDetectResult: 'on',
       needQc: 1,
@@ -43,7 +43,7 @@ class sougou {
   }
 }
 
-const SougouServices = new sougou()
+const SougouService = new Sougou()
 
-export default SougouServices
+export default SougouService
 

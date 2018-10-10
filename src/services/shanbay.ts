@@ -50,7 +50,7 @@ function shanbayAuth(target, key: string, descriptor) {
   
 }
 
-class shanbayVocabulary {
+class Shanbay {
   @shanbayAuth
   public async add(wordTxt) {
     const { data } = await shanbayAPI.translate(wordTxt)
@@ -67,7 +67,7 @@ class shanbayVocabulary {
   }
 }
 
-const ShanbayVocabularyService = new shanbayVocabulary()
+const ShanbayService = new Shanbay()
 
-export default ShanbayVocabularyService
+export default ShanbayService
 

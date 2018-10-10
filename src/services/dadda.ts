@@ -7,13 +7,13 @@ const httpClient: AxiosInstance = request.create({
   baseURL: CDN_HOST
 })
 
-class dadda {
+class Dadda {
   getUpdateinfo(): AxiosPromise<IVersionInfo> {
     return httpClient.get(`/dadda-update-info.json?t=${Date.now()}`)
   }
 }
 
-const DaddaService = new dadda()
+const DaddaService = new Dadda()
 
 export default DaddaService
 

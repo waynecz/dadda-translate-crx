@@ -1,33 +1,41 @@
-import Adaptors from './adaptors'
-import { IStdTranslateResult, ISougouTranslateResult } from '@models/dadda'
+import Adaptor from './adaptor'
+import {
+  EEngines,
+  ITranslatorAcceptableDTO,
+  ITranslateDTO
+} from '@models/dadda'
+import { ISougouTranslateResult } from '@models/sougou'
 import { TranslateResult } from 'translation.js/declaration/api/types'
-import SougouServices from '@services/translate/sougou-translate'
 
-interface ITranslateDTO {
-  enginee: EEnginees
-  text: string
-  from: string
-  to: string
-}
-
-enum EEnginees {
-  sougou = 'sougou',
-  google = 'google',
-  youdao = 'youdao'
-}
+import SougouServices from '@services/sougou'
+import GoogleService from '@services/google'
+import YoudaoService from '@services/youdao'
 
 const Translator = async ({
-  enginee,
+  engine,
   text,
   from,
   to
-}: ITranslateDTO): IStdTranslateResult => {
+}: ITranslatorAcceptableDTO) => {
   let rawResult: ISougouTranslateResult | TranslateResult
 
-  if (enginee === EEnginees.sougou) {
-    rawResult = await SougouServices.translate({ text, from, to })
+  const options: ITranslateDTO = { text, from, to }
+
+  switch (engine) {
+    case EEngines.sougou:
+      rawResult = await SougouServices.translate(options)
+      break
+    case EEngines.google:
+      rawResult = await GoogleService.translate(options)
+      break
+    case EEngines.youdao:
+      rawResult = await YoudaoService.translate(options)
+      break
+    default:
+      rawResult = { isHasOxford: false, translate: { text: '', dit: '' } }
   }
-  return Adaptors[enginee]()
+
+  return Adaptor(rawResult, engine)
 }
 
 export default Translator

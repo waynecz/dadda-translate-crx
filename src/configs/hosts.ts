@@ -13,3 +13,5 @@ export const CGDICT_HOST: string =
 // 搜狗语音
 export const SOUGOU_READ_URL: string =
   'https://fanyi.sogou.com/reventondc/microsoftGetSpeakFile?from=translateweb&spokenDialect=en&text='
+
+export const YOUDAo_LOGIN_URL: string = 'http://account.youdao.com/login?service=dict&back_url=http://dict.youdao.com/wordbook/wordlist%3Fkeyfrom%3Dnull'

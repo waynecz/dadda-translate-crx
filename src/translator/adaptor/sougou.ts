@@ -1,4 +1,5 @@
-import { IStdTranslateResult, ISougouTranslateResult } from "@models/dadda";
+import { IStdTranslateResult } from "@models/dadda";
+import { ISougouTranslateResult } from "@models/sougou";
 
 /**
  * Adaptor for sougou
