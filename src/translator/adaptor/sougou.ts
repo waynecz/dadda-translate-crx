@@ -1,9 +1,9 @@
-import { IStdTranslateResult } from "@models/dadda";
-import { ISougouTranslateResult } from "@models/sougou";
+import { ISougouTranslateResult } from '@models/sougou-result'
+import { IStdTranslateResult } from '@models/standard-result'
 
-/**
- * Adaptor for sougou
- */
- export default function sougouAdaptor(rawResult: ISougouTranslateResult): IStdTranslateResult {
+// Adaptor for sougou
+export default function sougouAdaptor(
+  rawResult: ISougouTranslateResult
+): IStdTranslateResult {
   return
- }
+}

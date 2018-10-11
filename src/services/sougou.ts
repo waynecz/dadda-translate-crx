@@ -2,7 +2,7 @@ import request from 'axios'
 import { SOUGOU_HOST } from '@configs/hosts'
 import { AxiosInstance } from 'axios'
 import { ITranslateDTO } from '@models/dadda';
-import { ISougouTranslateResult } from '@models/sougou';
+import { ISougouTranslateResult } from '@models/sougou-result';
 
 const uuid = (): string => {
   let t

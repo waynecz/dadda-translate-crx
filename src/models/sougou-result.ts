@@ -1,8 +1,11 @@
 /**
- * Sophisticated as the result from https://fanyi.sougou.com is
- * I apart it into these pieces below reluctantly
- * If you compose them, it will be looks with the object at the end of the file alike
+ * Since the result from Sougou is supremely complex
+ * a lot of interfaces below have been parted from
+ * you don't have to understand every interface for composing a picture in ur mind
+ * just inspect the sample object at the end of the file if you want
  */
+import { EPhoneticTypes } from './dadda'
+
 interface IOxfordDetailOrExample {
   en: string
   zh: string
@@ -20,11 +23,6 @@ interface IOxfordItem {
 
 interface IOxfordContent {
   item: IOxfordItem
-}
-
-enum EPhoneticTypes {
-  uk = 'uk',
-  usa = 'usa'
 }
 
 interface IOxfordPhonetic {
@@ -54,7 +52,9 @@ export interface ISougouTranslateResult {
   translate: ISougouSimpleTranlate
 }
 
+// Suppose source is English, target is Chinese
 const SougouTranslateResultSample: ISougouTranslateResult = {
+  // `dictionary` field existed only when isHasOxford === true
   dictionary: {
     content: [
       {
@@ -62,20 +62,20 @@ const SougouTranslateResultSample: ISougouTranslateResult = {
           {
             item: {
               core: [
-                { detail: { zh: '', en: '' }, example: [{ zh: '', en: '' }] }
+                { detail: { zh: '一个中文释义', en: 'an English defination' }, example: [{ zh: '这个释义的例句中文翻译', en: 'an English expample of this defination' }] }
               ],
-              pos: ''
+              pos: 'part of speach'
             }
           }
         ],
         origin: [''],
-        phonetic: [{ filename: '', text: '', type: 'uk' }]
+        phonetic: [{ filename: '//xx.com/deduce.mp3', text: 'dɪˈdjuːs', type: EPhoneticTypes.uk }]
       }
     ]
   },
-  isHasOxford: false,
+  isHasOxford: true,
   translate: {
-    text: '',
-    dit: ''
+    text: 'deduce',
+    dit: '推断'
   }
 }

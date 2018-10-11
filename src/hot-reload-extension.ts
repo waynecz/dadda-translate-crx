@@ -49,9 +49,9 @@ const watchChanges = (dir: string, lastTimestamp?: string) => {
   })
 }
 
-export default async (): Promise<void> => {
+;(async (): Promise<void> => {
   const self = await browser.management.getSelf()
   if (self.installType === 'development') {
     browser.runtime.getPackageDirectoryEntry(dir => watchChanges(dir))
   }
-}
+})()

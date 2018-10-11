@@ -30,9 +30,9 @@ export interface IOLVocabularyDTO {
 
 export type TVocabulary = IWord[]
 
-// standard ouput translate result schema
-export interface IStdTranslateResult {
-  english: []
+export enum EPhoneticTypes {
+  uk = 'uk',
+  usa = 'usa'
 }
 
 // extension translate data transform object

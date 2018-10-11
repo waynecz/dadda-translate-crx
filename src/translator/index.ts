@@ -4,7 +4,7 @@ import {
   ITranslatorAcceptableDTO,
   ITranslateDTO
 } from '@models/dadda'
-import { ISougouTranslateResult } from '@models/sougou'
+import { ISougouTranslateResult } from '@models/sougou-result'
 import { TranslateResult } from 'translation.js/declaration/api/types'
 
 import SougouServices from '@services/sougou'

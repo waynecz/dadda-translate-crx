@@ -1,4 +1,4 @@
-import HotReload from '../hot-reload-extension'
+import '../hot-reload-extension'
 import * as browser from 'webextension-polyfill'
 import {
   TR_SETTING_BLACK_LIST_KEY,
@@ -36,11 +36,6 @@ import Translator from '@translator'
 const OLVocabularyServices = {
   youdao: YoudaoService,
   shanbay: ShanbayService
-}
-
-// tslint:disable-next-line
-if (!PRODUCTION) {
-  HotReload()
 }
 
 browser.runtime.onInstalled.addListener(async reason => {
