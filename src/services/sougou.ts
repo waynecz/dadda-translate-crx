@@ -1,8 +1,8 @@
 import request from 'axios'
 import { SOUGOU_HOST } from '@configs/hosts'
 import { AxiosInstance } from 'axios'
-import { ITranslateDTO } from '@models/dadda';
-import { ISougouTranslateResult } from '@models/sougou-result';
+import { ITranslateDTO } from '@models/dadda'
+import { ISougouTranslateResult } from '@models/sougou-result'
 
 const uuid = (): string => {
   let t
@@ -18,12 +18,16 @@ const uuid = (): string => {
 }
 
 const httpClient: AxiosInstance = request.create({
-  baseURL: SOUGOU_HOST
+  baseURL: SOUGOU_HOST,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'X-Requested-With': 'XMLHttpRequest'
+  }
 })
 
 class Sougou {
   async translate(options: ITranslateDTO) {
-    const payload = {
+    let payload: any = {
       from: 'auto',
       to: 'zh-CHS',
       client: 'pc',
@@ -34,10 +38,18 @@ class Sougou {
       needQc: 1,
       uuid: uuid(),
       oxford: 'on',
-      isReturnSugg: 'on'
+      isReturnSugg: 'off'
     }
 
-    const { data } = await httpClient.post('/reventondc/translate', payload)
+    payload = Object.keys(payload).reduce((a, b) => {
+      return a + `${b === 'from' ? '' : '&'}${b}=${payload[b]}`
+    }, '')
+
+    const { data } = await httpClient
+      .post('/reventondc/translate', payload)
+      .catch(_ => {
+        return Promise.resolve({ data: {} })
+      })
 
     return data as ISougouTranslateResult
   }
@@ -46,4 +58,3 @@ class Sougou {
 const SougouService = new Sougou()
 
 export default SougouService
-

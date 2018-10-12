@@ -34,6 +34,7 @@ interface IOxfordPhonetic {
 interface IOneOfOxfordTranslation {
   content: IOxfordContent[]
   origin: string[]
+  usual: { pos: string; values: string[] }[]
   phonetic: IOxfordPhonetic[]
 }
 
@@ -62,14 +63,34 @@ const SougouTranslateResultSample: ISougouTranslateResult = {
           {
             item: {
               core: [
-                { detail: { zh: '一个中文释义', en: 'an English defination' }, example: [{ zh: '这个释义的例句中文翻译', en: 'an English expample of this defination' }] }
+                {
+                  detail: { zh: '一个中文释义', en: 'an English defination' },
+                  example: [
+                    {
+                      zh: '这个释义的例句中文翻译',
+                      en: 'an English expample of this defination'
+                    }
+                  ]
+                }
               ],
               pos: 'part of speach'
             }
           }
         ],
         origin: [''],
-        phonetic: [{ filename: '//xx.com/deduce.mp3', text: 'dɪˈdjuːs', type: EPhoneticTypes.uk }]
+        usual: [
+          {
+            pos: 'n.',
+            values: ['']
+          }
+        ],
+        phonetic: [
+          {
+            filename: '//xx.com/deduce.mp3',
+            text: 'dɪˈdjuːs',
+            type: EPhoneticTypes.uk
+          }
+        ]
       }
     ]
   },

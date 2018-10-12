@@ -1,50 +1,53 @@
-
 import { EPhoneticTypes } from './dadda'
-import { Omit } from '@tools/typescript';
 
 // Dadda's standard ouput translate result
 export interface IStdTranslateResult {
-  source_language_definitions?: IDefinition[]
-  target_language_definitions?: IDefinitionWithoutExample[]
-  target_language_meaning: string[]
-  phonetic: IPhonetic[]
+  definitions_in_source?: ISourceDefinitions
+  definitions_in_target?: ITargetDefinitions
+  translation_to_target?: string[]
+  phonetic?: IPhonetic[]
+  error?: { code: string } | null
 }
 
-interface IPhonetic {
-  uri: string,
-  text: string,
+export interface ISourceDefinitions {
+  [pos: string]: IDefinition[]
+}
+
+export interface ITargetDefinitions {
+  [pos: string]: string[]
+}
+
+export interface IPhonetic {
+  uri: string
+  text?: string
   type?: EPhoneticTypes
 }
 
-interface IDefinition {
+export interface IDefinition {
   definition: string
-  example: string
-  pos?: string
+  example?: string
 }
 
-interface IDefinitionWithoutExample extends Omit<IDefinition, 'example'> {}
-
-
 // Suppose source is English, target is Chinese
+/* tslint:disable */
 const StdTranslateResultSample: IStdTranslateResult = {
-  // this field will be undefined if the source is not an English word so far
-  source_language_definitions: [
-    {
-      definition: '',
-      example: '',
-      pos: ''
-    }
-  ],
-  // For Google: this field will be undefined if the source is not an English word so far
-  // Other engines: be undefined only if the source is an an English word, the target-language is Chinese
-  target_language_definitions: [
-    {
-      definition: '一个中文释义',
-      pos: 'n.'
-    }
-  ],
+  // this field will be undefined if the source text is not an English word
+  definitions_in_source: {
+    'n.': [
+      {
+        definition: '',
+        example: ''
+      }
+    ]
+  },
+  // For Google: this field will be undefined if the source text is not an English word
+  // Other engines: be undefined only if the text is an an English word, the target-language is Chinese
+  definitions_in_target: {
+    'n.': ['一个中文释义']
+  },
 
-  target_language_meaning: ['中文翻译'],
+  // display transition when there is no definitions
+  translation_to_target: ['中文翻译'],
 
   phonetic: [
     {

@@ -1,9 +1,9 @@
 import { google } from 'translation.js'
-import { ITranslateDTO } from '@models/dadda';
+import { ITranslateDTO } from '@models/dadda'
 
 const GoogleService = {
   translate(options: ITranslateDTO) {
-    return google.translate(options)
+    return google.translate({ ...options })
   }
 }
 

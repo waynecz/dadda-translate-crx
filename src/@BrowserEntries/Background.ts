@@ -32,6 +32,7 @@ import { DICTIONARY_HOST } from '@configs/hosts'
 import YoudaoService from '@services/youdao'
 import ShanbayService from '@services/shanbay'
 import Translator from '@translator'
+import 'translation.js/chrome-youdao'
 
 const OLVocabularyServices = {
   youdao: YoudaoService,
@@ -57,15 +58,15 @@ browser.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_ENGINE_KEY, 'sougou')
   } else {
     const {
-      data: { version, brief }
+      data: { version, breif }
     } = await DaddaService.getUpdateinfo()
-    browser.notifications.clear('updateInfo')
-    browser.notifications.create('updateInfo', {
-      iconUrl: 'http://p5grwrmf4.bkt.clouddn.com/dadda-ico.png',
+
+    browser.notifications.clear('updateInfo3123')
+    browser.notifications.create('updateInfo3123', {
+      iconUrl: 'https://cdn.grisoso.com/daddadadda-ico.png',
       type: 'basic',
       title: `${version} 更新`,
-      message: brief,
-      priority: 2,
+      message: breif || '',
       requireInteraction: true,
       eventTime: Date.now() + 100000
     })

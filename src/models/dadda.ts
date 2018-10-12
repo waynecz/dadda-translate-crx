@@ -2,7 +2,7 @@ import { Omit } from '@tools/typescript'
 
 export interface IVersionInfo {
   version: string
-  brief: string
+  breif: string
 }
 
 export interface IAlarmConfig {

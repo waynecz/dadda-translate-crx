@@ -32,5 +32,8 @@
       "@styles/*": ["src/styles/*"]
     }
   },
+  "awesomeTypescriptLoaderOptions": {
+    "errorsAsWarnings": true
+  },
   "include": ["./src/**/*"]
 }

@@ -3,12 +3,11 @@ import * as browser from 'webextension-polyfill'
 
 export default function Toast(wordTxt: string, message: string): void {
   const options = {
-    iconUrl: 'http://p5grwrmf4.bkt.clouddn.com/dadda-ico.png',
+    iconUrl: 'https://cdn.grisoso.com/daddadadda-ico.png',
     type: 'basic',
     title: wordTxt,
     message,
     priority: 2,
-    hideTimeout: 0,
     requireInteraction: true,
     slient: true,
     eventTime: Date.now() + 1000000,

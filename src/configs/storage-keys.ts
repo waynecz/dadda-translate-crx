@@ -40,6 +40,6 @@ export const TR_SETTING_KEYBOARD_CONTROL: string = '__TR_ENGLISH_KEYBOARD_CONTRO
 // 是否批量关闭吐司弹窗 for windows + chrome users
 export const TR_SETTING_CLOSE_ALL_TOAST_KEY: string = '__TR_SETTING_CLOSE_ALL_TOAST_KEY__'
 
-export const TR_SETTING_TARGET_LANG_KEY: string = '__TR_SETTING_TARGET_LANG_KEY__'
 export const TR_SETTING_SOURCE_LANG_KEY: string = '__TR_SETTING_SOURCE_LANG_KEY__'
+export const TR_SETTING_TARGET_LANG_KEY: string = '__TR_SETTING_TARGET_LANG_KEY__'
 export const TR_SETTING_ENGINE_KEY: string = '__TR_SETTING_ENGINE_KEY__'

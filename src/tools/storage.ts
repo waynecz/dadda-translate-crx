@@ -4,9 +4,10 @@ import * as browser from 'webextension-polyfill'
 import logger from '@tools/logger'
 
 class storage {
-  readonly position: EStoragePosition.local
+  readonly position = EStoragePosition.local
 
   async set(key: string, value): Promise<void> {
+    console.log(this.position)
     await browser.storage[this.position].set({ [key]: value })
 
     if (key === TR_VOCABULARY_STORE_KEY) {
