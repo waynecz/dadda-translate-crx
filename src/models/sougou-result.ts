@@ -64,7 +64,7 @@ const SougouTranslateResultSample: ISougouTranslateResult = {
             item: {
               core: [
                 {
-                  detail: { zh: '一个中文释义', en: 'an English defination' },
+                  detail: { zh: '对应的中文定义', en: 'an English definition' },
                   example: [
                     {
                       zh: '这个释义的例句中文翻译',

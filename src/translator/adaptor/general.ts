@@ -3,14 +3,14 @@ import { IStdTranslateResult, ITargetDefinitions } from '@models/standard-result
 import { baidu } from 'translation.js';
 
 // Adaptor for translation.js (youdao / google)
-export default async function generalAdaptor(
+export default function generalAdaptor(
   rawResult: IGeneralTranslation
 ): IStdTranslateResult {
   console.log('TCL: rawResult', rawResult)
   let result: IStdTranslateResult = Object.create(null)
   
   const { dict } = rawResult
-  let a = await baidu.audio({
+  let a = baidu.audio({
     text: 'better',
     from: 'en-GB'
   })

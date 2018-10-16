@@ -7,7 +7,7 @@ import {
 import { ISougouTranslateResult } from '@models/sougou-result'
 import { TranslateResult } from 'translation.js/declaration/api/types'
 
-import SougouServices from '@services/sougou'
+import SougouService from '@services/sougou'
 import GoogleService from '@services/google'
 import YoudaoService from '@services/youdao'
 
@@ -23,7 +23,7 @@ const Translator = async ({
 
   switch (engine) {
     case EEngines.sougou:
-      rawResult = await SougouServices.translate(options)
+      rawResult = await SougouService.translate(options)
       break
     case EEngines.google:
       rawResult = await GoogleService.translate(options)

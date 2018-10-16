@@ -4,7 +4,6 @@ import Storage from '@tools/storage'
 import * as browser from 'webextension-polyfill'
 import { DELAY_MINS_IN_EVERY_STAGE } from '@configs/dadda'
 import logger from '@tools/logger'
-
 class vocabulary {
   getAll(): Promise<TVocabulary> {
     return Storage.get(TR_VOCABULARY_STORE_KEY, [] as TVocabulary)
