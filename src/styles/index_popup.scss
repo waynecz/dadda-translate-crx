@@ -160,7 +160,7 @@ html {
     color: #fff;
     box-shadow: 0 27px 19px -15px rgba(26, 48, 215, 0.57);
     border-radius: 100px;
-    @include paw;
+    cursor: pointer;
 
     .__icon {
       margin-right: 5px;

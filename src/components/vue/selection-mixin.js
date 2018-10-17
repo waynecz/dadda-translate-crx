@@ -1,16 +1,6 @@
-import {
-  _calcPosition,
-  _inBlackList,
-  _isAllPunctuation,
-  _isAllChinese,
-  _isAllNumber
-} from '@/utils'
+import { _calcPosition, _inBlackList, _isAllPunctuation, _isAllChinese, _isAllNumber } from '@/utils'
 
-import {
-  TR_SETTING_IS_DIRECTLY_KEY,
-  TR_SETTING_SKIP_CHINESE_KEY,
-  TR_SETTING_KEYBOARD_CONTROL
-} from '@/utils/constant'
+import { TR_SETTING_IS_DIRECTLY_KEY, TR_SETTING_SKIP_CHINESE_KEY, TR_SETTING_KEYBOARD_CONTROL } from '@/utils/constant'
 
 export default {
   computed: {
@@ -33,15 +23,11 @@ export default {
     },
 
     resultPanelVisible() {
-      const { panelVisible, selection, translateLoaded, hasAltControl, hasAltPressed } = this
+      const { panelVisible, selection, translateLoaded } = this
 
-      let condition = translateLoaded && panelVisible && selection
-      
-      if (hasAltControl) {
-        condition = condition && hasAltPressed
-      }
+      let result = translateLoaded && panelVisible && selection
 
-      return condition
+      return result
     }
   },
 
@@ -61,16 +47,16 @@ export default {
 
       translationResult: Object.create(null),
 
-      hasAltControl: false,
-      hasAltPressed: false
+      hasKeyboardDisplayControl: false,
+      hasControlKeyBeenPressed: false
     }
   },
 
   async mounted() {
-    this.hasAltControl = (await this.$storage.get(TR_SETTING_KEYBOARD_CONTROL, false)) && !this.$root.inExtension
+    this.hasKeyboardDisplayControl = (await this.$storage.get(TR_SETTING_KEYBOARD_CONTROL, false)) && !this.$root.inExtension
 
-    if (this.hasAltControl) {
-      document.addEventListener('keydown', this.onAltKeyDown)
+    if (this.hasKeyboardDisplayControl) {
+      document.addEventListener('keydown', this.onControlKeyDown)
     }
   },
 
@@ -78,8 +64,9 @@ export default {
     /**
      * ! 按键控制开启翻译
      */
-    onAltKeyDown(e) {
+    onControlKeyDown(e) {
       if (this.selection && e.altKey) {
+        this.hasControlKeyBeenPressed = true
         this.hasAltPressed = true
       }
     },
@@ -87,18 +74,21 @@ export default {
     hidePanel() {
       this.selection = ''
       this.translateLoaded = false
-      this.hasAltPressed = false
+      this.hasControlKeyBeenPressed = false
     },
 
     async showPanel(text) {
-      const { $root, $root: { count, translateDirectly, inExtension }, $storage } = this
       // 如果设置了直接翻译则直接显示结果面板
-      const isDirectly = await $storage.get(TR_SETTING_IS_DIRECTLY_KEY)
-      const keyboardCtrl = await $storage.get(TR_SETTING_KEYBOARD_CONTROL)
+      const {
+        $root: { inExtension },
+        $storage
+      } = this
+      const showPanelDirectlyWhatever = await $storage.get(TR_SETTING_IS_DIRECTLY_KEY)
+
       if (inExtension) {
         this.panelVisible = true
       } else {
-        this.panelVisible = isDirectly || keyboardCtrl
+        this.panelVisible = showPanelDirectlyWhatever
       }
       this.translationResult = null
       this.translateLoaded = false
@@ -108,7 +98,10 @@ export default {
     },
 
     async translateText(text) {
-      const { $root, $root: { count, translateDirectly, inExtension }, $storage } = this
+      const {
+        $root,
+        $root: { inExtension }
+      } = this
       chrome.runtime.sendMessage({ name: 'translate', text, inExtension }, res => {
         if (!res.isHasOxford && /^[A-Z][a-zA-Z]*$/.test(text)) {
           return this.translateText(text.toLowerCase())

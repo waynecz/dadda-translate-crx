@@ -66,7 +66,7 @@ class Setting extends Component {
       },
       {
         key: TR_SETTING_KEYBOARD_CONTROL,
-        label: '开启 ALT 键控制',
+        label: 'ALT 键控制',
         tip: (
           <small className="setting_tip">
             开启后需要摁一下 <kbd>alt</kbd> 才会显示翻译
@@ -84,8 +84,8 @@ class Setting extends Component {
       },
       {
         key: TR_SETTING_IS_DIRECTLY_KEY,
-        label: '是否直接翻译',
-        tip: <small className="setting_tip">开启后划词后将直接弹出翻译不显示悬浮窗<br/>如果Alt控制开启将由Alt控制</small>
+        label: '划词后直接显示翻译',
+        tip: <small className="setting_tip">划词后将直接弹出翻译<br/>优先级大于按键控制</small>
       },
       {
         key: TR_SETTING_AUTO_SPEAK,
