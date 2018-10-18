@@ -30,7 +30,7 @@ export default {
     return {
       // 当前实例下的 ResultPanel 作为 dialog 展现
       resultAsDialog: false,
-      ctrlKey: 'Ctrl',
+      ctrlKey: 'Win',
       hasKeyboardControl: true,
 
       inputVisible: false,
