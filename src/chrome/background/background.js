@@ -57,13 +57,14 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_FONT_FAMILY, 'song')
     Storage.set(TR_SETTING_CLOSE_ALL_TOAST_KEY, false)
   } else {
-    const { version, breif } = await api.getUpdateInfo()
+    const { version } = require('@/manifest.json')
     chrome.notifications.clear('updateInfo')
     chrome.notifications.create('updateInfo', {
       iconUrl: 'http://p5grwrmf4.bkt.clouddn.com/dadda-ico.png',
       type: 'basic',
-      title: `${version} 更新`,
-      message: breif,
+      title: `${version} 更新：`,
+      message: require('@/changelog-breif.json')[version] || '点击查看更新内容',
+      requireInteraction: true,
       priority: 2,
       eventTime: Date.now() + 100000
     })
@@ -147,6 +148,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
       return true
     }
 
+    case 'changeIcon': {
+      // 用来指示当前是否开启 `划词后直接显示翻译`
+      Storage.get(TR_SETTING_IS_DIRECTLY_KEY, false).then(isDirectly => {
+        chrome.browserAction.setBadgeText({ text: isDirectly ? 'go' : '' })
+        chrome.browserAction.setBadgeBackgroundColor({ color: isDirectly ? '#ed559d' : '#fff' })
+      })
+
+      return true
+    }
+
     /**
      * @summary 用来测试样一些非 content 页面的打点之类的
      */
@@ -163,10 +174,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
 chrome.alarms.onAlarm.addListener(async alarm => {
   const toastLock = await Storage.get(TR_SETTING_HAS_TOAST_KEY)
   if (_hasTRId(alarm.name) && toastLock) {
-    const currentVocabulary = await Vocabulary.get()
     const word = _removeTRId(alarm.name)
 
-    Toast(word, 'Click to see at dictionary.com')
+    Toast(word, 'Look the meanings in Sougou')
   }
 })
 

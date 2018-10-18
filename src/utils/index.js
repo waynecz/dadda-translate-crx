@@ -211,3 +211,7 @@ export const _normalizeQuery = (query = _parseQuery()) => {
 
   return `${search}`
 }
+
+export const _isMac = () => {
+  return window.navigator.userAgent.includes('Mac OS')
+}

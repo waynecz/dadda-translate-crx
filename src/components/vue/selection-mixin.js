@@ -24,7 +24,6 @@ export default {
 
     resultPanelVisible() {
       const { panelVisible, selection, translateLoaded } = this
-
       let result = translateLoaded && panelVisible && selection
 
       return result
@@ -47,8 +46,7 @@ export default {
 
       translationResult: Object.create(null),
 
-      hasKeyboardDisplayControl: false,
-      hasControlKeyBeenPressed: false
+      hasKeyboardDisplayControl: false
     }
   },
 
@@ -66,15 +64,14 @@ export default {
      */
     onControlKeyDown(e) {
       if (this.selection && e.altKey) {
-        this.hasControlKeyBeenPressed = true
-        this.hasAltPressed = true
+        this.panelVisible = true
       }
     },
 
     hidePanel() {
       this.selection = ''
       this.translateLoaded = false
-      this.hasControlKeyBeenPressed = false
+      this.panelVisible = false
     },
 
     async showPanel(text) {

@@ -7,6 +7,7 @@ export default (word, message) => {
     title: word,
     message,
     priority: 2,
+    requireInteraction: true,
     eventTime: Date.now() + 1000000,
     buttons: [
       {

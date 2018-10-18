@@ -9,7 +9,7 @@
 <br>
 
 
-![GitHub release](https://img.shields.io/badge/release-v1.1.8-orange.svg?style=for-the-badge)
+![GitHub release](https://img.shields.io/badge/release-v1.1.9-orange.svg?style=for-the-badge)
 ![Chrome 60+](https://img.shields.io/badge/chrome-60%2B-blue.svg?style=for-the-badge)
 ![Webpack 4.0+](https://img.shields.io/badge/webpack-4-brightgreen.svg?style=for-the-badge)
 
@@ -59,10 +59,6 @@
 - 在每次吐司弹词后，点击吐司主体或者点击 close 按钮将被视为把单词推入下一个阶段
 - 可以在吐司中点击 `More` -> `斩掉这个单词` 删除单词，此操作也将同步至扇贝单词！
 - 开启 ALT 键控制后，划词后须要敲一下 `alt` 才会出现翻译结果
-
-<br>
-
-## 求一起帮助完善这个插件
 
 <br>
 

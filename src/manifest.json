@@ -2,17 +2,16 @@
   "description": "划词翻译、生词本、吐司弹词、与扇贝同步",
   "name": "达达划词翻译",
   "manifest_version": 2,
-  "version": "1.1.8",
+  "version": "1.1.9",
   "author": "Waynecz <451578533@qq.com>",
   "homepage_url": "https://github.com/waynecz/dadda-translate-crx",
-  "content_security_policy":
-    "font-src 'self' https://fonts.googleapis.com; script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_security_policy": "font-src 'self' https://fonts.googleapis.com; script-src 'self' 'unsafe-eval'; object-src 'self'",
   "icons": {
     "128": "logo.png",
     "16": "logo.png",
     "48": "logo.png"
   },
-  "web_accessible_resources": ["logo.png", "content/app.css", "fonts/*", "assets/*"],
+  "web_accessible_resources": ["logo.png", "logo-active.png", "content/app.css", "fonts/*", "assets/*"],
   "permissions": [
     "<all_urls>",
     "storage",
@@ -28,7 +27,7 @@
     "webRequestBlocking"
   ],
   "browser_action": {
-    "default_title": "达达划词翻译 <哈哈哈>",
+    "default_title": "达达划词翻译",
     "default_icon": "logo.png",
     "default_popup": "popup/popup.html"
   },

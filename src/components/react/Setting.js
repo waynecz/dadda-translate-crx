@@ -13,7 +13,6 @@ import {
   TR_SETTING_AUTO_SPEAK,
   TR_SETTING_YOUDAO,
   TR_SETTING_SHANBAY,
-  TR_SETTING_ENGLISH_MEANING,
   TR_SETTING_KEYBOARD_CONTROL,
   TR_SETTING_CLOSE_ALL_TOAST_KEY,
   TR_SETTING_EXPORT_ALL_WORDS
@@ -66,10 +65,10 @@ class Setting extends Component {
       },
       {
         key: TR_SETTING_KEYBOARD_CONTROL,
-        label: 'ALT 键控制',
+        label: '用 ALT 键控制',
         tip: (
           <small className="setting_tip">
-            开启后需要摁一下 <kbd>alt</kbd> 才会显示翻译
+            摁一下 <kbd>alt</kbd> 显示翻译，替代按钮图标
           </small>
         )
       },
@@ -102,11 +101,6 @@ class Setting extends Component {
         label: '开启吐司弹词',
         tip: <small className="setting_tip">关闭后将不再进行弹词记忆</small>
       }
-      // {
-      //   key: TR_SETTING_ENGLISH_MEANING,
-      //   label: '显示英文释义(开发中)',
-      //   tip: <small className="setting_tip">关闭后将不再显示英文释义</small>
-      // }
     ]
   }
 
