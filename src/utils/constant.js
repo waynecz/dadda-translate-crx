@@ -39,6 +39,10 @@ export const TR_SETTING_CLOSE_ALL_TOAST_KEY = '__TR_SETTING_CLOSE_ALL_TOAST_KEY_
 // 导出内容
 export const TR_SETTING_EXPORT_ALL_WORDS = '__TR_SETTING_EXPORT_ALL_WORDS__'
 
+export const TR_SETTING_CALLOUT_INPUT = '__TR_SETTING_EXPORT_CALLOUT_INPUT__'
+
+export const TR_SETTING_LASTING_TOAST = '__TR_SETTING_EXPORT_LASTING_TOAST__'
+
 /**
  * @summary 词性 (part of speech) 对应中文
  */
@@ -70,7 +74,7 @@ export const POS_MAP = {
  * @summary  吐司提醒时间间隔
  */
 export const DELAY_MINS_IN_EVERY_STAGE = {
-  1: 5,
+  1: 0.1,
   2: 30,
   3: 60,
   4: 6 * 60,
