@@ -74,7 +74,7 @@ export const POS_MAP = {
  * @summary  吐司提醒时间间隔
  */
 export const DELAY_MINS_IN_EVERY_STAGE = {
-  1: 0.1,
+  1: 5,
   2: 30,
   3: 60,
   4: 6 * 60,

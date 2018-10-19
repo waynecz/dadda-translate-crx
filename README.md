@@ -9,7 +9,7 @@
 <br>
 
 
-![GitHub release](https://img.shields.io/badge/release-v1.1.12-orange.svg?style=for-the-badge)
+![GitHub release](https://img.shields.io/badge/release-v1.1.13-orange.svg?style=for-the-badge)
 ![Chrome 60+](https://img.shields.io/badge/chrome-60%2B-blue.svg?style=for-the-badge)
 ![Webpack 4.0+](https://img.shields.io/badge/webpack-4-brightgreen.svg?style=for-the-badge)
 
