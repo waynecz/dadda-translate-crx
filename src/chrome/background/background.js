@@ -23,6 +23,8 @@ import {
   TR_SETTING_YOUDAO,
   TR_SETTING_ENGLISH_MEANING,
   TR_SETTING_KEYBOARD_CONTROL,
+  TR_SETTING_LASTING_TOAST,
+  TR_SETTING_CALLOUT_INPUT,
   TR_SETTING_CLOSE_ALL_TOAST_KEY
 } from '@/utils/constant'
 
@@ -38,6 +40,14 @@ const moveWord2NextStage = async word => {
   const delayInMinutes = DELAY_MINS_IN_EVERY_STAGE[nextStage]
 
   setNewAlarm({ delayInMinutes, word })
+}
+
+// 检测当前是否处于 go 模式
+const detectGo = () => {
+  Storage.get(TR_SETTING_IS_DIRECTLY_KEY, false).then(isDirectly => {
+    chrome.browserAction.setBadgeText({ text: isDirectly ? 'go' : '' })
+    chrome.browserAction.setBadgeBackgroundColor({ color: isDirectly ? '#ed559d' : '#fff' })
+  })
 }
 
 /**
@@ -56,6 +66,9 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_KEYBOARD_CONTROL, false)
     Storage.set(TR_SETTING_FONT_FAMILY, 'song')
     Storage.set(TR_SETTING_CLOSE_ALL_TOAST_KEY, false)
+
+    Storage.set(TR_SETTING_LASTING_TOAST, false)
+    Storage.set(TR_SETTING_CALLOUT_INPUT, false)
   } else {
     const { version } = require('@/manifest.json')
     chrome.notifications.clear('updateInfo')
@@ -68,13 +81,13 @@ chrome.runtime.onInstalled.addListener(async reason => {
       priority: 2,
       eventTime: Date.now() + 100000
     })
+    detectGo()
   }
 })
 
 // 兼容 1.0.0 版本的在 Chrome 云端同步的数据
 chrome.storage['sync'].get(TR_STORAGE_KEY, async data => {
   data = data || {}
-  const currentVocabulary = Vocabulary.get()
   const synchronousVoca = data[TR_STORAGE_KEY] || []
 
   if (synchronousVoca.length) {
@@ -148,13 +161,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
       return true
     }
 
-    case 'changeIcon': {
+    case 'toggleGo': {
       // 用来指示当前是否开启 `划词后直接显示翻译`
-      Storage.get(TR_SETTING_IS_DIRECTLY_KEY, false).then(isDirectly => {
-        chrome.browserAction.setBadgeText({ text: isDirectly ? 'go' : '' })
-        chrome.browserAction.setBadgeBackgroundColor({ color: isDirectly ? '#ed559d' : '#fff' })
-      })
-
+      detectGo()
       return true
     }
 
@@ -234,15 +243,21 @@ chrome.notifications.onButtonClicked.addListener(async (notiId, btnId) => {
 })
 
 /**
- * @summary 点击 notification 打开剑桥辞典并且将单词推入下一步
+ * @summary 点击 notification 打开搜狗翻译并且将单词推入下一步
  */
 chrome.notifications.onClicked.addListener(async notiId => {
   if (notiId === 'updateInfo') {
     chrome.tabs.create({ url: 'https://github.com/waynecz/dadda-translate-crx/releases' })
   }
+
   if (_hasTRId(notiId)) {
     const word = _removeTRId(notiId)
     chrome.tabs.create({ url: `${DICTIONARY_HOST}${encodeURI(word)}` })
     moveWord2NextStage(word)
+    const isLasting = await Storage.get(TR_SETTING_LASTING_TOAST, false)
+
+    if (isLasting) {
+      chrome.notifications.clear(notiId)
+    }
   }
 })

@@ -1,13 +1,15 @@
-import { TR_ID_PREFIX } from '@/utils/constant'
+import { TR_ID_PREFIX, TR_SETTING_LASTING_TOAST } from '@/utils/constant'
+import Storage from '@/utils/storage'
 
-export default (word, message) => {
+export default async (word, message) => {
+  const requireInteraction = await Storage.get(TR_SETTING_LASTING_TOAST, false)
   const options = {
     iconUrl: 'http://p5grwrmf4.bkt.clouddn.com/dadda-ico.png',
     type: 'basic',
     title: word,
     message,
     priority: 2,
-    requireInteraction: true,
+    requireInteraction,
     eventTime: Date.now() + 1000000,
     buttons: [
       {
