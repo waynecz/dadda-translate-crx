@@ -1,40 +1,28 @@
 import { google, sougou, shanbay, cdn, youdao } from './client'
 import { _sougouUuid } from '@/utils'
+import md5 from 'md5'
 
 export default {
-  googleTranslate(text, tk) {
-    return google('/translate_a/single', {
-      params: {
-        client: 't',
-        sl: 'auto',
-        tl: 'zh-CN',
-        hl: 'zh-CN',
-        tk,
-        dt: ['at', 'bd', 'ex', 'ld', 'md', 'qca', 'rw', 'rm', 'ss', 't'],
-        ie: 'UTF-8',
-        oe: 'UTF-8',
-        otf: '1',
-        ssel: '0',
-        tsel: '0',
-        kc: '7',
-        q: text
-      }
-    })
-  },
-
   sougouTranslate(text) {
+    const from = 'auto'
+    const to = 'zh-CHS'
+    text = encodeURIComponent(text)
+    // 搜狗 API 新增加的一个字段，后面固定的 `fromt_xxxxx` 目前意义不明，先写死
+    const s = md5('' + from + to + text + 'front_9ee4f0a1102eee31d09b55e4d66931fd')
+
     const payload = {
-      from: 'auto',
-      to: 'zh-CHS',
+      from,
+      to,
       client: 'pc',
       fr: 'browser_pc',
-      text: encodeURIComponent(text),
+      text,
       useDetect: 'on',
       useDetectResult: 'on',
       needQc: 1,
       uuid: _sougouUuid(),
       oxford: 'on',
-      isReturnSugg: 'on'
+      isReturnSugg: 'off',
+      s
     }
 
     const data = Object.keys(payload).reduce((a, b) => {
