@@ -1,6 +1,6 @@
 <template>
-  <div class="__transltor" :class="{ 
-      '__is-dialog-wrap': resultAsDialog 
+  <div class="__transltor" :class="{
+      '__is-dialog-wrap': resultAsDialog
     }">
 
     <translator-button :class="{ '__is-show': !panelVisible && selection && !hasKeyboardDisplayControl }" :style="buttonPositionStyle" @click="panelVisible = true" />
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import selectionMixin from '@/components/vue/Selection-mixin'
+import selectionMixin from '@/components/vue/selection-mixin'
 import { _calcPositionAsDialog, _inBlackList, _isMac } from '@/utils'
 import { TR_SETTING_IS_DIRECTLY_KEY, TR_SETTING_KEYBOARD_CONTROL, FONT_SIZES_PER_LENGTH, TR_SETTING_CALLOUT_INPUT } from '@/utils/constant'
 

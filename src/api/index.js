@@ -6,9 +6,8 @@ export default {
   sougouTranslate(text) {
     const from = 'auto'
     const to = 'zh-CHS'
-    // 搜狗 API 新增加的一个字段，后面固定的 `fromt_xxxxx` 目前意义不明，先写死
-    const s = md5('' + from + to + text + 'front_9ee4f0a1102eee31d09b55e4d66931fd')
-    text = text.replace(/\s/g, '+')
+    // 搜狗 API 新增加的一个字段，后面固定的 `front_xxxxx` 目前意义不明，先写死
+    const s = md5(from + to + text + 'front_9ee4f0a1102eee31d09b55e4d66931fd')
 
     const payload = {
       from,
@@ -26,9 +25,7 @@ export default {
       s
     }
 
-    const data = Object.keys(payload).reduce((a, b) => {
-      return a + `${b === 'from' ? '' : '&'}${b}=${payload[b]}`
-    }, '')
+    const data = Object.entries(payload).map(([k, v]) => k + '=' + v).join('&')
 
     return sougou.post('/reventondc/translate', data)
   },
