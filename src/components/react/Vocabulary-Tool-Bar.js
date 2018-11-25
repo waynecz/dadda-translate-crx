@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import withTop from './@Top'
 import mapState from '@/utils/mapState'
-import NumberCount from './Number-Count'
+import NumberCount from './Number-count'
 
 @withTop
 @connect(mapState)

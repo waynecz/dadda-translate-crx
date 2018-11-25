@@ -1,12 +1,12 @@
 <template>
-  <div 
-    class="__result" 
-    @wheel.stop="e => e.preventDefault()" 
-    @mouseup.stop="onMouseUp" 
+  <div
+    class="__result"
+    @wheel.stop="e => e.preventDefault()"
+    @mouseup.stop="onMouseUp"
     :class="[
-      { 
-        '__result--invisible': !visible, 
-        '__is-dialog': isDialog 
+      {
+        '__result--invisible': !visible,
+        '__is-dialog': isDialog
       },
       font
     ]"
@@ -14,37 +14,37 @@
     <!-- 头部 -->
     <div class="__result_origin">
       <h5 class="__result_word" :class="{ '__result_word--sentence': !inDict }">{{text}}</h5>
-      <div 
-        v-if="inDict" 
-        v-for="(phonetic, i) in phonetics" 
+      <div
+        v-if="inDict"
+        v-for="(phonetic, i) in phonetics"
         class="__result_pronunciation __tooltip __top"
         :tooltip="phonetic.filename ? '点击发音' : '暂无发音'"
-        :key="phonetic.filename || i" 
+        :key="phonetic.filename || i"
         @click.stop="e => phonetic.filename ? speak(phonetic.type) : e"
       >
         <div class="__result_flag" :class="`__result_flag--${phonetic.type}`"></div>
         <div class="__result_phonetic">[{{phonetic.text}}]</div>
-        <audio 
-          :id="`x__result_${phonetic.type}-${uuid}`" 
+        <audio
+          :id="`x__result_${phonetic.type}-${uuid}`"
           :src="`https:${phonetic.filename}`"
-          class="__result_audio" 
+          class="__result_audio"
         />
       </div>
-      <audio 
+      <audio
         v-if="!inDict"
-        :id="`x__result-${uuid}`" 
+        :id="`x__result-${uuid}`"
         :src="dict.phonetic"
-        class="__result_audio" 
+        class="__result_audio"
       />
 
       <div class="__result_chinese __result_chinese--brief">{{currentEnglishMeaning}}</div>
 
       <!-- 收藏 -->
-      <div 
-        v-if="!$root.inExtension" 
-        class="__result_star __tooltip __left" 
-        :class="{ '__result_star--ed' : inCollection }" 
-        :tooltip="inCollection ? '从生词簿内删除' : '加入生词簿'" 
+      <div
+        v-if="!$root.inExtension"
+        class="__result_star __tooltip __left"
+        :class="{ '__result_star--ed' : inCollection }"
+        :tooltip="inCollection ? '从生词簿内删除' : '加入生词簿'"
         @click.stop="toggleCollect"
       >
         <i class="__icon" :class="[inCollection ? '__icon-star-solid' : '__icon-star']"></i>
@@ -54,19 +54,19 @@
     <!-- 牛津翻译部分 -->
     <div class="__result_oxford" @wheel.stop="handleMouseWheel" :class="{'__result_oxford--expanded': expanded}"  v-if="inDict && oxfordTranslations">
       <div class="__result_class" v-for="(wordPos, i) in oxfordTranslations" :key="i">
-        <div 
-          class="__result_type __tooltip __right" 
+        <div
+          class="__result_type __tooltip __right"
           :tooltip="abridge(wordPos.item.pos).meaning"
         >{{abridge(wordPos.item.pos).abbr}}</div>
-        <div class="__result_item-wrap"> 
-          <div 
-            v-for="translation in wordPos.item.core" 
+        <div class="__result_item-wrap">
+          <div
+            v-for="translation in wordPos.item.core"
             :key="translation.index"
             @mouseenter.stop="changeCurrentEnglishMeaning(translation.detail.zh)"
             @mouseleave.stop="changeCurrentEnglishMeaning('')"
             :class="{
               [`__result_item--${min_number_of_items_in_one_pos}`]: !expanded
-            }" 
+            }"
             class="__result_item"
           >
             <div class="__result_english">{{translation.detail.en | removeTag}}</div>
@@ -78,9 +78,9 @@
 
     <!-- 更多释义 -->
     <div v-if="hasMoreItem" @click.stop="toggleExpand" class="__result_more __tooltip __top" :tooltip="expanded ? '收起' : '显示更多英语释义'">
-      <div 
+      <div
         class="__result_more-button"
-        :class="{'__result_more-button--expanded': expanded}" 
+        :class="{'__result_more-button--expanded': expanded}"
       ></div>
     </div>
 
@@ -109,20 +109,20 @@
     </div>
 
     <!-- 画中画 -->
-    
+
     <translator-button
       :class="{ 'show': !panelVisible && selection }"
-      :style="buttonPositionStyle" 
+      :style="buttonPositionStyle"
       @click="panelVisible = true"
     />
-    
+
     <transition name="fade-in">
-      <result-panel 
-        v-if="resultPanelVisible" 
-        :text="selection" 
-        :style="panelPositionStyle" 
+      <result-panel
+        v-if="resultPanelVisible"
+        :text="selection"
+        :style="panelPositionStyle"
         :result="translationResult"
-        :hide="hidePanel" 
+        :hide="hidePanel"
       ></result-panel>
     </transition>
   </div>
@@ -132,7 +132,7 @@
 import _merge from 'lodash-es/merge'
 import WordModel from '@/model/word'
 import TranslationModel from '@/model/translation'
-import selectionMixin from '@/components/vue/Selection-mixin'
+import selectionMixin from '@/components/vue/selection-mixin'
 import { _removeTag, _abridgePOS, _uuid } from '@/utils'
 import {
   TR_SETTING_AUTO_SPEAK,
