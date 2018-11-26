@@ -8,6 +8,7 @@ export default {
     const to = 'zh-CHS'
     // 搜狗 API 新增加的一个字段，后面固定的 `front_xxxxx` 目前意义不明，先写死
     const s = md5(from + to + text + 'front_9ee4f0a1102eee31d09b55e4d66931fd')
+    text = encodeURIComponent(text).replace(/%20/g, '+')
 
     const payload = {
       from,
@@ -25,7 +26,9 @@ export default {
       s
     }
 
-    const data = Object.entries(payload).map(([k, v]) => k + '=' + v).join('&')
+    const data = Object.entries(payload)
+      .map(([k, v]) => k + '=' + v)
+      .join('&')
 
     return sougou.post('/reventondc/translate', data)
   },
