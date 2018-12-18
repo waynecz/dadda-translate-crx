@@ -28,8 +28,8 @@ export interface IDefinition {
   example?: string
 }
 
-// Suppose source is English, target is Chinese
-/* tslint:disable */
+// Suppose the source is English, the target is Chinese
+// tslint-disable-next-line 
 const StdTranslateResultSample: IStdTranslateResult = {
   // this field will be undefined if the source text is not an English word
   definitions_in_source: {

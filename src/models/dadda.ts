@@ -32,7 +32,7 @@ export type TVocabulary = IWord[]
 
 export enum EPhoneticTypes {
   uk = 'uk',
-  usa = 'usa'
+  usa = 'usa',
 }
 
 // extension translate data transform object

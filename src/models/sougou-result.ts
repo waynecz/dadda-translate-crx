@@ -53,7 +53,8 @@ export interface ISougouTranslateResult {
   translate: ISougouSimpleTranlate
 }
 
-// Suppose source is English, target is Chinese
+// Suppose the source is English, the target is Chinese
+// tslint-disable-next-line 
 const SougouTranslateResultSample: ISougouTranslateResult = {
   // `dictionary` field existed only when isHasOxford === true
   dictionary: {
