@@ -3,6 +3,7 @@ import api from '@/api'
 const addToShanbayVocabulary = word => {
   return new Promise((resolve, reject) => {
     chrome.cookies.get({ url: 'http://www.shanbay.com', name: 'auth_token' }, async cookie => {
+      debugger
       if (cookie) {
         const { data } = await api.shanbayTranslate(word)
         const res = await api.addToShanbayVocabulary(data.id)

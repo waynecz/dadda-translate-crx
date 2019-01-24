@@ -9,6 +9,7 @@ import VocabularyToolBar from '@/components/react/Vocabulary-Tool-Bar'
 import Vocabulary from '@/components/react/Vocabulary'
 import Setting from '@/components/react/Setting'
 import { ToastContainer } from 'react-toastify'
+import SpeakEnglishWithYLS from './YLS'
 
 /**
  * @summary option.html 页面不支持路由，所以 GG
@@ -70,6 +71,7 @@ class App extends Component {
           links={links}
           handleLink={this.handleLink}
         />
+        <SpeakEnglishWithYLS />
       </div>
     )
   }

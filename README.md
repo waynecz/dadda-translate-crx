@@ -11,7 +11,7 @@
 <br>
 
 
-![GitHub release](https://img.shields.io/badge/release-v1.1.19-orange.svg?style=for-the-badge)
+![GitHub release](https://img.shields.io/badge/release-v1.1.20-orange.svg?style=for-the-badge)
 ![Chrome 60+](https://img.shields.io/badge/chrome-60%2B-blue.svg?style=for-the-badge)
 ![Webpack 4.0+](https://img.shields.io/badge/webpack-4-brightgreen.svg?style=for-the-badge)
 
@@ -66,12 +66,12 @@
 
 ## 可能还要做的
 
-- [ ] [2.0 开发计划](https://github.com/waynecz/dadda-translate-crx/issues/94)
+- [ ] [2.0 开发计划（近期开发不动）](https://github.com/waynecz/dadda-translate-crx/issues/94)
 
 <br>
 
 ## 讨论群
-+ [Telegram](https://t.me/joinchat/HZtwHQyv_GqSKmyXr_7reA)
++ [Telegram(不活跃)](https://t.me/joinchat/HZtwHQyv_GqSKmyXr_7reA)
 + QQ(null)
 + Wechat(null)
 
@@ -100,7 +100,7 @@
 
 ## 感谢
 
-- [划词翻译](https://github.com/Selection-Translator/crx-selection-translate)@[mingkaili](https://github.com/lmk123)|
+- [划词翻译](https://github.com/Selection-Translator/crx-selection-translate)@[mingkaili](https://github.com/lmk123)
 - [fonts.css](https://github.com/zenozeng/fonts.css)@[zenozend](https://github.com/zenozeng) 
 
 [@Aaron-Bird](https://github.com/Aaron-Bird) 
@@ -121,6 +121,16 @@
 |
 [@cnwangjie](https://github.com/cnwangjie)  
 
+
+<br>
+
+## 友链
+
+美语说 - 跟着 ElementUI 作者[杨老师](https://github.com/Leopoldthecoder)一起跟读影视/CG原声、书籍原文 😉
+
+<img width="200" src="./src/assets/meiyushuo.jpg" alt="美语说" />
+
+<small>微信公众号二维码</small>
 
 <br>
 
