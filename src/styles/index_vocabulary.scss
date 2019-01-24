@@ -417,6 +417,45 @@ body {
   }
 }
 
+@include b(yls, '') {
+  position: fixed;
+  display: flex;
+  right: 30px;
+  bottom: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 10px 20px -5px rgba(65, 65, 65, 0.17);
+  cursor: pointer;
+  @include ts();
+
+  @include pseudo(hover) {
+    transform: ty(-3px);
+
+    @include e(qr) {
+      display: block;
+    }
+  }
+
+  > .__icon.__icon {
+    display: block;
+    margin: auto;
+    font-size: 30px;
+    color: #333;
+  }
+
+  @include e(qr) {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: txy(0%, -110%);
+    box-shadow: 0 10px 20px -5px rgba(65, 65, 65, 0.17);
+    width: 180px;
+  }
+}
+
 .empty {
   display: flex;
   align-items: center;
