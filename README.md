@@ -10,10 +10,16 @@
 
 <br>
 
+[![release][release-badge]][releases]
+[![license][license-badge]][license]
+[![chrome store][chrome-badge]][chromestore]
 
-![GitHub release](https://img.shields.io/badge/release-v1.1.21-orange.svg?style=for-the-badge)
-![Chrome 60+](https://img.shields.io/badge/chrome-60%2B-blue.svg?style=for-the-badge)
-![Webpack 4.0+](https://img.shields.io/badge/webpack-4-brightgreen.svg?style=for-the-badge)
+[license]: ./LICENSE
+[chromestore]: https://chrome.google.com/webstore/detail/%E8%BE%BE%E8%BE%BE%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/cajhcjfcodjoalmhjekljnfkgjlkeajl
+[releases]: https://github.com/waynecz/dadda-translate-crx/releases
+[chrome-badge]: https://img.shields.io/badge/chrome-store-0038e2.svg?style=flat-square
+[release-badge]: https://img.shields.io/badge/release-v1.1.23-0038e2.svg?style=flat-square
+[license-badge]: https://img.shields.io/badge/license-MIT-0038e2.svg?style=flat-square
 
 😍 漂亮的划词翻译插件 / 让你在 Chrome 上背单词（可同步至扇贝、有道单词）
 
@@ -71,9 +77,10 @@
 <br>
 
 ## 讨论群
-+ [Telegram(不活跃)](https://t.me/joinchat/HZtwHQyv_GqSKmyXr_7reA)
-+ QQ(null)
-+ Wechat(null)
+
+- [Telegram(不活跃)](https://t.me/joinchat/HZtwHQyv_GqSKmyXr_7reA)
+- QQ(null)
+- Wechat(null)
 
 ## FAQ
 
@@ -101,32 +108,31 @@
 ## 感谢
 
 - [划词翻译](https://github.com/Selection-Translator/crx-selection-translate)@[mingkaili](https://github.com/lmk123)
-- [fonts.css](https://github.com/zenozeng/fonts.css)@[zenozend](https://github.com/zenozeng) 
+- [fonts.css](https://github.com/zenozeng/fonts.css)@[zenozend](https://github.com/zenozeng)
 
-[@Aaron-Bird](https://github.com/Aaron-Bird) 
+[@Aaron-Bird](https://github.com/Aaron-Bird)
 |
-[@ciknight](https://github.com/ciknight) 
+[@ciknight](https://github.com/ciknight)
 |
 [@sinchang](https://github.com/sinchang)
 |
-[@MisLink](https://github.com/MisLink) 
+[@MisLink](https://github.com/MisLink)
 |
-[@Huiyi.FYJ](https://github.com/huiyifyj) 
-| 
-[@M.cat](https://github.com/Colory) 
-| 
-[@aermin](https://github.com/aermin) 
-| 
-[@Ru Fan](https://github.com/ru1996) 
+[@Huiyi.FYJ](https://github.com/huiyifyj)
 |
-[@cnwangjie](https://github.com/cnwangjie)  
-
+[@M.cat](https://github.com/Colory)
+|
+[@aermin](https://github.com/aermin)
+|
+[@Ru Fan](https://github.com/ru1996)
+|
+[@cnwangjie](https://github.com/cnwangjie)
 
 <br>
 
 ## 友链
 
-美语说 - 跟着 ElementUI 作者[杨老师](https://github.com/Leopoldthecoder)一起跟读影视/CG原声、书籍原文 😉
+美语说 - 跟着 ElementUI 作者[杨老师](https://github.com/Leopoldthecoder)一起跟读影视/CG 原声、书籍原文 😉
 
 <img width="200" src="./src/assets/meiyushuo.jpg" alt="美语说" />
 

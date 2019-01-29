@@ -4,7 +4,7 @@ import Storage from '@/utils/storage'
 export default async (word, message) => {
   const requireInteraction = await Storage.get(TR_SETTING_LASTING_TOAST, false)
   const options = {
-    iconUrl: 'http://p5grwrmf4.bkt.clouddn.com/dadda-ico.png',
+    iconUrl: 'https://cdn.grisoso.com/daddadadda-ico.png',
     type: 'basic',
     title: word,
     message,
