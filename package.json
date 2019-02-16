@@ -1,10 +1,11 @@
 {
   "name": "dadda-translate",
+  "private": true,
   "version": "1.2.0",
   "description": "translate and remember",
   "scripts": {
-    "dev": "node_modules/.bin/webpack --progress --config build/webpack.dev.js",
-    "build": "rm -rf ./dist && node_modules/.bin/webpack --config build/webpack.production.js"
+    "dev": "webpack --progress --config build/webpack.dev.js",
+    "build": "rm -rf ./dist && webpack --config build/webpack.production.js"
   },
   "keywords": [
     "translate",
