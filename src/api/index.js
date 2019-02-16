@@ -1,6 +1,6 @@
 import { google, sougou, shanbay, cdn, youdao } from './client'
 import { _sougouUuid } from '@/utils'
-import md5 from 'md5'
+import md5 from '@xn-02f/md5'
 
 let token = 'b33bf8c58706155663d1ad5dba4192dc'
 export default {
