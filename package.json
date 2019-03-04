@@ -1,6 +1,6 @@
 {
   "name": "dadda-translate",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "translate and remember",
   "scripts": {
     "dev": "node_modules/.bin/webpack --progress --config build/webpack.dev.js",
