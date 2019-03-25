@@ -6,7 +6,8 @@
     :class="[
       {
         '__result--invisible': !visible,
-        '__is-dialog': isDialog
+        '__is-dialog': isDialog,
+        '__is-input--visible': inputVisible,
       },
       font
     ]"
@@ -158,6 +159,9 @@ export default {
     },
 
     isDialog: {
+      type: Boolean
+    },
+    inputVisible: {
       type: Boolean
     }
   },
