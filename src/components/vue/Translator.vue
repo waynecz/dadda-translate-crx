@@ -5,7 +5,7 @@
 
     <translator-button :class="{ '__is-show': !panelVisible && selection && !hasKeyboardDisplayControl }" :style="buttonPositionStyle" @click="panelVisible = true" />
 
-    <result-panel v-if="resultPanelVisible" :hide="hidePanelInRoot" :text="selection" :is-dialog="resultAsDialog" :style="panelPositionStyle" :isDialog="resultAsDialog" :result="translationResult" />
+    <result-panel v-if="resultPanelVisible" :inputVisible="inputVisible" :hide="hidePanelInRoot" :text="selection" :is-dialog="resultAsDialog" :style="panelPositionStyle" :isDialog="resultAsDialog" :result="translationResult" />
 
     <transition name="fade" @after-enter="inputEntered">
       <div v-if="inputVisible" class="__transltor_input" :ctrl-key="ctrlKey">
