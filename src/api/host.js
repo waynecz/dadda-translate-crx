@@ -12,4 +12,4 @@ export const CGDICT_HOST = 'http://www.cgdict.com/index.php?app=cigen&ac=word&w=
 
 // 搜狗语音
 export const SOUGOU_SPOKEN_URL =
-  'https://fanyi.sogou.com/reventondc/microsoftGetSpeakFile?from=translateweb&spokenDialect=en&text='
+  'https://fanyi.sogou.com/reventondc/synthesis?from=translateweb&lang=en&text='
