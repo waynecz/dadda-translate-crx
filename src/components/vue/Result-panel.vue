@@ -482,8 +482,11 @@ export default {
      */
     speak(type) {
       const audio = document.getElementById(`x__result_${type}-${this.uuid}`)
-
-      audio && audio.play()
+      if(!audio) return
+      if(audio.readyState==4) 
+        audio.play()
+      else 
+        chrome.runtime.sendMessage({ name: 'speak', url: audio.src })
     },
 
     async changeFont(font) {

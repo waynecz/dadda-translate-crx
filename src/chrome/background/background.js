@@ -167,6 +167,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
       return true
     }
 
+    case 'speak': {
+      let audio = document.createElement('audio')
+      audio.autoplay = true
+      audio.src = request.url
+      return true
+    }
+
     /**
      * @summary 用来测试样一些非 content 页面的打点之类的
      */
