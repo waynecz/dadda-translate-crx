@@ -47,7 +47,9 @@ export default {
 
       translationResult: Object.create(null),
 
-      hasKeyboardDisplayControl: false
+      hasKeyboardDisplayControl: false,
+
+      showPanelDirectlyWhatever: false
     }
   },
 
@@ -87,6 +89,7 @@ export default {
         this.panelVisible = true
       } else {
         this.panelVisible = showPanelDirectlyWhatever
+        this.showPanelDirectlyWhatever = showPanelDirectlyWhatever
       }
       this.translationResult = null
       this.translateLoaded = false
