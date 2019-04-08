@@ -3,7 +3,7 @@
   --panel-width: 550px;
 
   box-sizing: border-box;
-  position: fixed;
+  position: absolute;
   z-index: 9999;
   display: flex;
   width: unset;
@@ -34,6 +34,10 @@
   }
   @include when(input--visible) {
     max-height: calc(50vh - 100px) !important;
+    position: fixed;
+    left: 50% !important;
+    top: 35% !important;
+    transform: translate(-50%, 100px) !important;
   }
   @include when(dialog) {
     --panel-width: 650px;

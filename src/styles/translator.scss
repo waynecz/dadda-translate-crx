@@ -1,5 +1,7 @@
 @include b(transltor) {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   z-index: 10000;
   width: unset;
   height: unset;
@@ -20,7 +22,7 @@
 
   @include e(button) {
     display: none;
-    position: fixed;
+    position: absolute;
     z-index: 10000;
     width: 36px;
     height: 36px;
@@ -61,11 +63,9 @@
     position: fixed;
     display: flex;
     z-index: 9998;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
     box-sizing: border-box;
     width: 700px;
     height: 80px;

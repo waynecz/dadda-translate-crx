@@ -53,7 +53,8 @@ export const _calcPosition = e => {
   let y
   let maxHeight
   let isTop = true
-  const { clientX, clientY } = e
+  const { clientX, clientY, pageY } = e
+
   const { innerHeight, innerWidth } = window
 
   const offsetX = innerWidth - clientX - 550
@@ -67,18 +68,18 @@ export const _calcPosition = e => {
   // 大于百分之六指高度时弹框出现在上面
   if (clientY > innerHeight * 0.6) {
     isTop = false
-    y = innerHeight - clientY + 30
-    maxHeight = innerHeight - y - 10
+    y = pageY - 30
+    maxHeight = innerHeight - (innerHeight - clientY + 30) - 10
   } else {
-    y = clientY + 15
-    maxHeight = innerHeight - y - 10
+    y = pageY + 15
+    maxHeight = innerHeight - (clientY + 15) - 10
   }
 
   return {
     panelX: x + 'px',
     panelY: y + 'px',
     buttonX: clientX + 'px',
-    buttonY: clientY + 15 + 'px',
+    buttonY: pageY + 15 + 'px',
     isTop,
     maxHeight: maxHeight + 'px'
   }
