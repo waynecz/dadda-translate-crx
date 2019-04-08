@@ -17,8 +17,9 @@ export default {
 
       return {
         left: panelX,
-        maxHeight: maxHeight,
-        [isTop ? 'top' : 'bottom']: panelY
+        maxHeight,
+        top: panelY,
+        transform: `translateY(${isTop ? 0 : '-100%'})`
       }
     },
 
