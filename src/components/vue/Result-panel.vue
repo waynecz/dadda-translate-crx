@@ -14,22 +14,24 @@
     <!-- 头部 -->
     <div class="__result_origin">
       <h5 class="__result_word" :class="{ '__result_word--sentence': !inDict }">{{text}}</h5>
-      <div
-        v-if="inDict"
-        v-for="(phonetic, i) in phonetics"
-        class="__result_pronunciation __tooltip __top"
-        :tooltip="phonetic.filename ? '点击发音' : '暂无发音'"
-        :key="phonetic.filename || i"
-        @click.stop="e => phonetic.filename ? speak(phonetic.type) : e"
-      >
-        <div class="__result_flag" :class="`__result_flag--${phonetic.type}`"></div>
-        <div class="__result_phonetic">[{{phonetic.text}}]</div>
-        <audio
-          :id="`x__result_${phonetic.type}-${uuid}`"
-          :src="`https:${phonetic.filename}`"
-          class="__result_audio"
-        />
-      </div>
+      <template v-if="inDict">
+        <div
+          v-for="(phonetic, i) in phonetics"
+          class="__result_pronunciation __tooltip __top"
+          :tooltip="phonetic.filename ? '点击发音' : '暂无发音'"
+          :key="phonetic.filename || i"
+          @click.stop="e => phonetic.filename ? speak(phonetic.type) : e"
+        >
+          <div class="__result_flag" :class="`__result_flag--${phonetic.type}`"></div>
+          <div class="__result_phonetic">[{{phonetic.text}}]</div>
+          <audio
+            :id="`x__result_${phonetic.type}-${uuid}`"
+            :src="`https:${phonetic.filename}`"
+            class="__result_audio"
+          />
+        </div>
+      </template>
+      
       <audio
         v-if="!inDict"
         :id="`x__result-${uuid}`"
@@ -239,7 +241,9 @@ export default {
         usual: this.simpleTranslate
       }
 
-      return this.inDict ? this.resultAfterFixed.dictionary.content[0] : cotentWhileNotInDict
+      return this.inDict
+        ? this.resultAfterFixed.dictionary.content[0]
+        : cotentWhileNotInDict
     },
 
     /**
@@ -370,7 +374,8 @@ export default {
      */
     handleMouseWheel(e) {
       const { scrollTop, offsetHeight, scrollHeight } = this.oxfordEle
-      const atTheBottom = scrollTop + offsetHeight >= scrollHeight && e.deltaY > 0
+      const atTheBottom =
+        scrollTop + offsetHeight >= scrollHeight && e.deltaY > 0
       const atTheTop = scrollTop <= 1 && e.deltaY < 0
 
       if (atTheBottom || atTheTop) {
@@ -482,8 +487,13 @@ export default {
      */
     speak(type) {
       const audio = document.getElementById(`x__result_${type}-${this.uuid}`)
-
-      audio && audio.play()
+      if (!audio) return
+      // 如果资源被 CSP 禁止，readyState 为 0
+      if (audio.readyState === 4) {
+        audio.play()
+      } else {
+        chrome.runtime.sendMessage({ name: 'speak', url: audio.src })
+      }
     },
 
     async changeFont(font) {
@@ -493,4 +503,3 @@ export default {
   }
 }
 </script>
-
