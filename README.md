@@ -6,8 +6,6 @@
 
 # Dadda（达达）
 
-> 迫于生计，最近很长一段时间会不更新，😢
-
 <br>
 
 [![release][release-badge]][releases]
@@ -72,7 +70,7 @@
 
 ## 可能还要做的
 
-- [ ] [2.0 开发计划（近期开发不动）](https://github.com/waynecz/dadda-translate-crx/issues/94)
+- [ ] [2.0 开发计划](https://github.com/waynecz/dadda-translate-crx/issues/94)
 
 <br>
 
@@ -129,6 +127,8 @@
 [@cnwangjie](https://github.com/cnwangjie)
 |
 [@inu1255](https://github.com/inu1255)
+|
+[@smackgg](https://github.com/smackgg)
 
 <br>
 
