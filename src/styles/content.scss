@@ -1,5 +1,5 @@
 @include b(result) {
-  --content-font: font-song();
+  --content-font: #{font-song()};
   --panel-width: 550px;
 
   box-sizing: border-box;
@@ -26,12 +26,13 @@
   box-shadow: 0 12px 45px 0 rgba(0, 0, 0, 0.12);
 
   &.hei {
-    --content-font: font-hei();
+    --content-font: #{font-hei()};
   }
 
   &.kai {
-    --content-font: font-kai();
+    --content-font: #{font-kai()};
   }
+
   @include when(input--visible) {
     max-height: calc(50vh - 100px) !important;
     position: fixed;
@@ -490,15 +491,15 @@
     }
 
     &.song {
-      font-family: font-song();
+      font-family: #{font-song()};
     }
 
     &.kai {
-      font-family: font-kai();
+      font-family: #{font-kai()};
     }
 
     &.hei {
-      font-family: font-hei();
+      font-family: #{font-hei()};
     }
   }
 

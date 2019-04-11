@@ -44,19 +44,37 @@ module.exports = {
       {
         test: /translator\.scss$/,
         use: extractTranslatorCSS.extract({
-          use: 'css-loader!sass-loader'
+          use: [
+            { loader: 'css-loader' },
+            {
+              loader: 'sass-loader',
+              options: { implementation: require('sass') }
+            }
+          ]
         })
       },
       {
         test: /vocabulary\.scss$/,
         use: extractVocabularyCSS.extract({
-          use: 'css-loader!sass-loader'
+          use: [
+            { loader: 'css-loader' },
+            {
+              loader: 'sass-loader',
+              options: { implementation: require('sass') }
+            }
+          ]
         })
       },
       {
         test: /popup\.scss$/,
         use: extractPopupCSS.extract({
-          use: 'css-loader!sass-loader'
+          use: [
+            { loader: 'css-loader' },
+            {
+              loader: 'sass-loader',
+              options: { implementation: require('sass') }
+            }
+          ]
         })
       },
       {

@@ -1,6 +1,6 @@
 {
   "name": "dadda-translate",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "translate and remember",
   "scripts": {
     "dev": "node_modules/.bin/webpack --progress --config build/webpack.dev.js",
@@ -59,12 +59,12 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.0.4",
-    "node-sass": "^4.11.0",
-    "sass-loader": "^6.0.6",
+    "sass": "^1.18.0",
+    "sass-loader": "^7.1.0",
     "url-loader": "^1.0.1",
     "vue-loader": "^14.1.1",
     "vue-template-compiler": "^2.5.13",
-    "webpack": "^^4.20.2",
+    "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
     "webpack-merge": "^4.1.2"
   }

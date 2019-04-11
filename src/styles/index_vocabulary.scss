@@ -17,7 +17,7 @@
 html,
 body {
   --padding-left: 150px;
-  --content-font: font-song();
+  --content-font: #{font-song()};
 
   margin: 0;
   padding: 0;
@@ -66,11 +66,11 @@ body {
     overflow: auto;
 
     &.hei {
-      --content-font: font-hei();
+      --content-font: #{font-hei()};
     }
 
     &.kai {
-      --content-font: font-kai();
+      --content-font: #{font-kai()};
     }
 
     @include non-scroll-bar;
