@@ -268,3 +268,18 @@ chrome.notifications.onClicked.addListener(async notiId => {
     }
   }
 })
+
+/**
+ * @summary 注册右键点击翻译
+ */
+chrome.contextMenus.create({
+  'title': '达达达....',
+  'contexts': ['selection', 'page'],
+  'onclick': (info, tab) => {
+    if (info.selectionText) {
+      chrome.tabs.executeScript({
+        code: 'document.dispatchEvent(new CustomEvent(\'contextMenuClick\', { bubbles: true, detail: { text: "' + info.selectionText + '" } }))'
+      })
+    }
+  }
+})

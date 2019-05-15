@@ -117,7 +117,7 @@ export default {
      * 监听 MouseUp 事件来怕段划词完成，触发情况有两种：划词、双击
      * ! 注意这里是 async
      */
-    async onMouseUp(e) {
+    async onMouseUp(e, selectionText) {
       const inBlackList = await _inBlackList()
       const skipChinese = await this.$storage.get(TR_SETTING_SKIP_CHINESE_KEY, false)
 
@@ -130,8 +130,8 @@ export default {
        */
       if ((inBlackList && !this.$root.inExtension) || this.resultAsDialog) return
 
-      if (e.button === 0) {
-        const text = window
+      if (e.button === 0 || selectionText) {
+        const text = selectionText || window
           .getSelection()
           .toString()
           .trim()
