@@ -70,6 +70,9 @@ export default {
     document.addEventListener('keydown', changeDirectSetting)
     document.addEventListener('keydown', toggleInput)
     document.addEventListener('keydown', onEscDown)
+    document.addEventListener('contextMenuClick', (e) => {
+      onMouseUp({clientX: 0, clientY: 0, pageY: 0}, e.detail.text)
+    })
   },
 
   methods: {

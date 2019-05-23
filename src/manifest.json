@@ -24,7 +24,8 @@
     "cookies",
     "notifications",
     "alarms",
-    "webRequestBlocking"
+    "webRequestBlocking",
+    "contextMenus"
   ],
   "browser_action": {
     "default_title": "达达划词翻译",
