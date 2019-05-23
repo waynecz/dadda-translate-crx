@@ -73,7 +73,7 @@ chrome.runtime.onInstalled.addListener(async reason => {
     const { version } = require('@/manifest.json')
     chrome.notifications.clear('updateInfo')
     chrome.notifications.create('updateInfo', {
-      iconUrl: 'https://cdn.grisoso.com/daddadadda-ico.png',
+      iconUrl: 'https://raw.githubusercontent.com/waynecz/dadda-translate-crx/master/src/assets/logo.png',
       type: 'basic',
       title: `${version} 更新：`,
       message: require('@/changelog-breif.json')[version] || '点击查看更新内容',
