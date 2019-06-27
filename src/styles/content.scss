@@ -437,7 +437,7 @@
   }
 
   /* 词根按钮 */
-  @include e(cg) {
+  @include e(ex-link) {
     width: unset;
     height: unset;
     margin: unset;
@@ -457,6 +457,10 @@
 
     &:visited {
       color: #aaa;
+    }
+
+    & + & {
+      margin-left: 10px;
     }
   }
 

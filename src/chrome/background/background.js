@@ -23,6 +23,7 @@ import {
   TR_SETTING_YOUDAO,
   TR_SETTING_ENGLISH_MEANING,
   TR_SETTING_KEYBOARD_CONTROL,
+  TR_SETTING_ONLY_OXFORD,
   TR_SETTING_LASTING_TOAST,
   TR_SETTING_CALLOUT_INPUT,
   TR_SETTING_CLOSE_ALL_TOAST_KEY
@@ -66,6 +67,7 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_KEYBOARD_CONTROL, false)
     Storage.set(TR_SETTING_FONT_FAMILY, 'song')
     Storage.set(TR_SETTING_CLOSE_ALL_TOAST_KEY, false)
+    Storage.set(TR_SETTING_ONLY_OXFORD, false)
 
     Storage.set(TR_SETTING_LASTING_TOAST, false)
     Storage.set(TR_SETTING_CALLOUT_INPUT, false)

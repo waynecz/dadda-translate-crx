@@ -88,20 +88,25 @@
     </div>
 
     <!-- 简单中文翻译部分 -->
-    <div class="__result_simple" v-if="inDict">
+    <div class="__result_simple" v-if="inDict && !isOnlyOxford">
       <div class="__result_class" v-for="(translation, i) in usualTranslations" :key="i">
         <div class="__result_type">{{abridge(translation.pos).abbr}}</div>
         <div class="__result_item">{{translation.values.join(' | ') | removeTag}}</div>
       </div>
     </div>
-    <div class="__result_simple" v-else>
+    <!--  -->
+    <div class="__result_simple" v-else-if="!inDict">
       <div class="__result_item">
         <div class="__result_chinese __result_chinese--simple">{{usualTranslations | removeTag}}</div>
       </div>
     </div>
 
-    <div class="__result_footer" v-if="inDict">
-      <a :href="CGDICT_HOST + this.text" target="_blank" class="__result_cg">点击查看词根词缀</a>
+    <div class="__result_footer">
+      <div>
+        <a  v-if="inDict" :href="CGDICT_HOST + text" target="_blank" class="__result_ex-link">点击查看词根词缀</a>
+        <a :href="YOUGLISH_HOST + encode(text)" target="_blank" class="__result_ex-link">从油管搜寻发音</a>
+      </div>
+      
       <transition name="fade">
         <small v-if="error" class="__result_error">{{error}}</small>
       </transition>
@@ -141,9 +146,10 @@ import {
   TR_SETTING_AUTO_SPEAK,
   TR_SETTING_FONT_FAMILY,
   TR_SETTING_SHANBAY,
+  TR_SETTING_ONLY_OXFORD,
   TR_SETTING_YOUDAO
 } from '@/utils/constant'
-import { SOUGOU_SPOKEN_URL, CGDICT_HOST } from '@/api/host'
+import { SOUGOU_SPOKEN_URL, CGDICT_HOST, YOUGLISH_HOST } from '@/api/host'
 
 export default {
   name: 'result-panel',
@@ -175,6 +181,7 @@ export default {
       oxfordEle: null,
       currentVocabulary: null,
       CGDICT_HOST,
+      YOUGLISH_HOST,
       fonts: [
         { value: 'song', label: 'S' },
         { value: 'kai', label: 'K' },
@@ -190,7 +197,10 @@ export default {
 
       translationStructure: null,
 
-      error: ''
+      error: '',
+
+      /** 对于有牛津英英释义的单词只显示牛津释义 */
+      isOnlyOxford: false
     }
   },
 
@@ -210,6 +220,13 @@ export default {
      */
     inDict() {
       return this.resultAfterFixed.isHasOxford
+    },
+
+    /**
+     * @summary 在有牛津翻译的时候是否显示中文翻译
+     */
+    showCNResults() {
+      return this.inDict && !this.isOnlyOxford
     },
 
     /**
@@ -324,6 +341,8 @@ export default {
     this.inCollection = this.currentVocabulary.some(
       wordObj => wordObj.t.toLowerCase() === this.text.toLowerCase()
     )
+
+    this.isOnlyOxford = await this.$storage.get(TR_SETTING_ONLY_OXFORD, false)
   },
 
   mounted() {
@@ -429,7 +448,7 @@ export default {
       const wordObj = new WordModel({
         t: word,
         r: window.location.href,
-        e: _removeTag(this.oxfordTranslations[0].item.core[0].example[0].en),
+        e: _removeTag(this.oxfordTranslations[0].item.core[0].example[0].en || ''),
         p: JSON.stringify(phonetics)
       })
 
@@ -503,6 +522,10 @@ export default {
     async changeFont(font) {
       await this.$storage.set(TR_SETTING_FONT_FAMILY, font)
       this.font = font
+    },
+
+    encode(text) {
+      return encodeURIComponent(text)
     }
   }
 }

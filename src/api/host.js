@@ -9,6 +9,8 @@ export const DICTIONARY_HOST = 'http://fanyi.sogou.com/#auto/zh-CHS/'
 
 // 词根字典查询 HOST
 export const CGDICT_HOST = 'http://www.cgdict.com/index.php?app=cigen&ac=word&w='
+// 从油管搜寻单词或词句发音
+export const YOUGLISH_HOST = 'https://youglish.com/search/'
 
 // 搜狗语音
 export const SOUGOU_SPOKEN_URL =

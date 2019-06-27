@@ -17,6 +17,7 @@ import {
   TR_SETTING_CLOSE_ALL_TOAST_KEY,
   TR_SETTING_EXPORT_ALL_WORDS,
   TR_SETTING_CALLOUT_INPUT,
+  TR_SETTING_ONLY_OXFORD,
   TR_SETTING_LASTING_TOAST
 } from '@/utils/constant'
 
@@ -85,13 +86,11 @@ class Setting extends Component {
       {
         key: TR_SETTING_IS_DIRECTLY_KEY,
         label: '划词后直接显示翻译',
-        isNew: true,
         tip: <small className="setting_tip">划词后将直接弹出翻译<br/>优先级大于按键控制</small>
       },
       {
         key: TR_SETTING_CALLOUT_INPUT,
         label: '页面内输入框',
-        isNew: true,
         tip: <small className="setting_tip"><kbd>alt</kbd> + <kbd>shift</kbd> + <kbd>d</kbd> 呼出页面内输入框<br/>可用来输入自定义内容进行翻译</small>
       },
       {
@@ -112,8 +111,13 @@ class Setting extends Component {
       {
         key: TR_SETTING_LASTING_TOAST,
         label: '吐司持久化',
-        isNew: true,
         tip: <small className="setting_tip">开启后吐司不会自动消失，<br/>除非手动去点了 close</small>
+      },
+      {
+        key: TR_SETTING_ONLY_OXFORD,
+        label: '只显示英英翻译',
+        isNew: true,
+        tip: <small className="setting_tip">开启后不再显示中文翻译，<br/>痛，却很好</small>
       }
     ]
   }
