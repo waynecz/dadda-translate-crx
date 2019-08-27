@@ -37,3 +37,40 @@ shanbay.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+export function getTokenFromSougou() {
+  // 尝试获取 token
+  return new Promise(async (resolve, reject) => {
+    function failed() {
+      reject(new Error('Sougou translate get token failed'))
+    }
+
+    let token = ''
+    let m = null
+
+    let s = await sougou.get('/')
+    let lt = await sougou.get('/logtrace').catch(() => '')
+
+    m = lt.match(/['"](.+?)['"]/g)
+
+    if (m && m.length > 0) {
+      token = m.reduce((result, i) => {
+        result += i.replace(/['"]/g, '')
+        return result
+      }, '')
+    } else {
+      m = /js\/app\.([^.]+)/.exec(s)
+      if (!m) return failed()
+      s = await sougou.get('https://dlweb.sogoucdn.com/translate/pc/static/js/app.' + m[1] + '.js')
+      m = /""\+\w\+\w\+\w\+"(\w{32})"/.exec(s)
+      if (!m) return failed()
+      token = m[1]
+    }
+
+    if (!token || token.length !== 32) {
+      failed()
+    } else {
+      resolve(token)
+    }
+  })
+}

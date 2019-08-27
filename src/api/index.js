@@ -1,15 +1,45 @@
-import { google, sougou, shanbay, cdn, youdao } from './client'
+import { google, sougou, shanbay, cdn, youdao, getTokenFromSougou } from './client'
 import { _sougouUuid } from '@/utils'
+import { TR_SOUGOU_TOKEN } from '@/utils/constant.js'
 import md5 from 'md5'
 
-window.seccode = 'b33bf8c58706155663d1ad5dba4192dc'
+let tokenTask = new Promise((resolve) => {
+  try {
+    resolve(localStorage.getItem(TR_SOUGOU_TOKEN) || '')
+  } catch (e) {
+    resolve('')
+  }
+})
+
+function trySougouToken() {
+  return getTokenFromSougou()
+    .then(token => {
+      try {
+        localStorage.setItem(TR_SOUGOU_TOKEN, token)
+      } catch (e) {
+        // Do Nothing
+      }
+      return token
+    })
+}
+
+const MAX_TOKEN_TRY_TIMES = 10
+let sogouTried = 0
 
 export default {
-  sougouTranslate(text) {
+  async sougouTranslate(text) {
     const from = 'auto'
     const to = 'zh-CHS'
 
-    const s = md5('' + from + to + text + window.seccode)
+    let token = await tokenTask
+
+    if (!token) {
+      tokenTask = trySougouToken()
+      token = await tokenTask
+    }
+
+    // 搜狗 API 新增加的一个字段，后面固定的 `front_xxxxx` 目前意义不明
+    const s = md5('' + from + to + text + token)
     text = encodeURIComponent(text).replace(/%20/g, '+')
 
     const payload = {
@@ -33,19 +63,19 @@ export default {
       .join('&')
 
     return sougou.post('/reventondc/translate', data).then(async res => {
-      if (res.errorCode === 0) return res
-      // 如果翻译失败,尝试从源码中获取token
-      const tokenInsertScript = await sougou.get('https://fanyi.sogou.com/logtrace')
-      console.log('TCL: sougouTranslate -> s', tokenInsertScript)
+      if (res.errorCode === 0) {
+        sogouTried = 0
+        return res
+      }
 
-      // eslint-disable-next-line no-eval
-      eval(tokenInsertScript)
-
-      console.log(window.seccode)
-
-      if (!window.seccode) throw res
-
-      return this.sougouTranslate(text)
+      if (sogouTried <= MAX_TOKEN_TRY_TIMES) {
+        sogouTried++
+        // 尝试重新获取 token
+        tokenTask = trySougouToken()
+        return this.sougouTranslate(text)
+      } else {
+        return {}
+      }
     })
   },
 

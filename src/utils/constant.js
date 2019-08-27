@@ -46,6 +46,8 @@ export const TR_SETTING_LASTING_TOAST = '__TR_SETTING_EXPORT_LASTING_TOAST__'
 // 只显示英英翻译
 export const TR_SETTING_ONLY_OXFORD = '__TR_SETTING_ONLY_OXFORD__'
 
+export const TR_SOUGOU_TOKEN = '__TR_SOUGOU_TOKEN__'
+
 /**
  * @summary 词性 (part of speech) 对应中文
  */
