@@ -3,7 +3,7 @@
       '__is-dialog-wrap': resultAsDialog
     }">
 
-    <translator-button :class="{ '__is-show': !showPanelDirectlyWhatever && !panelVisible && selection && !hasKeyboardDisplayControl }" :style="buttonPositionStyle" @click="panelVisible = true" />
+    <translator-button :class="{ '__is-show': isShowTranslatorButton, '__is-hide': !isShowTranslatorButton }" :style="buttonPositionStyle" @click="panelVisible = true" />
 
     <result-panel v-if="resultPanelVisible" :inputVisible="inputVisible" :hide="hidePanelInRoot" :text="selection" :is-dialog="resultAsDialog" :style="panelPositionStyle" :isDialog="resultAsDialog" :result="translationResult" />
 
@@ -45,6 +45,12 @@ export default {
         fontSize: '30px',
         lineHeight: '43px'
       }
+    }
+  },
+
+  computed: {
+    isShowTranslatorButton() {
+      return !this.showPanelDirectlyWhatever && !this.panelVisible && this.selection && !this.hasKeyboardDisplayControl
     }
   },
 

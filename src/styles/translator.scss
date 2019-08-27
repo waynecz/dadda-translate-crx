@@ -39,6 +39,10 @@
     &.__is-show {
       display: flex;
     }
+
+    &.__is-hide {
+      display: none !important;
+    }
   }
 
   @include e(loading) {
