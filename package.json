@@ -20,6 +20,7 @@
   "bugs": {
     "url": "https://github.com/waynecz/dadda-translate-crx/issues"
   },
+  "eslintIgnore": [ "dist/*" ],
   "dependencies": {
     "axios": "^0.18.0",
     "lodash-es": "^4.17.7",

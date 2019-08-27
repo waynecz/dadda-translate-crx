@@ -29,10 +29,11 @@ import {
   TR_SETTING_CLOSE_ALL_TOAST_KEY
 } from '@/utils/constant'
 
-import HotReload from './hot-reload'
-
 // 开发环境热加载
-HotReload()
+if (process.env.NODE_ENV === 'development') {
+  const { default: HotReload } = require('./hot-reload')
+  HotReload()
+}
 
 // 将单词推入下一个阶段
 const moveWord2NextStage = async word => {
