@@ -16,7 +16,7 @@
 [chromestore]: https://chrome.google.com/webstore/detail/%E8%BE%BE%E8%BE%BE%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/cajhcjfcodjoalmhjekljnfkgjlkeajl
 [releases]: https://github.com/waynecz/dadda-translate-crx/releases
 [chrome-badge]: https://img.shields.io/badge/chrome-store-0038e2.svg?style=flat-square
-[release-badge]: https://img.shields.io/badge/release-v1.2.5-0038e2.svg?style=flat-square
+[release-badge]: https://img.shields.io/badge/release-v6-0038e2.svg?style=flat-square
 [license-badge]: https://img.shields.io/badge/license-MIT-0038e2.svg?style=flat-square
 
 😍 漂亮的划词翻译插件 / 让你在 Chrome 上背单词（可同步至扇贝、有道单词）

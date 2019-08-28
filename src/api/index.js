@@ -2,13 +2,14 @@ import { google, sougou, shanbay, cdn, youdao } from './client'
 import { _sougouUuid } from '@/utils'
 import md5 from 'md5'
 
-let token = 'b33bf8c58706155663d1ad5dba4192dc'
+window.seccode = 'b33bf8c58706155663d1ad5dba4192dc'
+
 export default {
   sougouTranslate(text) {
     const from = 'auto'
     const to = 'zh-CHS'
-    // 搜狗 API 新增加的一个字段，后面固定的 `front_xxxxx` 目前意义不明
-    const s = md5('' + from + to + text + token)
+
+    const s = md5('' + from + to + text + window.seccode)
     text = encodeURIComponent(text).replace(/%20/g, '+')
 
     const payload = {
@@ -33,15 +34,17 @@ export default {
 
     return sougou.post('/reventondc/translate', data).then(async res => {
       if (res.errorCode === 0) return res
-      // 如果翻译失败,尝试从js源码中获取token
-      let s = await sougou.get('/')
-      let m = /js\/app\.([^.]+)/.exec(s)
-      if (!m) throw res
-      s = await sougou.get('https://dlweb.sogoucdn.com/translate/pc/static/js/app.' + m[1] + '.js')
-      m = /""\+\w\+\w\+\w\+"(\w{32})"/.exec(s)
-      if (!m) throw res
-      if (token === m[1]) throw res
-      token = m[1]
+      // 如果翻译失败,尝试从源码中获取token
+      const tokenInsertScript = await sougou.get('https://fanyi.sogou.com/logtrace')
+      console.log('TCL: sougouTranslate -> s', tokenInsertScript)
+
+      // eslint-disable-next-line no-eval
+      eval(tokenInsertScript)
+
+      console.log(window.seccode)
+
+      if (!window.seccode) throw res
+
       return this.sougouTranslate(text)
     })
   },
