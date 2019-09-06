@@ -2,22 +2,37 @@ import { google, sougou, shanbay, cdn, youdao } from './client'
 import { _sougouUuid } from '@/utils'
 import md5 from 'md5'
 
-window.seccode = 'b33bf8c58706155663d1ad5dba4192dc'
+window.seccode = '8511813095151'
+
+function _escape(text) {
+  const ele = document.createElement('div')
+  ele.appendChild(document.createTextNode(text))
+  return ele.innerHTML
+}
+
+// 获取 seccode
+async function getSeccode() {
+  const tokenInsertScript = await sougou.get('https://fanyi.sogou.com/logtrace')
+
+  // eslint-disable-next-line no-eval
+  eval(tokenInsertScript)
+}
 
 export default {
   sougouTranslate(text) {
     const from = 'auto'
     const to = 'zh-CHS'
 
-    const s = md5('' + from + to + text + window.seccode)
-    text = encodeURIComponent(text).replace(/%20/g, '+')
+    const textAfterEscape = _escape(text)
+
+    const s = md5('' + from + to + textAfterEscape + window.seccode)
 
     const payload = {
       from,
       to,
       client: 'pc',
       fr: 'browser_pc',
-      text,
+      text: textAfterEscape,
       useDetect: 'on',
       useDetectResult: 'on',
       needQc: 1,
@@ -33,19 +48,19 @@ export default {
       .join('&')
 
     return sougou.post('/reventondc/translate', data).then(async res => {
-      if (res.errorCode === 0) return res
-      // 如果翻译失败,尝试从源码中获取token
-      const tokenInsertScript = await sougou.get('https://fanyi.sogou.com/logtrace')
-      console.log('TCL: sougouTranslate -> s', tokenInsertScript)
+      if (res.translate.errorCode === '10') {
+        const lastSecode = window.seccode
 
-      // eslint-disable-next-line no-eval
-      eval(tokenInsertScript)
+        await getSeccode()
 
-      console.log(window.seccode)
+        if (window.seccode === lastSecode) {
+          throw res
+        } else {
+          this.sougouTranslate(text)
+        }
+      }
 
-      if (!window.seccode) throw res
-
-      return this.sougouTranslate(text)
+      return res
     })
   },
 

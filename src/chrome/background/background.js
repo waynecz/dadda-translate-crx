@@ -9,7 +9,7 @@ import Toast from '@/chrome/toast'
 import setNewAlarm from '@/chrome/alarm'
 
 import { _removeTRId, _hasTRId, _wrapTRId, _sleep } from '@/utils'
-import { DICTIONARY_HOST } from '@/api/host'
+import { DICTIONARY_HOST, SOUGOU_HOST } from '@/api/host'
 import {
   DELAY_MINS_IN_EVERY_STAGE,
   TR_SETTING_HAS_TOAST_KEY,
@@ -285,3 +285,22 @@ chrome.contextMenus.create({
     }
   }
 })
+
+chrome.webRequest.onBeforeSendHeaders.addListener(
+  details => {
+    for (var n in details.requestHeaders) {
+      const hasReferer = details.requestHeaders[n].name.toLowerCase() === 'referer'
+      if (hasReferer) {
+        details.requestHeaders[n].value = SOUGOU_HOST
+      } else {
+        details.requestHeaders.push({ name: 'Referer', value: SOUGOU_HOST })
+      }
+    }
+
+    return { requestHeaders: details.requestHeaders }
+  },
+  {
+    urls: ['https://fanyi.sogou.com/reventondc/translate', 'https://fanyi.sogou.com/logtrace']
+  },
+  ['requestHeaders', 'blocking', 'extraHeaders']
+)
