@@ -25,6 +25,10 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    window.addEventListener('hashchange', () => {
+      const { link } = _parseQuery()
+      this.changeRoute(link)
+    });
     const vocabulary = await VocabularyMachine.get()
     const { dispatch, currentLink } = this.props
 
