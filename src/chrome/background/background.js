@@ -26,6 +26,7 @@ import {
   TR_SETTING_ONLY_OXFORD,
   TR_SETTING_LASTING_TOAST,
   TR_SETTING_CALLOUT_INPUT,
+  TR_SETTING_HIDE_CONTEXT_MENU_OPTION,
   TR_SETTING_CLOSE_ALL_TOAST_KEY
 } from '@/utils/constant'
 
@@ -68,6 +69,8 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_FONT_FAMILY, 'song')
     Storage.set(TR_SETTING_CLOSE_ALL_TOAST_KEY, false)
     Storage.set(TR_SETTING_ONLY_OXFORD, false)
+
+    Storage.set(TR_SETTING_HIDE_CONTEXT_MENU_OPTION, false)
 
     Storage.set(TR_SETTING_LASTING_TOAST, false)
     Storage.set(TR_SETTING_CALLOUT_INPUT, false)
@@ -274,15 +277,20 @@ chrome.notifications.onClicked.addListener(async notiId => {
 /**
  * @summary 注册右键点击翻译
  */
-chrome.contextMenus.create({
-  'title': '达达达....',
-  'contexts': ['selection', 'page'],
-  'onclick': (info, tab) => {
-    if (info.selectionText) {
-      chrome.tabs.executeScript({
-        code: 'document.dispatchEvent(new CustomEvent(\'contextMenuClick\', { bubbles: true, detail: { text: "' + info.selectionText + '" } }))'
-      })
-    }
+
+Storage.get(TR_SETTING_HIDE_CONTEXT_MENU_OPTION, false).then(value => {
+  if (!value) {
+    chrome.contextMenus.create({
+      'title': '达达划词翻译',
+      'contexts': ['selection', 'page'],
+      'onclick': (info, tab) => {
+        if (info.selectionText) {
+          chrome.tabs.executeScript({
+            code: 'document.dispatchEvent(new CustomEvent(\'contextMenuClick\', { bubbles: true, detail: { text: "' + info.selectionText + '" } }))'
+          })
+        }
+      }
+    })
   }
 })
 

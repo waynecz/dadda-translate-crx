@@ -7,32 +7,43 @@
       {
         '__result--invisible': !visible,
         '__is-dialog': isDialog,
-        '__is-input--visible': inputVisible,
+        '__is-input--visible': inputVisible
       },
       font
     ]"
   >
     <!-- 头部 -->
     <div class="__result_origin">
-      <h5 class="__result_word" :class="{ '__result_word--sentence': !inDict }">{{text}}</h5>
-      <template v-if="inDict">
-        <div
-          v-for="(phonetic, i) in phonetics"
-          class="__result_pronunciation __tooltip __top"
-          :tooltip="phonetic.filename ? '点击发音' : '暂无发音'"
-          :key="phonetic.filename || i"
-          @click.stop="e => phonetic.filename ? speak(phonetic.type) : e"
+      <div class="__result_meta">
+        <h5
+          class="__result_word"
+          :class="{ '__result_word--sentence': !inDict }"
         >
-          <div class="__result_flag" :class="`__result_flag--${phonetic.type}`"></div>
-          <div class="__result_phonetic">[{{phonetic.text}}]</div>
-          <audio
-            :id="`x__result_${phonetic.type}-${uuid}`"
-            :src="`https:${phonetic.filename}`"
-            class="__result_audio"
-          />
-        </div>
-      </template>
-      
+          {{ text }}
+        </h5>
+
+        <template v-if="inDict">
+          <div
+            v-for="(phonetic, i) in phonetics"
+            class="__result_pronunciation __tooltip __top"
+            :tooltip="phonetic.filename ? '点击发音' : '暂无发音'"
+            :key="phonetic.filename || i"
+            @click.stop="e => (phonetic.filename ? speak(phonetic.type) : e)"
+          >
+            <div
+              class="__result_flag"
+              :class="`__result_flag--${phonetic.type}`"
+            ></div>
+            <div class="__result_phonetic">[{{ phonetic.text }}]</div>
+            <audio
+              :id="`x__result_${phonetic.type}-${uuid}`"
+              :src="`https:${phonetic.filename}`"
+              class="__result_audio"
+            />
+          </div>
+        </template>
+      </div>
+
       <audio
         v-if="!inDict"
         :id="`x__result-${uuid}`"
@@ -40,86 +51,140 @@
         class="__result_audio"
       />
 
-      <div class="__result_chinese __result_chinese--brief">{{currentEnglishMeaning}}</div>
+      <div class="__result_chinese __result_chinese--brief">
+        {{ currentEnglishMeaning }}
+      </div>
 
       <!-- 收藏 -->
       <div
         v-if="!$root.inExtension"
         class="__result_star __tooltip __left"
-        :class="{ '__result_star--ed' : inCollection }"
+        :class="{ '__result_star--ed': inCollection }"
         :tooltip="inCollection ? '从生词簿内删除' : '加入生词簿'"
         @click.stop="toggleCollect"
       >
-        <i class="__icon" :class="[inCollection ? '__icon-star-solid' : '__icon-star']"></i>
+        <i
+          class="__icon"
+          :class="[inCollection ? '__icon-star-solid' : '__icon-star']"
+        ></i>
       </div>
     </div>
 
     <!-- 牛津翻译部分 -->
-    <div class="__result_oxford" @wheel.stop="handleMouseWheel" :class="{'__result_oxford--expanded': expanded}"  v-if="inDict && oxfordTranslations">
-      <div class="__result_class" v-for="(wordPos, i) in oxfordTranslations" :key="i">
+    <div
+      class="__result_oxford"
+      @wheel.stop="handleMouseWheel"
+      :class="{ '__result_oxford--expanded': expanded }"
+      v-if="inDict && oxfordTranslations"
+    >
+      <div
+        class="__result_class"
+        v-for="(wordPos, i) in oxfordTranslations"
+        :key="i"
+      >
         <div
           class="__result_type __tooltip __right"
           :tooltip="abridge(wordPos.item.pos).meaning"
-        >{{abridge(wordPos.item.pos).abbr}}</div>
+        >
+          {{ abridge(wordPos.item.pos).abbr }}
+        </div>
         <div class="__result_item-wrap">
           <div
             v-for="translation in wordPos.item.core"
             :key="translation.index"
-            @mouseenter.stop="changeCurrentEnglishMeaning(translation.detail.zh)"
+            @mouseenter.stop="
+              changeCurrentEnglishMeaning(translation.detail.zh)
+            "
             @mouseleave.stop="changeCurrentEnglishMeaning('')"
             :class="{
               [`__result_item--${min_number_of_items_in_one_pos}`]: !expanded
             }"
             class="__result_item"
           >
-            <div class="__result_english">{{translation.detail.en | removeTag}}</div>
-            <div class="__result_eg" v-if="translation.example">eg. {{translation.example[0].en | removeTag}}</div>
+            <div class="__result_english">
+              {{ translation.detail.en | removeTag }}
+            </div>
+            <div class="__result_eg" v-if="translation.example">
+              eg. {{ translation.example[0].en | removeTag }}
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- 更多释义 -->
-    <div v-if="hasMoreItem" @click.stop="toggleExpand" class="__result_more __tooltip __top" :tooltip="expanded ? '收起' : '显示更多英语释义'">
+    <div
+      v-if="hasMoreItem"
+      @click.stop="toggleExpand"
+      class="__result_more __tooltip __top"
+      :tooltip="expanded ? '收起' : '显示更多英语释义'"
+    >
       <div
         class="__result_more-button"
-        :class="{'__result_more-button--expanded': expanded}"
+        :class="{ '__result_more-button--expanded': expanded }"
       ></div>
     </div>
 
     <!-- 简单中文翻译部分 -->
     <div class="__result_simple" v-if="inDict && !isOnlyOxford">
-      <div class="__result_class" v-for="(translation, i) in usualTranslations" :key="i">
-        <div class="__result_type">{{abridge(translation.pos).abbr}}</div>
-        <div class="__result_item">{{translation.values.join(' | ') | removeTag}}</div>
+      <div
+        class="__result_class"
+        v-for="(translation, i) in usualTranslations"
+        :key="i"
+      >
+        <div class="__result_type">{{ abridge(translation.pos).abbr }}</div>
+        <div class="__result_item">
+          {{ translation.values.join(' | ') | removeTag }}
+        </div>
       </div>
     </div>
     <!--  -->
     <div class="__result_simple" v-else-if="!inDict">
       <div class="__result_item">
-        <div class="__result_chinese __result_chinese--simple">{{usualTranslations | removeTag}}</div>
+        <div class="__result_chinese __result_chinese--simple">
+          {{ usualTranslations | removeTag }}
+        </div>
       </div>
     </div>
 
     <div class="__result_footer">
       <div>
-        <a  v-if="inDict" :href="CGDICT_HOST + text" target="_blank" class="__result_ex-link">点击查看词根词缀</a>
-        <a :href="YOUGLISH_HOST + encode(text)" target="_blank" class="__result_ex-link">从油管搜寻发音</a>
+        <a
+          v-if="inDict"
+          :href="CGDICT_HOST + text"
+          target="_blank"
+          class="__result_ex-link"
+          >点击查看词根词缀</a
+        >
+        <a
+          :href="YOUGLISH_HOST + encode(text)"
+          target="_blank"
+          class="__result_ex-link"
+          >从油管搜寻发音</a
+        >
       </div>
-      
+
       <transition name="fade">
-        <small v-if="error" class="__result_error">{{error}}</small>
+        <small v-if="error" class="__result_error">{{ error }}</small>
       </transition>
 
       <div class="__result_fonts-select">
-        <div class="__result_font song" v-for="fontItem in fonts" :key="fontItem.label" :class="{'active' : font === fontItem.value}" @click="changeFont(fontItem.value)">{{fontItem.label}}</div>
+        <div
+          class="__result_font song"
+          v-for="fontItem in fonts"
+          :key="fontItem.label"
+          :class="{ active: font === fontItem.value }"
+          @click="changeFont(fontItem.value)"
+        >
+          {{ fontItem.label }}
+        </div>
       </div>
     </div>
 
     <!-- 画中画 -->
 
     <translator-button
-      :class="{ 'show': !panelVisible && selection }"
+      :class="{ show: !panelVisible && selection }"
       :style="buttonPositionStyle"
       @click="panelVisible = true"
     />
@@ -448,7 +513,9 @@ export default {
       const wordObj = new WordModel({
         t: word,
         r: window.location.href,
-        e: _removeTag(this.oxfordTranslations[0].item.core[0].example[0].en || ''),
+        e: _removeTag(
+          this.oxfordTranslations[0].item.core[0].example[0].en || ''
+        ),
         p: JSON.stringify(phonetics)
       })
 

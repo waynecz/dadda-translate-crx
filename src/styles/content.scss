@@ -1,17 +1,12 @@
 @include b(result) {
   --content-font: #{font-song()};
-  --panel-width: 550px;
+  --panel-width: 600px;
 
+  all: unset;
   box-sizing: border-box;
   position: absolute;
   z-index: 9999;
   display: flex;
-  width: unset;
-  height: unset;
-  margin: unset;
-  padding: unset;
-  border: unset;
-  outline: unset;
   text-align: initial;
   flex-flow: column;
   max-width: var(--panel-width);
@@ -42,13 +37,10 @@
   }
   @include when(dialog) {
     --panel-width: 650px;
-
+    
+    all: unset;
     position: relative;
     margin: auto;
-    width: unset;
-    height: unset;
-    border: unset;
-    outline: unset;
     box-shadow: 0 0 0 50vw rgba(0, 0, 0, 0.4), 0 2px 28px 0 rgba(137, 137, 137, 0.67);
 
     @include e(word) {
@@ -69,34 +61,30 @@
   }
 
   @include e(origin) {
+    all: unset;
+    margin-bottom: 5px;
+  }
+
+  @include e(meta) {
+    max-width: 100%;
     display: flex;
-    width: unset;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
+    flex-wrap: wrap;
     flex-shrink: 0;
     align-items: center;
-    margin-bottom: 10px;
+    overflow: hidden;
   }
 
   @include e(word) {
+    all: unset;
     display: -webkit-box;
-    width: unset;
-    height: unset;
+    max-width: 50%;
     margin: 0;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
+    padding-right: 20px;
     font-weight: bold;
     flex-shrink: 0;
-    max-width: 100%;
     font-size: 18px;
     overflow: hidden;
     user-select: none;
-    margin-right: 20px;
     line-height: normal;
     text-overflow: ellipsis;
     word-break: normal;
@@ -105,32 +93,24 @@
     @include font-old;
 
     @include m(sentence) {
+      max-width: 100%;
       font-size: 16px;
     }
   }
 
   @include e(pronunciation) {
+    all: unset;
     display: flex;
-    width: unset;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
     flex-shrink: 0;
     align-items: center;
-    margin-right: 20px;
+    padding-right: 10px;
     cursor: pointer;
   }
 
   @include e(flag) {
+    all: unset;
     width: 20px;
     height: 10px;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
     margin-right: 5px;
     background-repeat: no-repeat;
     background-size: 100% auto;
@@ -146,17 +126,12 @@
   }
 
   @include e(phonetic) {
-    width: unset;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
+    all: unset;
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 1px;
-    font-family: var(--content-font);
+    font-family: font-hei();
+    font-weight: normal;
   }
 
   @include e(audio) {
@@ -164,17 +139,12 @@
   }
 
   @include e(star) {
+    all: unset;
     position: absolute !important;
     top: 15px;
     right: 15px;
     cursor: pointer;
-    width: unset;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
+    background-color: #fff;
 
     @include m(ed) {
       color: mix($primary, white, 80);
@@ -182,13 +152,7 @@
   }
 
   @include e(oxford) {
-    width: unset;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
+    all: unset;
     margin-right: -25px;
     margin-bottom: 4px;
     padding-right: 25px;
@@ -197,25 +161,14 @@
     @include scroll-bar;
 
     @include spec-selector('+', simple) {
-      width: unset;
-      height: unset;
-      margin: unset;
-      padding: unset;
-      border: unset;
-      outline: unset;
+      all: unset;
       margin-top: 10px;
     }
   }
 
   @include e(class) {
+    all: unset;
     display: flex;
-    width: unset;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
     align-items: flex-start;
 
     &:not(:last-child) {
@@ -224,14 +177,10 @@
   }
 
   @include e(type) {
+    all: unset;
     @include font-old;
+
     width: 38px;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
     white-space: nowrap;
     padding-right: 10px;
     flex-shrink: 0;
@@ -242,26 +191,14 @@
   }
 
   @include e('item-wrap') {
+    all: unset;
     flex-basis: 100%;
-    width: unset;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
   }
 
   @include e(item) {
+    all: unset;
     position: relative;
     display: flex;
-    width: unset;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
     flex-basis: 100%;
     font-size: 14px;
     align-items: center;
@@ -299,36 +236,19 @@
   }
 
   @include e(english) {
+    all: unset;
     line-height: 1.2;
     font-size: 15px;
-    width: unset;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
     padding-right: 10px;
   }
 
   @include e(simple) {
-    width: unset;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
+    all: unset;
   }
 
   @include e(chinese) {
-    width: unset;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
+    all: unset;
+    display: block;
     font-size: 13px;
     font-family: var(--content-font);
 
@@ -337,6 +257,10 @@
     }
 
     @include m(brief) {
+      width: 100%;
+      max-width: 100%;
+      height: 20px;
+      margin-top: 2px;
       flex-shrink: 1;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -345,13 +269,8 @@
   }
 
   @include e(eg) {
+    all: unset;
     width: 100%;
-    height: unset;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
     line-height: 1.1;
     color: $accent;
   }
@@ -360,16 +279,12 @@
     --button-color: #ccc;
     --line-color: #eee;
 
+    all: unset;
     position: relative;
     display: flex;
     align-items: center;
     width: 100%;
     height: 16px;
-    margin: unset;
-    padding: unset;
-    border: unset;
-    outline: unset;
-    border-radius: unset;
     margin-bottom: 12px;
     padding: 7px 0 8px;
     color: #ddd;

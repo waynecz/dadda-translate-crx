@@ -18,6 +18,7 @@ import {
   TR_SETTING_EXPORT_ALL_WORDS,
   TR_SETTING_CALLOUT_INPUT,
   TR_SETTING_ONLY_OXFORD,
+  TR_SETTING_HIDE_CONTEXT_MENU_OPTION,
   TR_SETTING_LASTING_TOAST
 } from '@/utils/constant'
 
@@ -116,8 +117,13 @@ class Setting extends Component {
       {
         key: TR_SETTING_ONLY_OXFORD,
         label: '只显示英英翻译',
-        isNew: true,
         tip: <small className="setting_tip">开启后不再显示中文翻译，<br/>痛，却很好</small>
+      },
+      {
+        key: TR_SETTING_HIDE_CONTEXT_MENU_OPTION,
+        label: '隐藏右键菜单选项',
+        isNew: true,
+        tip: <small className="setting_tip">开启后右键菜单内将不存在达达划词翻译</small>
       }
     ]
   }
