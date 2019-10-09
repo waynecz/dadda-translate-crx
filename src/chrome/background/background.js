@@ -48,7 +48,9 @@ const moveWord2NextStage = async word => {
 const detectGo = () => {
   Storage.get(TR_SETTING_IS_DIRECTLY_KEY, false).then(isDirectly => {
     chrome.browserAction.setBadgeText({ text: isDirectly ? 'go' : '' })
-    chrome.browserAction.setBadgeBackgroundColor({ color: isDirectly ? '#ed559d' : '#fff' })
+    chrome.browserAction.setBadgeBackgroundColor({
+      color: isDirectly ? '#ed559d' : '#fff'
+    })
   })
 }
 
@@ -78,7 +80,8 @@ chrome.runtime.onInstalled.addListener(async reason => {
     const { version } = require('@/manifest.json')
     chrome.notifications.clear('updateInfo')
     chrome.notifications.create('updateInfo', {
-      iconUrl: 'https://raw.githubusercontent.com/waynecz/dadda-translate-crx/master/src/assets/logo.png',
+      iconUrl:
+        'https://raw.githubusercontent.com/waynecz/dadda-translate-crx/master/src/assets/logo.png',
       type: 'basic',
       title: `${version} 更新：`,
       message: require('@/changelog-breif.json')[version] || '点击查看更新内容',
@@ -259,7 +262,9 @@ chrome.notifications.onButtonClicked.addListener(async (notiId, btnId) => {
  */
 chrome.notifications.onClicked.addListener(async notiId => {
   if (notiId === 'updateInfo') {
-    chrome.tabs.create({ url: 'https://github.com/waynecz/dadda-translate-crx/releases' })
+    chrome.tabs.create({
+      url: 'https://github.com/waynecz/dadda-translate-crx/releases'
+    })
   }
 
   if (_hasTRId(notiId)) {
@@ -281,12 +286,15 @@ chrome.notifications.onClicked.addListener(async notiId => {
 Storage.get(TR_SETTING_HIDE_CONTEXT_MENU_OPTION, false).then(value => {
   if (!value) {
     chrome.contextMenus.create({
-      'title': '达达划词翻译',
-      'contexts': ['selection', 'page'],
-      'onclick': (info, tab) => {
+      title: '达达划词翻译',
+      contexts: ['selection', 'page'],
+      onclick: (info, tab) => {
         if (info.selectionText) {
           chrome.tabs.executeScript({
-            code: 'document.dispatchEvent(new CustomEvent(\'contextMenuClick\', { bubbles: true, detail: { text: "' + info.selectionText + '" } }))'
+            code:
+              "document.dispatchEvent(new CustomEvent('contextMenuClick', { bubbles: true, detail: { text: \"" +
+              info.selectionText +
+              '" } }))'
           })
         }
       }
@@ -296,19 +304,41 @@ Storage.get(TR_SETTING_HIDE_CONTEXT_MENU_OPTION, false).then(value => {
 
 chrome.webRequest.onBeforeSendHeaders.addListener(
   details => {
-    for (var n in details.requestHeaders) {
-      const hasReferer = details.requestHeaders[n].name.toLowerCase() === 'referer'
-      if (hasReferer) {
-        details.requestHeaders[n].value = SOUGOU_HOST
-      } else {
-        details.requestHeaders.push({ name: 'Referer', value: SOUGOU_HOST })
-      }
+    const refererIndex = details.requestHeaders.findIndex(({ name }) => {
+      return name.toLowerCase() === 'referer'
+    })
+
+    const corsModeIndex = details.requestHeaders.findIndex(({ name }) => {
+      return name.toLowerCase() === 'sec-fetch-mode'
+    })
+
+    const originIndex = details.requestHeaders.findIndex(({ name }) => {
+      return name.toLowerCase() === 'origin'
+    })
+
+    if (refererIndex === -1) {
+      details.requestHeaders.push({ name: 'Referer', value: SOUGOU_HOST })
+    } else {
+      details.requestHeaders[refererIndex].value = SOUGOU_HOST
+    }
+
+    if (corsModeIndex !== -1) {
+      details.requestHeaders[corsModeIndex].value = 'no-cors'
+    }
+
+    if (originIndex === -1) {
+      details.requestHeaders.push({ name: 'Origin', value: SOUGOU_HOST })
+    } else {
+      details.requestHeaders[originIndex].value = SOUGOU_HOST
     }
 
     return { requestHeaders: details.requestHeaders }
   },
   {
-    urls: ['https://fanyi.sogou.com/reventondc/translate', 'https://fanyi.sogou.com/logtrace']
+    urls: [
+      'https://fanyi.sogou.com/reventondc/translate',
+      'https://fanyi.sogou.com/logtrace'
+    ]
   },
   ['requestHeaders', 'blocking', 'extraHeaders']
 )

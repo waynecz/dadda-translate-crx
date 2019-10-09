@@ -1,8 +1,9 @@
 import { google, sougou, shanbay, cdn, youdao } from './client'
+import axios from 'axios'
 import { _sougouUuid } from '@/utils'
 import md5 from 'md5'
 
-window.seccode = '8511813095151'
+window.seccode = 8511813095152
 
 function _escape(text) {
   const ele = document.createElement('div')
@@ -12,7 +13,10 @@ function _escape(text) {
 
 // 获取 seccode
 async function getSeccode() {
-  const tokenInsertScript = await sougou.get('https://fanyi.sogou.com/logtrace')
+  const { data: tokenInsertScript } = await axios.get(
+    'https://fanyi.sogou.com/logtrace',
+    { withCredentials: true }
+  )
 
   // eslint-disable-next-line no-eval
   eval(tokenInsertScript)
@@ -48,7 +52,7 @@ export default {
       .join('&')
 
     return sougou.post('/reventondc/translate', data).then(async res => {
-      if (res.translate.errorCode === '10') {
+      if (res.translate.errorCode !== '0') {
         const lastSecode = window.seccode
 
         await getSeccode()
@@ -56,7 +60,7 @@ export default {
         if (window.seccode === lastSecode) {
           throw res
         } else {
-          this.sougouTranslate(text)
+          return this.sougouTranslate(text)
         }
       }
 
