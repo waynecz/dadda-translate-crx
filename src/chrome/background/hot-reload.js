@@ -18,10 +18,6 @@ const reload = () => {
     if (tabs[0]) {
       chrome.tabs.reload(tabs[0].id)
     }
-
-    if (!tabs[0].url.includes('chrome-extension://')) {
-      chrome.runtime.reload()
-    }
   })
 }
 

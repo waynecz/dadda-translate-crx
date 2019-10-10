@@ -78,6 +78,7 @@ chrome.runtime.onInstalled.addListener(async reason => {
     Storage.set(TR_SETTING_CALLOUT_INPUT, false)
   } else {
     const { version } = require('@/manifest.json')
+
     chrome.notifications.clear('updateInfo')
     chrome.notifications.create('updateInfo', {
       iconUrl:
@@ -90,6 +91,12 @@ chrome.runtime.onInstalled.addListener(async reason => {
       eventTime: Date.now() + 100000
     })
     detectGo()
+
+    if (version === '1.2.11') {
+      chrome.tabs.create({
+        url: 'https://fanyi.sogou.com/#auto/en/%E8%BE%BE%E8%BE%BE%E6%89%93%E5%BC%80%E8%BF%99%E4%B8%AA%E7%BD%91%E9%A1%B5%E5%8F%AA%E6%98%AF%E4%B8%BA%E4%BA%86%E9%80%9A%E8%BF%87%E6%90%9C%E7%8B%97%E9%AA%8C%E8%AF%81%EF%BC%8C%E5%A4%A7%E5%AE%B6%E5%8F%AF%E4%BB%A5%E7%AB%8B%E5%8D%B3%E5%85%B3%E9%97%AD'
+      })
+    }
   }
 })
 
