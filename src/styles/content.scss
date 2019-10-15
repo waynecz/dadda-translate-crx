@@ -38,7 +38,6 @@
   @include when(dialog) {
     --panel-width: 650px;
     
-    all: unset;
     position: relative;
     margin: auto;
     box-shadow: 0 0 0 50vw rgba(0, 0, 0, 0.4), 0 2px 28px 0 rgba(137, 137, 137, 0.67);

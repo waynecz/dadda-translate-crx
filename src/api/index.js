@@ -6,9 +6,19 @@ import md5 from 'md5'
 window.seccode = 8511813095152
 
 function _escape(text) {
-  const ele = document.createElement('div')
-  ele.appendChild(document.createTextNode(text))
-  return ele.innerHTML
+  return (
+    text
+      // All space should convert to +
+      .replace(/\s/gi, '+')
+      // All speical characters should be encoded
+      .replace(
+        /* eslint-disable no-useless-escape */
+        /[\[\]\,.?"\(\)_*\/\\&\$#^@!%~`<>:;\{\}？，。·！￥……（）｛｝【】、|《》]/gi,
+        (match, offset) => {
+          return encodeURIComponent(match)
+        }
+      )
+  )
 }
 
 // 获取 seccode
@@ -30,7 +40,7 @@ export default {
 
     const textAfterEscape = _escape(text)
 
-    const s = md5('' + from + to + textAfterEscape + window.seccode)
+    const s = md5('' + from + to + text + window.seccode)
 
     const payload = {
       from,
