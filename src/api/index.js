@@ -5,19 +5,22 @@ import md5 from 'md5'
 
 window.seccode = 8511813095152
 
+function _encodeReplacer(match) {
+  return encodeURIComponent(match)
+}
+
 function _escape(text) {
   return (
     text
-      // All space should convert to +
-      .replace(/\s/gi, '+')
       // All speical characters should be encoded
       .replace(
         /* eslint-disable no-useless-escape */
         /[\[\]\,.?"\(\)_*\/\\&\$#^@!%~`<>:;\{\}？，。·！￥……（）｛｝【】、|《》]/gi,
-        (match, offset) => {
-          return encodeURIComponent(match)
-        }
+        _encodeReplacer
       )
+      .replace(/[+]/g, _encodeReplacer)
+      // All space should convert to +
+      .replace(/\s/gi, '+')
   )
 }
 
