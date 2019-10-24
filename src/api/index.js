@@ -66,7 +66,10 @@ export default {
       .join('&')
 
     return sougou.post('/reventondc/translate', data).then(async res => {
-      if (res.translate.errorCode !== '0') {
+      const {errorCode} = res.translate
+
+      if (errorCode === '10') {
+        // Seccode not valid
         const lastSecode = window.seccode
 
         await getSeccode()
@@ -76,6 +79,11 @@ export default {
         } else {
           return this.sougouTranslate(text)
         }
+      } else if (errorCode === '20') {
+        // Request is considered as a spider
+        chrome.tabs.create({
+          url: 'https://fanyi.sogou.com'
+        })
       }
 
       return res

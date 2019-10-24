@@ -7,6 +7,7 @@ export const google = axios.create({
 
 export const sougou = axios.create({
   baseURL: SOUGOU_HOST,
+  withCredentials: true,
   headers: {
     'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7',
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
