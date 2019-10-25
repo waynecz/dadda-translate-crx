@@ -1,12 +1,12 @@
 import axios from 'axios'
-import { GOOGLE_HOST, SOUGOU_HOST, SHANBAY_HOST, CDN_HOST, YOUDAO_HOST } from './host'
+import { GOOGLE_HOST, SOGOU_HOST, SHANBAY_HOST, CDN_HOST, YOUDAO_HOST } from './host'
 
 export const google = axios.create({
   baseURL: GOOGLE_HOST
 })
 
 export const sougou = axios.create({
-  baseURL: SOUGOU_HOST,
+  baseURL: SOGOU_HOST,
   withCredentials: true,
   headers: {
     'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7',

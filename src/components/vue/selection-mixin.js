@@ -103,7 +103,7 @@ export default {
         $root,
         $root: { inExtension }
       } = this
-      chrome.runtime.sendMessage({ name: 'translate', text, inExtension }, res => {
+      chrome.runtime.sendMessage({ name: 'translate', text, inExtension }, (res) => {
         if (!res.isHasOxford && /^[A-Z][a-zA-Z]*$/.test(text)) {
           return this.translateText(text.toLowerCase())
         }

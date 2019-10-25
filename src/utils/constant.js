@@ -93,3 +93,7 @@ export const FONT_SIZES_PER_LENGTH = {
   30: '20px',
   40: '15px'
 }
+
+export const DADDA_ERRORS = {
+  VERIFICATION_NEEDED: 'VERIFICATION_NEEDED'
+}

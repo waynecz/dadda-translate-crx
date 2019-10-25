@@ -376,6 +376,10 @@
     & + & {
       margin-left: 10px;
     }
+
+    &.__is-error {
+      color: rgb(250, 77, 77);
+    }
   }
 
   @include e('fonts-select') {

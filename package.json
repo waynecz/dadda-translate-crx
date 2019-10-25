@@ -1,6 +1,6 @@
 {
   "name": "dadda-translate",
-  "version": "1.2.14",
+  "version": "1.2.15",
   "description": "translate and remember",
   "scripts": {
     "dev": "node_modules/.bin/webpack --progress --config build/webpack.dev.js",
@@ -29,6 +29,7 @@
     "react-redux": "^5.0.7",
     "react-toastify": "^4.0.2",
     "redux": "^3.7.2",
+    "translation.js": "^0.7.12",
     "url-parse": "^1.4.0",
     "vue": "^2.5.13"
   },

@@ -1,7 +1,9 @@
+import { google as googleTranslate } from 'translation.js'
 import { google, sougou, shanbay, cdn, youdao } from './client'
 import axios from 'axios'
 import { _sougouUuid } from '@/utils'
 import md5 from 'md5'
+import { DADDA_ERRORS } from '../utils/constant'
 
 window.seccode = 8511813095152
 
@@ -66,7 +68,7 @@ export default {
       .join('&')
 
     return sougou.post('/reventondc/translate', data).then(async res => {
-      const {errorCode} = res.translate
+      const { errorCode } = res.translate
 
       if (errorCode === '10') {
         // Seccode not valid
@@ -80,10 +82,9 @@ export default {
           return this.sougouTranslate(text)
         }
       } else if (errorCode === '20') {
-        // Request is considered as a spider
-        chrome.tabs.create({
-          url: 'https://fanyi.sogou.com'
-        })
+        const googleRes = await googleTranslate.translate(text)
+
+        return { translate: { errorCode: DADDA_ERRORS.VERIFICATION_NEEDED, dit: googleRes.result[0], source: 'google' } }
       }
 
       return res

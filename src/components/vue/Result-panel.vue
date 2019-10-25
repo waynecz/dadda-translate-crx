@@ -162,6 +162,15 @@
           class="__result_ex-link"
           >从油管搜寻发音</a
         >
+
+        <a
+          v-if="sogouNeedVerificaiton"
+          :href="SOGOU_HOST"
+          target="_blank"
+          class="__result_ex-link __is-error"
+        >
+          搜狗又需要验证啦，点击验证 (当前翻译由谷歌提供)
+        </a>
       </div>
 
       <transition name="fade">
@@ -212,9 +221,15 @@ import {
   TR_SETTING_FONT_FAMILY,
   TR_SETTING_SHANBAY,
   TR_SETTING_ONLY_OXFORD,
-  TR_SETTING_YOUDAO
+  TR_SETTING_YOUDAO,
+  DADDA_ERRORS
 } from '@/utils/constant'
-import { SOUGOU_SPOKEN_URL, CGDICT_HOST, YOUGLISH_HOST } from '@/api/host'
+import {
+  SOUGOU_SPOKEN_URL,
+  CGDICT_HOST,
+  YOUGLISH_HOST,
+  SOGOU_HOST
+} from '@/api/host'
 
 export default {
   name: 'result-panel',
@@ -242,6 +257,8 @@ export default {
   // ------------------------ 数 据 --------------------------------------------------------
   data() {
     return {
+      SOGOU_HOST,
+
       uuid: '',
       oxfordEle: null,
       currentVocabulary: null,
@@ -271,6 +288,11 @@ export default {
 
   // ------------------------ 计 算 -------------------------------------------------------------
   computed: {
+    sogouNeedVerificaiton() {
+      return (
+        this.result.translate.errorCode === DADDA_ERRORS.VERIFICATION_NEEDED
+      )
+    },
     /**
      * @summary 经过典型结构洗礼的结果
      */

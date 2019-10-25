@@ -9,7 +9,7 @@ import Toast from '@/chrome/toast'
 import setNewAlarm from '@/chrome/alarm'
 
 import { _removeTRId, _hasTRId, _wrapTRId, _sleep } from '@/utils'
-import { DICTIONARY_HOST, SOUGOU_HOST } from '@/api/host'
+import { DICTIONARY_HOST, SOGOU_HOST } from '@/api/host'
 import {
   DELAY_MINS_IN_EVERY_STAGE,
   TR_SETTING_HAS_TOAST_KEY,
@@ -183,6 +183,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
       return true
     }
 
+    case 'jumpToSogou': {
+      // Request is considered as a spider
+      chrome.tabs.create({
+        url: 'https://fanyi.sogou.com'
+      })
+      return true
+    }
+
     /**
      * @summary 用来测试样一些非 content 页面的打点之类的
      */
@@ -318,9 +326,9 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     })
 
     if (refererIndex === -1) {
-      details.requestHeaders.push({ name: 'Referer', value: SOUGOU_HOST })
+      details.requestHeaders.push({ name: 'Referer', value: SOGOU_HOST })
     } else {
-      details.requestHeaders[refererIndex].value = SOUGOU_HOST
+      details.requestHeaders[refererIndex].value = SOGOU_HOST
     }
 
     if (corsModeIndex !== -1) {
@@ -328,9 +336,9 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     }
 
     if (originIndex === -1) {
-      details.requestHeaders.push({ name: 'Origin', value: SOUGOU_HOST })
+      details.requestHeaders.push({ name: 'Origin', value: SOGOU_HOST })
     } else {
-      details.requestHeaders[originIndex].value = SOUGOU_HOST
+      details.requestHeaders[originIndex].value = SOGOU_HOST
     }
 
     return { requestHeaders: details.requestHeaders }
