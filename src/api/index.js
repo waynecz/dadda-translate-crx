@@ -83,8 +83,16 @@ export default {
         }
       } else if (errorCode === '20') {
         const googleRes = await googleTranslate.translate(text)
+        const { result = [] } = googleRes
+        const resultStr = result.join('')
 
-        return { translate: { errorCode: DADDA_ERRORS.VERIFICATION_NEEDED, dit: googleRes.result[0], source: 'google' } }
+        return {
+          translate: {
+            errorCode: DADDA_ERRORS.VERIFICATION_NEEDED,
+            dit: resultStr,
+            source: 'google'
+          }
+        }
       }
 
       return res
