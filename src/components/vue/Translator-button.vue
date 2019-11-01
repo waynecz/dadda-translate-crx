@@ -1,17 +1,17 @@
 <template>
   <img
     :src="logo"
+    class="__transltor_button"
     @mouseup.stop="e => e"
     @click.stop="handleClick"
-    class="__transltor_button"
-  />
+  >
 </template>
 
 <script>
 import logo from '@/assets/logo.svg'
 
 export default {
-  name: 'translator-button',
+  name: 'TranslatorButton',
 
   data() {
     return {

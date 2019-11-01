@@ -1,14 +1,22 @@
 
 <template>
-  <div class="switch" @click="toggle" :class="[{'disabled': disabled, 'on': status, 'plain': plain }, type]"/>
+  <div
+    class="switch"
+    :class="[{'disabled': disabled, 'on': status, 'plain': plain }, type]"
+    @click="toggle"
+  />
 </template>
 <script>
 export default {
   name: 'Switcher',
 
   props: {
-    type: String,
+    type: {
+      type: String,
+      default: ''
+    },
     value: {
+      type: Boolean,
       default: false
     },
     disabled: {
@@ -21,6 +29,12 @@ export default {
     }
   },
 
+  data() {
+    return {
+      status: false
+    }
+  },
+
   watch: {
     value(val) {
       this.status = val
@@ -29,12 +43,6 @@ export default {
 
   created() {
     this.init()
-  },
-
-  data() {
-    return {
-      status: false
-    }
   },
 
   methods: {

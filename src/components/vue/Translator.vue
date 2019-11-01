@@ -1,28 +1,65 @@
 <template>
-  <div class="__transltor" :class="{
+  <div
+    class="__transltor"
+    :class="{
       '__is-dialog-wrap': resultAsDialog
-    }">
+    }"
+  >
+    <translator-button
+      :class="{
+        '__is-show': !showPanelDirectlyWhatever
+          && !panelVisible
+          && selection
+          && !hasKeyboardDisplayControl
+      }"
+      :style="buttonPositionStyle"
+      @click="panelVisible = true"
+    />
 
-    <translator-button :class="{ '__is-show': !showPanelDirectlyWhatever && !panelVisible && selection && !hasKeyboardDisplayControl }" :style="buttonPositionStyle" @click="panelVisible = true" />
+    <result-panel
+      v-if="resultPanelVisible"
+      :input-visible="inputVisible"
+      :hide="hidePanelInRoot"
+      :text="selection"
+      :is-dialog="resultAsDialog"
+      :style="panelPositionStyle"
+      :result="translationResult"
+    />
 
-    <result-panel v-if="resultPanelVisible" :inputVisible="inputVisible" :hide="hidePanelInRoot" :text="selection" :is-dialog="resultAsDialog" :style="panelPositionStyle" :isDialog="resultAsDialog" :result="translationResult" />
-
-    <transition name="fade" @after-enter="inputEntered">
-      <div v-if="inputVisible" class="__transltor_input" :ctrl-key="ctrlKey">
-        <textarea id="__TR_INPUTER" :style="inputStyle" v-model="userInput" @keydown.meta.enter="translateThis" placeholder="Type something" class="__transltor_input-inner" />
-        </div>
+    <transition
+      name="fade"
+      @after-enter="inputEntered"
+    >
+      <div
+        v-if="inputVisible"
+        class="__transltor_input"
+        :ctrl-key="ctrlKey"
+      >
+        <textarea
+          id="__TR_INPUTER"
+          v-model="userInput"
+          :style="inputStyle"
+          placeholder="Type something"
+          class="__transltor_input-inner"
+          @keydown.meta.enter="translateThis"
+        />
+      </div>
     </transition>
-
   </div>
 </template>
 
 <script>
 import selectionMixin from '@/components/vue/selection-mixin'
 import { _calcPositionAsDialog, _inBlackList, _isMac } from '@/utils'
-import { TR_SETTING_IS_DIRECTLY_KEY, TR_SETTING_KEYBOARD_CONTROL, FONT_SIZES_PER_LENGTH, TR_SETTING_CALLOUT_INPUT } from '@/utils/constant'
+import {
+  TR_SETTING_IS_DIRECTLY_KEY,
+  TR_SETTING_KEYBOARD_CONTROL,
+  FONT_SIZES_PER_LENGTH,
+  TR_SETTING_CALLOUT_INPUT
+} from '@/utils/constant'
 
 export default {
-  name: 'translator',
+  name: 'Translator',
 
   mixins: [selectionMixin],
 
@@ -48,13 +85,40 @@ export default {
     }
   },
 
+  watch: {
+    userInput(val) {
+      let fontSize = '30px'
+      let lineHeight = '43px'
+      const contentLength = val.length
+      Object.keys(FONT_SIZES_PER_LENGTH).every(breakpoint => {
+        if (contentLength > breakpoint) {
+          const temp = FONT_SIZES_PER_LENGTH[breakpoint].split('|')
+          fontSize = temp[0]
+          lineHeight = temp[1]
+          return true
+        }
+        return false
+      })
+
+      this.inputStyle = {
+        fontSize,
+        lineHeight
+      }
+    }
+  },
+
   async created() {
     // 判断是否在插件里面（生词簿）
-    this.$root.inExtension = window.location.href.includes(chrome.runtime.getURL(''))
+    this.$root.inExtension = window.location.href.includes(
+      chrome.runtime.getURL('')
+    )
 
     this.$root.translateEnable = await _inBlackList()
 
-    this.hasKeyboardDisplayControl = await this.$storage.get(TR_SETTING_KEYBOARD_CONTROL, false)
+    this.hasKeyboardDisplayControl = await this.$storage.get(
+      TR_SETTING_KEYBOARD_CONTROL,
+      false
+    )
 
     if (this.$root.inExtension) {
       window.translator = this
@@ -70,8 +134,8 @@ export default {
     document.addEventListener('keydown', changeDirectSetting)
     document.addEventListener('keydown', toggleInput)
     document.addEventListener('keydown', onEscDown)
-    document.addEventListener('contextMenuClick', (e) => {
-      onMouseUp({clientX: 0, clientY: 0, pageY: 0}, e.detail.text)
+    document.addEventListener('contextMenuClick', e => {
+      onMouseUp({ clientX: 0, clientY: 0, pageY: 0 }, e.detail.text)
     })
   },
 
@@ -96,10 +160,21 @@ export default {
     },
 
     async changeDirectSetting(e) {
-      if (e.altKey && e.shiftKey && !e.ctrlKey && !e.metaKey && e.keyCode === 71) {
-        const showPanelDirectlyWhatever = await this.$storage.get(TR_SETTING_IS_DIRECTLY_KEY)
+      if (
+        e.altKey &&
+        e.shiftKey &&
+        !e.ctrlKey &&
+        !e.metaKey &&
+        e.keyCode === 71
+      ) {
+        const showPanelDirectlyWhatever = await this.$storage.get(
+          TR_SETTING_IS_DIRECTLY_KEY
+        )
 
-        await this.$storage.set(TR_SETTING_IS_DIRECTLY_KEY, !showPanelDirectlyWhatever)
+        await this.$storage.set(
+          TR_SETTING_IS_DIRECTLY_KEY,
+          !showPanelDirectlyWhatever
+        )
         // 在修改是否直接显示翻译结果的配置后修改 badget
         chrome.runtime.sendMessage({ name: 'toggleGo' })
         this.altDownCount = 0
@@ -108,7 +183,13 @@ export default {
 
     async toggleInput(e) {
       if (await this.$storage.get(TR_SETTING_CALLOUT_INPUT, false)) {
-        if (e.altKey && e.shiftKey && !e.ctrlKey && !e.metaKey && e.keyCode === 68) {
+        if (
+          e.altKey &&
+          e.shiftKey &&
+          !e.ctrlKey &&
+          !e.metaKey &&
+          e.keyCode === 68
+        ) {
           if (this.inputVisible) {
             this.hideInput()
             return
@@ -144,29 +225,6 @@ export default {
         }
       }
     }
-  },
-
-  watch: {
-    userInput(val) {
-      let fontSize = '30px'
-      let lineHeight = '43px'
-      const contentLength = val.length
-      Object.keys(FONT_SIZES_PER_LENGTH).every(breakpoint => {
-        if (contentLength > breakpoint) {
-          const temp = FONT_SIZES_PER_LENGTH[breakpoint].split('|')
-          fontSize = temp[0]
-          lineHeight = temp[1]
-          return true
-        }
-        return false
-      })
-
-      this.inputStyle = {
-        fontSize,
-        lineHeight
-      }
-    }
   }
 }
 </script>
-
