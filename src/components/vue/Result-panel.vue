@@ -1,8 +1,6 @@
 <template>
   <div
     class="__result"
-    @wheel.stop="e => e.preventDefault()"
-    @mouseup.stop="onMouseUp"
     :class="[
       {
         '__result--invisible': !visible,
@@ -11,6 +9,8 @@
       },
       font
     ]"
+    @wheel.stop="e => e.preventDefault()"
+    @mouseup.stop="onMouseUp"
   >
     <!-- 头部 -->
     <div class="__result_origin">
@@ -25,16 +25,18 @@
         <template v-if="inDict">
           <div
             v-for="(phonetic, i) in phonetics"
+            :key="phonetic.filename || i"
             class="__result_pronunciation __tooltip __top"
             :tooltip="phonetic.filename ? '点击发音' : '暂无发音'"
-            :key="phonetic.filename || i"
             @click.stop="e => (phonetic.filename ? speak(phonetic.type) : e)"
           >
             <div
               class="__result_flag"
               :class="`__result_flag--${phonetic.type}`"
-            ></div>
-            <div class="__result_phonetic">[{{ phonetic.text }}]</div>
+            />
+            <div class="__result_phonetic">
+              [{{ phonetic.text }}]
+            </div>
             <audio
               :id="`x__result_${phonetic.type}-${uuid}`"
               :src="`https:${phonetic.filename}`"
@@ -66,21 +68,21 @@
         <i
           class="__icon"
           :class="[inCollection ? '__icon-star-solid' : '__icon-star']"
-        ></i>
+        />
       </div>
     </div>
 
     <!-- 牛津翻译部分 -->
     <div
-      class="__result_oxford"
-      @wheel.stop="handleMouseWheel"
-      :class="{ '__result_oxford--expanded': expanded }"
       v-if="inDict && oxfordTranslations"
+      class="__result_oxford"
+      :class="{ '__result_oxford--expanded': expanded }"
+      @wheel.stop="handleMouseWheel"
     >
       <div
-        class="__result_class"
         v-for="(wordPos, i) in oxfordTranslations"
         :key="i"
+        class="__result_class"
       >
         <div
           class="__result_type __tooltip __right"
@@ -92,19 +94,22 @@
           <div
             v-for="translation in wordPos.item.core"
             :key="translation.index"
-            @mouseenter.stop="
-              changeCurrentEnglishMeaning(translation.detail.zh)
-            "
-            @mouseleave.stop="changeCurrentEnglishMeaning('')"
             :class="{
               [`__result_item--${min_number_of_items_in_one_pos}`]: !expanded
             }"
             class="__result_item"
+            @mouseenter.stop="
+              changeCurrentEnglishMeaning(translation.detail.zh)
+            "
+            @mouseleave.stop="changeCurrentEnglishMeaning('')"
           >
             <div class="__result_english">
               {{ translation.detail.en | removeTag }}
             </div>
-            <div class="__result_eg" v-if="translation.example">
+            <div
+              v-if="translation.example"
+              class="__result_eg"
+            >
               eg. {{ translation.example[0].en | removeTag }}
             </div>
           </div>
@@ -115,31 +120,39 @@
     <!-- 更多释义 -->
     <div
       v-if="hasMoreItem"
-      @click.stop="toggleExpand"
       class="__result_more __tooltip __top"
       :tooltip="expanded ? '收起' : '显示更多英语释义'"
+      @click.stop="toggleExpand"
     >
       <div
         class="__result_more-button"
         :class="{ '__result_more-button--expanded': expanded }"
-      ></div>
+      />
     </div>
 
     <!-- 简单中文翻译部分 -->
-    <div class="__result_simple" v-if="inDict && !isOnlyOxford">
+    <div
+      v-if="inDict && !isOnlyOxford"
+      class="__result_simple"
+    >
       <div
-        class="__result_class"
         v-for="(translation, i) in usualTranslations"
         :key="i"
+        class="__result_class"
       >
-        <div class="__result_type">{{ abridge(translation.pos).abbr }}</div>
+        <div class="__result_type">
+          {{ abridge(translation.pos).abbr }}
+        </div>
         <div class="__result_item">
           {{ translation.values.join(' | ') | removeTag }}
         </div>
       </div>
     </div>
     <!--  -->
-    <div class="__result_simple" v-else-if="!inDict">
+    <div
+      v-else-if="!inDict"
+      class="__result_simple"
+    >
       <div class="__result_item">
         <div class="__result_chinese __result_chinese--simple">
           {{ usualTranslations | removeTag }}
@@ -154,14 +167,12 @@
           :href="CGDICT_HOST + text"
           target="_blank"
           class="__result_ex-link"
-          >点击查看词根词缀</a
-        >
+        >点击查看词根词缀</a>
         <a
           :href="YOUGLISH_HOST + encode(text)"
           target="_blank"
           class="__result_ex-link"
-          >从油管搜寻发音</a
-        >
+        >从油管搜寻发音</a>
 
         <a
           v-if="sogouNeedVerificaiton"
@@ -174,14 +185,17 @@
       </div>
 
       <transition name="fade">
-        <small v-if="error" class="__result_error">{{ error }}</small>
+        <small
+          v-if="error"
+          class="__result_error"
+        >{{ error }}</small>
       </transition>
 
       <div class="__result_fonts-select">
         <div
-          class="__result_font song"
           v-for="fontItem in fonts"
           :key="fontItem.label"
+          class="__result_font song"
           :class="{ active: font === fontItem.value }"
           @click="changeFont(fontItem.value)"
         >
@@ -205,7 +219,7 @@
         :style="panelPositionStyle"
         :result="translationResult"
         :hide="hidePanel"
-      ></result-panel>
+      />
     </transition>
   </div>
 </template>
@@ -232,14 +246,20 @@ import {
 } from '@/api/host'
 
 export default {
-  name: 'result-panel',
+  name: 'ResultPanel',
 
   mixins: [selectionMixin],
 
   props: {
-    hide: Function,
+    hide: {
+      type: Function,
+      default: () => {}
+    },
 
-    result: Object,
+    result: {
+      type: Object,
+      default: () => {}
+    },
 
     text: {
       type: String,
