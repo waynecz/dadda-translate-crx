@@ -2,17 +2,17 @@
 
 module.exports = {
   root: true,
-  parser: 'babel-eslint',
   parserOptions: {
-    sourceType: 'module'
+    parser: 'babel-eslint',
+    sourceType: 'module',
   },
   env: {
-    browser: ['Chrome >= 61']
+    browser: ['Chrome >= 61'],
   },
   // https://github.com/standard/standard/blob/master/docs/RULES-en.md
-  extends: 'standard',
+  extends: ['standard', 'plugin:vue/recommended'],
   // required to lint *.vue files
-  plugins: ['html', 'react'],
+  plugins: ['react', 'vue', 'prettier'],
   // add your custom rules here
   rules: {
     // allow async-await
@@ -22,6 +22,6 @@ module.exports = {
     'no-new': 'off',
     'no-undef': 'off',
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  }
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+  },
 }
