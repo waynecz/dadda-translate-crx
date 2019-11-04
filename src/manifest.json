@@ -2,7 +2,7 @@
   "description": "划词翻译、生词本、吐司弹词、与扇贝同步",
   "name": "达达划词翻译",
   "manifest_version": 2,
-  "version": "1.2.15",
+  "version": "1.2.16",
   "author": "Waynecz <451578533@qq.com>",
   "homepage_url": "https://github.com/waynecz/dadda-translate-crx",
   "content_security_policy": "font-src 'self' https://fonts.googleapis.com; script-src 'self' 'unsafe-eval'; object-src 'self'",
