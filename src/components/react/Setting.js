@@ -19,7 +19,8 @@ import {
   TR_SETTING_CALLOUT_INPUT,
   TR_SETTING_ONLY_OXFORD,
   TR_SETTING_HIDE_CONTEXT_MENU_OPTION,
-  TR_SETTING_LASTING_TOAST
+  TR_SETTING_LASTING_TOAST,
+  TR_SETTING_USE_VOCABULARYCOM,
 } from '@/utils/constant'
 
 @withView
@@ -122,9 +123,14 @@ class Setting extends Component {
       {
         key: TR_SETTING_HIDE_CONTEXT_MENU_OPTION,
         label: '隐藏右键菜单选项',
-        isNew: true,
         tip: <small className="setting_tip">开启后右键菜单内将不存在达达划词翻译</small>
-      }
+      },
+      {
+        key: TR_SETTING_USE_VOCABULARYCOM,
+        isNew: true,
+        label: 'vocabulary.com 作为吐司目的地',
+        tip: <small className="setting_tip">开启后点击吐司一律跳转到<br/> vocabulary.com，纯英英解释，加强记忆</small>
+      },
     ]
   }
 

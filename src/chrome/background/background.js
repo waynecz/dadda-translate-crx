@@ -9,7 +9,7 @@ import Toast from '@/chrome/toast'
 import setNewAlarm from '@/chrome/alarm'
 
 import { _removeTRId, _hasTRId, _wrapTRId, _sleep } from '@/utils'
-import { DICTIONARY_HOST, SOGOU_HOST } from '@/api/host'
+import { DICTIONARY_HOST, SOGOU_HOST, VOCABULARY_HOST } from '@/api/host'
 import {
   DELAY_MINS_IN_EVERY_STAGE,
   TR_SETTING_HAS_TOAST_KEY,
@@ -27,7 +27,8 @@ import {
   TR_SETTING_LASTING_TOAST,
   TR_SETTING_CALLOUT_INPUT,
   TR_SETTING_HIDE_CONTEXT_MENU_OPTION,
-  TR_SETTING_CLOSE_ALL_TOAST_KEY
+  TR_SETTING_CLOSE_ALL_TOAST_KEY,
+  TR_SETTING_USE_VOCABULARYCOM,
 } from '@/utils/constant'
 
 import HotReload from './hot-reload'
@@ -49,7 +50,7 @@ const detectGo = () => {
   Storage.get(TR_SETTING_IS_DIRECTLY_KEY, false).then(isDirectly => {
     chrome.browserAction.setBadgeText({ text: isDirectly ? 'go' : '' })
     chrome.browserAction.setBadgeBackgroundColor({
-      color: isDirectly ? '#ed559d' : '#fff'
+      color: isDirectly ? '#ed559d' : '#fff',
     })
   })
 }
@@ -88,7 +89,7 @@ chrome.runtime.onInstalled.addListener(async reason => {
       message: require('@/changelog-breif.json')[version] || '点击查看更新内容',
       requireInteraction: true,
       priority: 2,
-      eventTime: Date.now() + 100000
+      eventTime: Date.now() + 100000,
     })
     detectGo()
   }
@@ -186,7 +187,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendRes) => {
     case 'jumpToSogou': {
       // Request is considered as a spider
       chrome.tabs.create({
-        url: 'https://fanyi.sogou.com'
+        url: 'https://fanyi.sogou.com',
       })
       return true
     }
@@ -209,7 +210,12 @@ chrome.alarms.onAlarm.addListener(async alarm => {
   if (_hasTRId(alarm.name) && toastLock) {
     const word = _removeTRId(alarm.name)
 
-    Toast(word, 'Look the meanings in Sougou')
+    const useVocabularyCom = await Storage.get(
+      TR_SETTING_USE_VOCABULARYCOM,
+      false
+    )
+
+    Toast(word, `Click to see more`)
   }
 })
 
@@ -271,14 +277,27 @@ chrome.notifications.onButtonClicked.addListener(async (notiId, btnId) => {
  */
 chrome.notifications.onClicked.addListener(async notiId => {
   if (notiId === 'updateInfo') {
+    const path = chrome.runtime.getURL(`options/options.html#link=setting`)
+
     chrome.tabs.create({
-      url: 'https://github.com/waynecz/dadda-translate-crx/releases'
+      url: path,
     })
   }
 
   if (_hasTRId(notiId)) {
     const word = _removeTRId(notiId)
-    chrome.tabs.create({ url: `${DICTIONARY_HOST}${encodeURI(word)}` })
+
+    const useVocabularyCom = await Storage.get(
+      TR_SETTING_USE_VOCABULARYCOM,
+      false
+    )
+
+    if (useVocabularyCom) {
+      chrome.tabs.create({ url: `${VOCABULARY_HOST}${encodeURI(word)}` })
+    } else {
+      chrome.tabs.create({ url: `${DICTIONARY_HOST}${encodeURI(word)}` })
+    }
+
     moveWord2NextStage(word)
     const isLasting = await Storage.get(TR_SETTING_LASTING_TOAST, false)
 
@@ -303,10 +322,10 @@ Storage.get(TR_SETTING_HIDE_CONTEXT_MENU_OPTION, false).then(value => {
             code:
               "document.dispatchEvent(new CustomEvent('contextMenuClick', { bubbles: true, detail: { text: \"" +
               info.selectionText +
-              '" } }))'
+              '" } }))',
           })
         }
-      }
+      },
     })
   }
 })
@@ -346,8 +365,8 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
   {
     urls: [
       'https://fanyi.sogou.com/reventondc/translate',
-      'https://fanyi.sogou.com/logtrace'
-    ]
+      'https://fanyi.sogou.com/logtrace',
+    ],
   },
   ['requestHeaders', 'blocking', 'extraHeaders']
 )

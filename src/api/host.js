@@ -6,6 +6,7 @@ export const SHANBAY_HOST = 'http://www.shanbay.com/api/v1'
 
 // dictionary.com 查询 HOST
 export const DICTIONARY_HOST = 'http://fanyi.sogou.com/#auto/zh-CHS/'
+export const VOCABULARY_HOST = 'https://www.vocabulary.com/dictionary/'
 
 // 词根字典查询 HOST
 export const CGDICT_HOST = 'http://www.cgdict.com/index.php?app=cigen&ac=word&w='

@@ -21,6 +21,7 @@ module.exports = {
     'no-unused-vars': 'off',
     'no-new': 'off',
     'no-undef': 'off',
+    'comma-dangle': 'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
   },
