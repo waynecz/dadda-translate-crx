@@ -39,7 +39,7 @@ async function getSeccode() {
 
 export default {
   sougouTranslate(text) {
-    getSeccode()
+    // getSeccode()
     const from = 'auto'
     const to = 'zh-CHS'
 
