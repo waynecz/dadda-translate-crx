@@ -1,3 +1,5 @@
+## ⭐️ 达达划词翻译现已迁移全部功能至「火山翻译」，附上新的[Chrome store 地址](https://chrome.google.com/webstore/detail/%E7%81%AB%E5%B1%B1%E7%BF%BB%E8%AF%91-%E5%88%92%E8%AF%8D%E5%92%8C%E7%BD%91%E9%A1%B5%E7%BF%BB%E8%AF%91/klgfhbiooeogdfodpopgppeadghjjemk?hl=zh-CN)
+
 <br>
 <p align="center">
   <img width="140px" src="https://cdn.rawgit.com/waynecz/translate-and-remember-it-crx/492375e0/src/logo.png" alt="Dadda" />
@@ -8,20 +10,27 @@
 
 <br>
 
+[![archived][archived-badge]][archived]
 [![release][release-badge]][releases]
 [![license][license-badge]][license]
 [![chrome store][chrome-badge]][chromestore]
 
 [license]: ./LICENSE
-[chromestore]: https://chrome.google.com/webstore/detail/%E8%BE%BE%E8%BE%BE%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/cajhcjfcodjoalmhjekljnfkgjlkeajl
+[chromestore]: https://chrome.google.com/webstore/detail/%E7%81%AB%E5%B1%B1%E7%BF%BB%E8%AF%91-%E5%88%92%E8%AF%8D%E5%92%8C%E7%BD%91%E9%A1%B5%E7%BF%BB%E8%AF%91/klgfhbiooeogdfodpopgppeadghjjemk?hl=zh-CN
 [releases]: https://github.com/waynecz/dadda-translate-crx/releases
 [chrome-badge]: https://img.shields.io/badge/chrome-store-0038e2.svg?style=flat-square
 [release-badge]: https://img.shields.io/badge/release-v1.2.9-0038e2.svg?style=flat-square
 [license-badge]: https://img.shields.io/badge/license-MIT-0038e2.svg?style=flat-square
+[archived-badge]: https://img.shields.io/badge/Archived-not--maintaining-yellow?style=flat-square
 
-😍 漂亮的划词翻译插件 / 让你在 Chrome 上背单词（可同步至扇贝、有道单词）
+
+# 历史 README 内容
+
+漂亮的划词翻译插件 / 让你在 Chrome 上背单词（可同步至扇贝、有道单词）
 
 <br>
+
+---
 
 ## 特性
 
@@ -52,7 +61,7 @@
 
 > 注意，如果你是上架之前就在使用插件的测试用户，在商店重新安装插件将会丢失原本的生词簿内容，暂无解决方法，请知悉！
 
-- [Chrome 商店](https://chrome.google.com/webstore/detail/%E8%BE%BE%E8%BE%BE%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/cajhcjfcodjoalmhjekljnfkgjlkeajl)安装 （强烈建议此方法安装）
+- [~~Chrome 商店~~](https://chrome.google.com/webstore/detail/%E8%BE%BE%E8%BE%BE%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/cajhcjfcodjoalmhjekljnfkgjlkeajl)安装 （强烈建议此方法安装）
 - [手动下载](https://github.com/waynecz/dadda-translate-crx/releases) 安装
 
 <br>
