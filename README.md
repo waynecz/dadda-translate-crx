@@ -10,7 +10,7 @@
 
 <br>
 
-[![archived][archived-badge]][archived]
+![archived][archived-badge]
 [![release][release-badge]][releases]
 [![license][license-badge]][license]
 [![chrome store][chrome-badge]][chromestore]
