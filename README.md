@@ -1,4 +1,4 @@
-## ⭐️ 达达划词翻译现已迁移全部功能至「火山翻译」，附上新的[Chrome store 地址](https://chrome.google.com/webstore/detail/%E7%81%AB%E5%B1%B1%E7%BF%BB%E8%AF%91-%E5%88%92%E8%AF%8D%E5%92%8C%E7%BD%91%E9%A1%B5%E7%BF%BB%E8%AF%91/klgfhbiooeogdfodpopgppeadghjjemk?hl=zh-CN)
+#### ⭐️ 达达划词翻译现已迁移全部功能至「火山翻译」，附上新的 [Chrome store 地址](https://chrome.google.com/webstore/detail/%E7%81%AB%E5%B1%B1%E7%BF%BB%E8%AF%91-%E5%88%92%E8%AF%8D%E5%92%8C%E7%BD%91%E9%A1%B5%E7%BF%BB%E8%AF%91/klgfhbiooeogdfodpopgppeadghjjemk?hl=zh-CN)，如果你偏好 crx 直接安装，[戳此下载](https://github.com/waynecz/dadda-translate-crx/releases) 最新版本
 
 <br>
 <p align="center">
